@@ -2,45 +2,39 @@ package library.common.http.result;
 
 import android.util.Log;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-
-import library.common.http.Statues;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 @SuppressWarnings("unused")
-public abstract class ResultObserver<T> implements Observer<Result<T>> {
+public abstract class ResultObserver<T> implements Observer<BaseResult<T>> {
     @Override
     public void onSubscribe(Disposable d) {
     }
 
     @Override
-    public void onNext(Result<T> result) {
-        Log.d("luchixiang", "121" + 1);
-        if (result != null) {
-            if (result.getCode() == Statues.NET_CODE_SUCCESS) {
-                handlerResult(result.getCode());
+    public void onNext(BaseResult<T> baseResult) {
+        if (baseResult != null) {
+            if (baseResult.getRequestCode()!=0) {
+                handlerResult(baseResult.getData());
             } else {
-                handlerError(result.getCode(), result.getMsg());
+                handlerError(baseResult.getRequestCode());
             }
         } else {
-            handlerError(Statues.NET_CODE_ERROR, Statues.EMPTY_RESPONSE_EXCEPTION);
+//            handlerError(Statues.NET_CODE_ERROR, Statues.EMPTY_RESPONSE_EXCEPTION);
         }
     }
 
     @Override
-    public void onError(Throwable e) {
-        if (e instanceof SocketTimeoutException) {
-            handlerError(Statues.NET_CODE_SOCKET_TIMEOUT, Statues.SOCKET_TIMEOUT_EXCEPTION);
-        } else if (e instanceof ConnectException) {
-            handlerError(Statues.NET_CODE_CONNECT, Statues.CONNECT_EXCEPTION);
-        } else if (e instanceof UnknownHostException) {
-            handlerError(Statues.NET_CODE_UNKNOWN_HOST, Statues.UNKNOWN_HOST_EXCEPTION);
-        } else {
-            handlerError(Statues.NET_CODE_ERROR, e.getMessage());
-        }
+   public void onError(Throwable e) {
+//        if (e instanceof SocketTimeoutException) {
+//            handlerError(Statues.NET_CODE_SOCKET_TIMEOUT, Statues.SOCKET_TIMEOUT_EXCEPTION);
+//        } else if (e instanceof ConnectException) {
+//            handlerError(Statues.NET_CODE_CONNECT, Statues.CONNECT_EXCEPTION);
+//        } else if (e instanceof UnknownHostException) {
+//            handlerError(Statues.NET_CODE_UNKNOWN_HOST, Statues.UNKNOWN_HOST_EXCEPTION);
+//        } else {
+//            handlerError(Statues.NET_CODE_ERROR, e.getMessage());
+//        }
     }
 
     @Override
@@ -48,9 +42,9 @@ public abstract class ResultObserver<T> implements Observer<Result<T>> {
 
     }
 
-    public abstract void handlerResult(int t);
+    public abstract void handlerResult(T t);
 
-    public void handlerError(int code, String msg) {
-        Log.d("luchixiang", "handlerError: " + code + msg);
+    public void handlerError(int code) {
+        Log.d("luchixiang", "handlerError: " + code );
     }
 }

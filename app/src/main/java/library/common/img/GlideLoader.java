@@ -9,15 +9,14 @@ import com.bumptech.glide.Glide;
 
 public class GlideLoader implements Loader {
     @Override
-    public void loadImage(Context context, String res, ImageView target) {
+    public  void loadImage(Context context, String res, ImageView target) {
         Glide.with(context)
                 .load(res)
                 .into(target);
-
     }
 
     @Override
-    public void loadImage(Context context, int res, ImageView target) {
+    public  void loadImage(Context context, int res, ImageView target) {
         Glide.with(context)
                 .load(res)
                 .into(target);

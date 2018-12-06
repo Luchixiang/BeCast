@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
     private static String getBaseUrl() {
-        return "https://api.douban.com/v2/movie/";
+        return "https://itunes.apple.com/";
     }
 
     private static Cache getCache() {
@@ -33,7 +33,7 @@ public class RetrofitManager {
         return header;
     }
 
-    public static ArrayMap<String, String> getRequestParams() {
+    static ArrayMap<String, String> getRequestParams() {
         return null;
     }
 
@@ -52,11 +52,11 @@ public class RetrofitManager {
             //设置网络连接失败时自动重试
             okHttpBuilder.retryOnConnectionFailure(true);
             //设置连接超时
-            okHttpBuilder.connectTimeout(5, TimeUnit.SECONDS);
+            okHttpBuilder.connectTimeout(40, TimeUnit.SECONDS);
             //设置写超时
-            okHttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
+            okHttpBuilder.writeTimeout(40, TimeUnit.SECONDS);
             //设置读超时
-            okHttpBuilder.readTimeout(10, TimeUnit.SECONDS);
+            okHttpBuilder.readTimeout(40, TimeUnit.SECONDS);
             Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
             retrofitBuilder.baseUrl(getBaseUrl());
             retrofitBuilder.client(okHttpBuilder.build());
