@@ -1,6 +1,5 @@
 package com.example.common.first;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -30,6 +29,8 @@ public class PlayerViewFold extends RelativeLayout {
     private int distanceX = 0;
     private int distanceY = 0;
     private Scroller scroller;
+    private Intent intent = new Intent();
+    private static final String TAG = "luchixiang";
 
     public PlayerViewFold(Context context) {
         super(context);
@@ -103,27 +104,36 @@ public class PlayerViewFold extends RelativeLayout {
             case MotionEvent.ACTION_DOWN:
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (y-latestY<0) {
-                    int delay = y-latestY;
-                    distanceY = distanceY+delay;
-                }
-                else if (x != latestX) {
+                if (y - latestY < 0) {
+                    int delay = y - latestY;
+                    distanceY = distanceY + delay;
+                } else if (x != latestX) {
                     int delax = x - latestX;
                     scrollBy(-delax, 0);
-                    distanceX = distanceX+Math.abs(delax);
+                    distanceX = distanceX + delax;
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 //单纯点击则触发暂停
-                if (distanceX==0&&distanceY==0)
-                {
-                    Intent intent  = new Intent("com.example.change");
+                if (distanceX == 0 && distanceY == 0) {
+                    intent.setAction("com.example.change");
                     context.sendBroadcast(intent);
                 }
                 //向上划 改变
-                if (distanceY<=-24)
-                {
-                    Intent intent = new Intent("com.example.changeReciever");
+                if (distanceY <= -50) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeReciever");
+                    context.sendBroadcast(intent);
+                    //向左滑Tab
+                } else if (distanceX <= -90) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeTabToLeft");
+                    context.sendBroadcast(intent);
+                }
+                //向右滑Tab
+                else if (distanceX >= 90) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeTabToRight");
                     context.sendBroadcast(intent);
                 }
                 distanceY = 0;
@@ -134,19 +144,20 @@ public class PlayerViewFold extends RelativeLayout {
         latestY = y;
         return true;
     }
-    public static class ViewWrapper{
+
+    public static class ViewWrapper {
         private View target;
-        public ViewWrapper(View view)
-        {
+
+        public ViewWrapper(View view) {
             target = view;
         }
-        public int getHeight()
-        {
-            Log.d("luchixiang", "getHeight: "+target.getLayoutParams().height);
+
+        public int getHeight() {
+            Log.d("luchixiang", "getHeight: " + target.getLayoutParams().height);
             return target.getLayoutParams().height;
         }
-        public void setHeight(int height)
-        {
+
+        public void setHeight(int height) {
             target.getLayoutParams().height = height;
             target.requestLayout();
         }

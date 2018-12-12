@@ -11,7 +11,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.common.R;
-import com.example.common.tab.MainActivity;
 
 import library.common.img.GlideLoader;
 
@@ -29,6 +28,7 @@ public class PlayerViewUnFold extends RelativeLayout {
     private int latestY = 0;
     private int distanceY = 0;
     private int distanceX = 0;
+    private Intent intent = new Intent();
 
     public PlayerViewUnFold(Context context) {
         super(context);
@@ -58,12 +58,12 @@ public class PlayerViewUnFold extends RelativeLayout {
         pauseButton = findViewById(R.id.player_view_pause);
         pauseButton.setOnClickListener(v ->
                 {
-                    Intent intent = new Intent("com.example.change");
+                    intent.setAction("com.example.change");
                     context.sendBroadcast(intent);
                 }
         );
         nextButton.setOnClickListener(v -> {
-            Intent intent = new Intent("com.example.next");
+            intent.setAction("com.example.next");
             context.sendBroadcast(intent);
         });
     }
@@ -120,16 +120,27 @@ public class PlayerViewUnFold extends RelativeLayout {
                     distanceY = distanceY + delay;
                 } else if (x != latestX) {
                     int delax = x - latestX;
+                    distanceX = distanceX + delax;
                     scrollBy(-delax, 0);
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 if (distanceY == 0 && distanceX == 0) {
-                    Intent intent = new Intent("com.example.detail");
+                    intent.setAction("com.example.detail");
+                    context.sendBroadcast(intent);
+                } else if (distanceY >= 90) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeReciever");
+                    context.sendBroadcast(intent);
+                } else if (distanceX <= -90) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeTabToLeft");
                     context.sendBroadcast(intent);
                 }
-                if (distanceY >= 8) {
-                    Intent intent = new Intent("com.example.changeReciever");
+                //向右滑Tab
+                if (distanceX >= 240) {
+                    scrollBy(distanceX, 0);
+                    intent.setAction("com.example.changeTabToRight");
                     context.sendBroadcast(intent);
                 }
                 distanceY = 0;

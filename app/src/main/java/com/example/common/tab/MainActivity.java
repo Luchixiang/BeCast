@@ -1,7 +1,6 @@
 package com.example.common.tab;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -16,11 +15,9 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.danikula.videocache.HttpProxyCacheServer;
 import com.example.common.R;
 import com.example.common.activities.PlayerDetailsActivity;
 import com.example.common.first.PlayerViewFold;
@@ -32,7 +29,6 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
@@ -44,25 +40,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import library.common.base.BaseActivity;
-import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
-    HttpProxyCacheServer proxy;
-    String proxyUrl;
     @SuppressLint("StaticFieldLeak")
-     SimpleExoPlayer mPlayer;
-     ConcatenatingMediaSource concatenatingMediaSource;
-     DataSource.Factory dataSourceFactory;
+    SimpleExoPlayer mPlayer;
+    ConcatenatingMediaSource concatenatingMediaSource;
+    DataSource.Factory dataSourceFactory;
     static boolean isPlay = false;
     static List<String> allUrl = new ArrayList<>();
     static int current = 0;
     PlayerViewFold playerViewFold;
     SeekBar foldseekBar;
+    ChangeReceiver changeReceiver = new ChangeReceiver();
     PlayerHandler playerHandler;
     PlayerViewUnFold playerViewUnFold;
     static boolean isFold = true;
+    private static final String TAG = "luchixiang";
     private final String testUrl = "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46";
     Uri playerUri = Uri.parse(testUrl);
     @BindView(R.id.viewpager)
@@ -77,45 +73,46 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        toolbar.setTitle("首页");
         playerViewFold = findViewById(R.id.player_views);
         playerViewUnFold = findViewById(R.id.player_views_unfold);
         foldseekBar = playerViewFold.getSeekbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+        initTab();
+        initPlay();
+    }
+
+    @Override
+    protected void onResume() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.changeReciever");
         intentFilter.addAction("com.example.change");
         intentFilter.addAction("com.example.detail");
-        ChangeReceiver changeReceiver = new ChangeReceiver();
+        intentFilter.addAction("com.example.changeTabToLeft");
+        intentFilter.addAction("com.example.changeTabToRight");
+        intentFilter.addAction("com.example.next");
+        intentFilter.addAction("com.example.last");
+        intentFilter.addAction("com.example.add");
         registerReceiver(changeReceiver, intentFilter);
-        initTab();
-        initPlay();
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(changeReceiver);
+        super.onStop();
     }
 
     //初始化tab
     public void initTab() {
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager(), 3));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                toolbar.setTitle(FragmentGenerator.mTabTitles[tab.getPosition()]);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
         for (int i = 0; i < 3; i++) {
             tabLayout.addTab(tabLayout.newTab().setCustomView(FragmentGenerator.getTabView(this, i)));
         }
+        viewPager.setCurrentItem(1);
+        toolbar.setTitle(FragmentGenerator.mTabTitles[1]);
     }
 
     //初始化mediaPlayer
@@ -173,7 +170,7 @@ public class MainActivity extends BaseActivity {
 
 
     //暂停或者播放
-    public  void PlayOrPause() {
+    public void PlayOrPause() {
         if (isPlay) {
             mPlayer.setPlayWhenReady(false);
             isPlay = false;
@@ -196,7 +193,7 @@ public class MainActivity extends BaseActivity {
     }
 
     //下一首
-    public  void nextMusic() {
+    public void nextMusic() {
         mPlayer.seekTo(mPlayer.getDuration());
         if (concatenatingMediaSource.getSize() != 0) {
             concatenatingMediaSource.removeMediaSource(0);
@@ -208,7 +205,7 @@ public class MainActivity extends BaseActivity {
         mPlayer.prepare(concatenatingMediaSource);
     }
 
-    public  void lastMusic() {
+    public void lastMusic() {
         Uri uri;
         MediaSource mediaSource;
         mPlayer.seekTo(mPlayer.getDuration());
@@ -220,11 +217,11 @@ public class MainActivity extends BaseActivity {
             }
             if (current >= 1) {
                 for (int i = current - 1; i < allUrl.size(); i++) {
-                     uri = Uri.parse(allUrl.get(current));
-                     mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+                    uri = Uri.parse(allUrl.get(current));
+                    mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
                     concatenatingMediaSource.addMediaSource(mediaSource);
                 }
-                current = current-1;
+                current = current - 1;
             }
 
             mPlayer.prepare(concatenatingMediaSource);
@@ -236,8 +233,8 @@ public class MainActivity extends BaseActivity {
         WeakReference players;
 
         PlayerHandler(SeekBar oneseekBar, ExoPlayer exoPlayer) {
-            this.oneseekBars = new WeakReference<SeekBar>(oneseekBar);
-            this.players = new WeakReference<ExoPlayer>(exoPlayer);
+            this.oneseekBars = new WeakReference<>(oneseekBar);
+            this.players = new WeakReference<>(exoPlayer);
         }
 
         @Override
@@ -254,7 +251,7 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        public void changeSeekBar(SeekBar seekBar) {
+        void changeSeekBar(SeekBar seekBar) {
             this.oneseekBars = new WeakReference<>(seekBar);
         }
     }
@@ -266,6 +263,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {
+                //上下滑动改变view的高度
                 case "com.example.changeReciever":
                     if (isFold) {
                         AnimatorSet set = new AnimatorSet();
@@ -283,8 +281,6 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                int x = playerViewFold.getScrollX();
-                                playerViewUnFold.setScrollX(x);
                                 playerViewUnFold.setVisibility(View.VISIBLE);
                                 playerViewFold.setVisibility(View.GONE);
                                 foldseekBar = playerViewUnFold.getSeekBar();
@@ -341,23 +337,42 @@ public class MainActivity extends BaseActivity {
                         set.start();
                     }
                     break;
+                //暂停
                 case "com.example.change":
                     PlayOrPause();
                     break;
+                //进入具体页面
                 case "com.example.detail":
                     Intent intent1 = new Intent(MainActivity.this, PlayerDetailsActivity.class);
                     context.startActivity(intent1);
                     break;
+                //下一首
                 case "com.example.next":
                     nextMusic();
                     break;
+                //上一首
                 case "com.example.last":
                     lastMusic();
                     break;
+                //添加音乐
                 case "com.example.add":
-                    Intent intent2  = getIntent();
-                    String url  =intent2.getStringExtra("URL");
+                    Intent intent2 = getIntent();
+                    String url = intent2.getStringExtra("URL");
                     addMusic(url);
+                    break;
+                //向右滑动tab
+                case "com.example.changeTabToRight":
+                    if (viewPager.getCurrentItem() < 3) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        toolbar.setTitle(FragmentGenerator.mTabTitles[viewPager.getCurrentItem()]);
+                    }
+                    break;
+                //向左滑动tab
+                case "com.example.changeTabToLeft":
+                    if (viewPager.getCurrentItem() > 0) {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                        toolbar.setTitle(FragmentGenerator.mTabTitles[viewPager.getCurrentItem()]);
+                    }
                     break;
             }
         }

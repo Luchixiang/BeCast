@@ -1,7 +1,6 @@
 package com.example.common.tab;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
