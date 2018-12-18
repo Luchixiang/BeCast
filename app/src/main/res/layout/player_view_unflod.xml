@@ -1,70 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="60pt"
-    android:background="@color/grey"
-    android:layout_centerHorizontal="true"
-    >
+    android:layout_height="140dp"
+    android:background="@drawable/player_view_unflod"
+    android:fitsSystemWindows="true">
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/player_view_img_unfold"
-        android:layout_width="24pt"
-        android:layout_height="24pt"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
         android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
+
     <TextView
-        android:layout_width="35pt"
-        android:layout_height="11pt"
+        android:id="@+id/player_view_title_unflod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="14pt"
-        android:layout_marginStart="15pt"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="13dp"
         android:text="@string/title"
-        android:textSize="8pt"
-        android:typeface="sans"
-        android:id="@+id/player_view_title_unflod"/>
+        style="@style/playerViewTitle"/>
 
     <SeekBar
         android:id="@+id/player_view_seekbar_unflod"
-        android:layout_width="158pt"
-        android:layout_height="1pt"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp"
+        android:layout_width="243dp"
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/player_view_title_unflod"
+        android:layout_marginTop="45dp"
         android:progressDrawable="@drawable/seekbar_bg" />
 
     <TextView
         android:id="@+id/player_view_time_unfold"
         android:layout_width="17pt"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/player_view_img_unfold"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/player_view_seekbar_unflod"
-        android:layout_marginTop="4pt"
+        android:layout_marginEnd="32dp"
         android:text="@string/time"
         android:textColor="@color/jinse"
         android:textSize="6pt" />
+
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="24pt"
-        android:layout_height="24pt"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
+        android:id="@+id/player_view_pause"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="11dp"
         android:layout_centerHorizontal="true"
-        android:id="@+id/player_view_pause"/>
+        android:src="@drawable/vector_drawable_play" />
 
     <ImageView
         android:id="@+id/last_button"
-        android:layout_width="10pt"
-        android:layout_height="8pt"
+        android:layout_width="18dp"
+        android:layout_height="17dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="69dp"
-        android:src="@drawable/last" />
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="11dp"
+        android:src="@drawable/exo_controls_previous"
+        android:background="@drawable/playerback"
+        />
 
     <ImageView
         android:id="@+id/next_button"
-        android:layout_width="10pt"
-        android:layout_height="8pt"
-        android:layout_alignParentBottom="true"
+        android:layout_width="18dp"
+        android:layout_height="17dp"
+        android:layout_alignBottom="@+id/player_view_pause"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="60dp"
-        android:src="@drawable/next" />
+        android:layout_marginEnd="103dp"
+        android:src="@drawable/exo_controls_next"
+        android:background="@drawable/playerback"
+       />
 </RelativeLayout>

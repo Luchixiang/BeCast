@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="48"
+    android:viewportHeight="24" android:width="48dp" android:height="24dp">
+    <group android:name="subscription" android:translateY="0" android:translateX="0">
+        <group android:name="Group-4" android:translateY="5" android:translateX="7">
+            <group android:name="Group-6">
+                <group android:name="Group-5" android:translateY="2" android:translateX="0">
+                    <path android:fillColor="#FF000000" android:name="Rectangle-5-Copy-3"
+                        android:fillType="nonZero"
+                        android:pathData="M 9,4 Q 10,4 10,5 L 10,5 Q 10,6 9,6 L 1,6 Q 0,6 0,5 L 0,5 Q 0,4 1,4 z" />
+                    <path android:fillColor="#FF000000" android:name="Rectangle-5-Copy-4"
+                        android:fillType="nonZero"
+                        android:pathData="M 9,4 Q 10,4 10,5 L 10,5 Q 10,6 9,6 L 1,6 Q 0,6 0,5 L 0,5 Q 0,4 1,4 z" />
+                </group>
+            </group>
+        </group>
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Rectangle-17"
+            android:fillType="nonZero" android:strokeColor="#F7C242"
+            android:pathData="M 43.5,0.5 Q 47.5,0.5 47.5,4.5 L 47.5,19.5 Q 47.5,23.5 43.5,23.5 L 4.5,23.5 Q 0.5,23.5 0.5,19.5 L 0.5,4.5 Q 0.5,0.5 4.5,0.5 z" />
+    </group>
+</vector>

@@ -1,11 +1,28 @@
 <resources>
     <string name="app_name">common</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="a">1</string>
     <string name="_2">2</string>
     <string name="title">节目标题</string>
     <string name="time">2:30</string>
     <string name="helloWorld">音乐详情</string>
+    <string name="becast">Becast</string>
+    <string name="tour">游览</string>
+    <string name="rank">排行榜</string>
+    <string name="choose">精选</string>
+    <string name="aboutme">我的</string>
+    <string name="like">收藏</string>
+    <string name="subcribe">订阅</string>
+    <string name="userName">用户名</string>
+    <string name="local">本地管理</string>
+    <string name="history">收听历史</string>
+    <string name="set">设置</string>
+    <string name="top4">4</string>
+    <string name="top5">5</string>
+    <string name="sort">分类</string>
+    <string name="about">关于</string>
+    <string name="good">好评支持</string>
+    <string name="shareApp">分享App</string>
+    <string name="contactUs">联系我们</string>
+    <string name="more">节目详情</string>
 </resources>

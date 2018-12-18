@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name="library.common.base.BaseApplication"
@@ -31,16 +33,18 @@
             <intent-filter>
                 <action android:name="com.example.changeReciever" />
                 <action android:name="com.example.change" />
-                <action android:name="com.example.detail"/>
-                <action android:name="com.example.changeTabToRight"/>
-                <action android:name="com.example.changeTabToLeft"/>
-                <action android:name="com.example.add"/>
-                <action android:name="com.example.last"/>
-                <action android:name="com.example.next"/>
+                <action android:name="com.example.detail" />
+                <action android:name="com.example.changeTabToRight" />
+                <action android:name="com.example.changeTabToLeft" />
+                <action android:name="com.example.add" />
+                <action android:name="com.example.last" />
+                <action android:name="com.example.next" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.PlayerDetailsActivity"></activity>
+        <activity android:name=".activities.PlayerDetailsActivity" />
+        <activity android:name=".activities.AboutActivity" />
+        <activity android:name=".single.SingleActivity"></activity>
     </application>
 
 </manifest>

@@ -1,14 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".tour.TourFragment"
-    >
+    android:layout_height="wrap_content"
+    tools:context=".tour.TourFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="tour" />
+        style="@style/mefragmenttitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/tour" />
 
-</FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/tourfragmentimg" />
+
+    <ImageView
+        android:id="@+id/tour_fragment_first"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="252dp"
+        android:src="@drawable/vector_drawable_leaderboard"
+        android:background="@drawable/witheback"/>
+
+    <TextView
+        android:id="@+id/rank_text"
+        style="@style/tourRank"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="252dp"
+        android:text="@string/rank" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tour_rank_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rank_text"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+<ImageView
+    android:layout_width="14dp"
+    android:layout_height="22dp"
+    android:src="@drawable/vector_drawable_t_1"
+    android:layout_below="@+id/rank_text"
+    android:layout_marginTop="22dp"
+    android:layout_marginStart="23dp"
+    android:id="@+id/top1"
+    />
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="22dp"
+        android:src="@drawable/vector_drawable_t_2"
+        android:id="@+id/top2"
+        android:layout_below="@+id/top1"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="22dp"/>
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="22dp"
+        android:layout_below="@+id/top2"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="23dp"
+        android:src="@drawable/vector_drawable_t_3"
+        android:id="@+id/top3"/>
+    <ImageView
+        android:layout_width="17dp"
+        android:layout_height="16dp"
+        android:layout_below="@+id/tour_rank_recycler"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/vector_drawable_choice"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/top4"
+        style="@style/top4"
+        android:layout_below="@id/top3"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="21dp"
+        android:text="@string/top4"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/top5"
+        style="@style/top4"
+        android:text="@string/top5"
+        android:layout_below="@id/top4"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="21dp" />
+    <TextView
+        android:id="@+id/choose_text"
+        style="@style/tourRank"
+        android:layout_width="48dp"
+        android:layout_height="22dp"
+        android:layout_below="@+id/tour_rank_recycler"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/choose" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/tour_fragment_choose_recycler"
+        android:layout_below="@id/choose_text"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp">
+    </android.support.v7.widget.RecyclerView>
+<ImageView
+    android:layout_width="18dp"
+    android:layout_height="19dp"
+    android:id="@+id/tour_find"
+    android:src="@drawable/vector_drawable_search"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="19dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="610dp"
+        android:id="@+id/search_area"
+        android:background="@drawable/witheback"
+        android:visibility="gone">
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="19dp"
+            android:id="@+id/search_view">
+        </SearchView>
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="98dp"
+            android:layout_marginStart="18dp"
+            android:src="@drawable/vector_drawable_sort"
+            android:id="@+id/sort_img_2"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sort"
+            style="@style/sort"
+            android:layout_toEndOf="@id/sort_img_2"
+            android:layout_marginTop="96dp"
+            android:layout_marginStart="18dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_recycler_2"
+            android:layout_below="@id/sort_img_2"
+            android:layout_marginTop="30dp">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+</RelativeLayout>
+</ScrollView>

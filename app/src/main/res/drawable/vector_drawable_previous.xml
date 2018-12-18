@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="17"
+    android:viewportHeight="17" android:width="17dp" android:height="17dp">
+    <group android:name="Previous" android:translateY="0" android:translateX="0">
+        <path android:fillColor="#ABABAB" android:strokeWidth="1" android:name="Fill-1-Copy-2"
+            android:fillType="evenOdd" android:strokeColor="#00000000"
+            android:pathData="M9.33993371 8.75771001 L15.9801989 13.2457415 C16.4334438 13.5072638 17 13.1802476 17 12.6567497 L17 3.68091332 C17 3.1574154 16.4334438 2.83039917 15.9801989 3.09214813 L9.33993371 7.58017963 C8.88668876 7.84170197 8.88668876 8.49596105 9.33993371 8.75771001" />
+        <path android:fillColor="#323232" android:strokeWidth="1" android:name="Fill-1-Copy"
+            android:fillType="evenOdd" android:strokeColor="#00000000"
+            android:pathData="M0.531146426 8.9964219 L10.9065607 16.0089711 C11.614756 16.4175998 12.5 15.9066369 12.5 15.0886714 L12.5 1.06392707 C12.5 0.245961568 11.614756 -0.265001294 10.9065607 0.143981454 L0.531146426 7.15653067 C-0.177048809 7.56515932 -0.177048809 8.58743915 0.531146426 8.9964219" />
+    </group>
+</vector>

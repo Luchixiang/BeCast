@@ -15,21 +15,28 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.example.common.R;
 import com.example.common.activities.PlayerDetailsActivity;
-import com.example.common.first.PlayerViewFold;
-import com.example.common.first.PlayerViewUnFold;
+import com.example.common.utils.PlayerViewFold;
+import com.example.common.utils.PlayerViewUnFold;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -57,6 +64,8 @@ public class MainActivity extends BaseActivity {
     ChangeReceiver changeReceiver = new ChangeReceiver();
     PlayerHandler playerHandler;
     PlayerViewUnFold playerViewUnFold;
+    double transtionY;
+    double transtionY2;
     static boolean isFold = true;
     private static final String TAG = "luchixiang";
     private final String testUrl = "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46";
@@ -65,8 +74,6 @@ public class MainActivity extends BaseActivity {
     HonrizonViewPager viewPager;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.main_toolbar)
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +83,8 @@ public class MainActivity extends BaseActivity {
         playerViewFold = findViewById(R.id.player_views);
         playerViewUnFold = findViewById(R.id.player_views_unfold);
         foldseekBar = playerViewFold.getSeekbar();
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
+        transtionY = playerViewFold.getTranslationY();
+        transtionY2 = playerViewUnFold.getTranslationY();
         initTab();
         initPlay();
     }
@@ -112,7 +118,6 @@ public class MainActivity extends BaseActivity {
             tabLayout.addTab(tabLayout.newTab().setCustomView(FragmentGenerator.getTabView(this, i)));
         }
         viewPager.setCurrentItem(1);
-        toolbar.setTitle(FragmentGenerator.mTabTitles[1]);
     }
 
     //初始化mediaPlayer
@@ -124,7 +129,7 @@ public class MainActivity extends BaseActivity {
                 = new DefaultDataSourceFactory(MainActivity.this,
                 Util.getUserAgent(MainActivity.this, "test"), bandwidthMeter);
         mPlayer = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
-        playerHandler = new PlayerHandler(foldseekBar, mPlayer);
+        playerHandler = new PlayerHandler(foldseekBar, mPlayer,concatenatingMediaSource);
         initSeekBar(foldseekBar);
         mPlayer.setPlayWhenReady(false);
         addMusic(testUrl);
@@ -161,7 +166,6 @@ public class MainActivity extends BaseActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -231,10 +235,11 @@ public class MainActivity extends BaseActivity {
     public static class PlayerHandler extends Handler {
         WeakReference oneseekBars;
         WeakReference players;
-
-        PlayerHandler(SeekBar oneseekBar, ExoPlayer exoPlayer) {
+        WeakReference sources;
+        PlayerHandler(SeekBar oneseekBar, ExoPlayer exoPlayer,ConcatenatingMediaSource concatenatingMediaSource) {
             this.oneseekBars = new WeakReference<>(oneseekBar);
             this.players = new WeakReference<>(exoPlayer);
+            this.sources = new WeakReference<>(concatenatingMediaSource);
         }
 
         @Override
@@ -244,8 +249,11 @@ public class MainActivity extends BaseActivity {
                 case 0: {
                     SeekBar seekBar = (SeekBar) oneseekBars.get();
                     ExoPlayer exoPlayer = (ExoPlayer) players.get();
-                    seekBar.setMax((int) exoPlayer.getDuration());
-                    seekBar.setProgress((int) exoPlayer.getCurrentPosition());
+                    ConcatenatingMediaSource source = (ConcatenatingMediaSource) sources.get();
+                    if (source.getSize()!=0) {
+                        seekBar.setMax((int) exoPlayer.getDuration());
+                        seekBar.setProgress((int) exoPlayer.getCurrentPosition());
+                    }
                     sendEmptyMessageDelayed(0, 300);
                 }
             }
@@ -270,7 +278,7 @@ public class MainActivity extends BaseActivity {
                         set.playTogether(
                                 ObjectAnimator.ofFloat(playerViewFold, "translationY", -30),
                                 ObjectAnimator.ofFloat(playerViewFold, "alpha", 1, 0),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", playerViewFold.getHeight() / 2),
+                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", -playerViewUnFold.getHeight() / 2),
                                 ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 0, 1)
                         );
                         set.setDuration(500).addListener(new Animator.AnimatorListener() {
@@ -281,6 +289,7 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
+                                playerViewUnFold.setTranslationY((float) transtionY2);
                                 playerViewUnFold.setVisibility(View.VISIBLE);
                                 playerViewFold.setVisibility(View.GONE);
                                 foldseekBar = playerViewUnFold.getSeekBar();
@@ -304,7 +313,7 @@ public class MainActivity extends BaseActivity {
                         set.playTogether(
                                 ObjectAnimator.ofFloat(playerViewFold, "translationY", 30),
                                 ObjectAnimator.ofFloat(playerViewFold, "alpha", 0, 1),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", playerViewUnFold.getHeight()),
+                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", playerViewUnFold.getHeight() / 2),
                                 ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 1, 0)
                         );
                         set.setDuration(500).addListener(new Animator.AnimatorListener() {
@@ -315,8 +324,6 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                int x = playerViewUnFold.getScrollX();
-                                playerViewFold.setScrollX(x);
                                 playerViewFold.setVisibility(View.VISIBLE);
                                 playerViewUnFold.setVisibility(View.GONE);
                                 foldseekBar = playerViewFold.getSeekbar();
@@ -364,14 +371,12 @@ public class MainActivity extends BaseActivity {
                 case "com.example.changeTabToRight":
                     if (viewPager.getCurrentItem() < 3) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                        toolbar.setTitle(FragmentGenerator.mTabTitles[viewPager.getCurrentItem()]);
                     }
                     break;
                 //向左滑动tab
                 case "com.example.changeTabToLeft":
                     if (viewPager.getCurrentItem() > 0) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-                        toolbar.setTitle(FragmentGenerator.mTabTitles[viewPager.getCurrentItem()]);
                     }
                     break;
             }

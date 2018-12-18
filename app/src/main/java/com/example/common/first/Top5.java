@@ -5,21 +5,25 @@ import java.util.List;
 
 public class Top5 {
 
-        private int resultCount;
-        private List<Results> results;
-        public void setResultCount(int resultCount) {
-            this.resultCount = resultCount;
-        }
-        public int getResultCount() {
-            return resultCount;
-        }
+    private int resultCount;
+    private List<Results> results;
 
-        public void setResults(List<Results> results) {
-            this.results = results;
-        }
-        public List<Results> getResults() {
-            return results;
-        }
+    public void setResultCount(int resultCount) {
+        this.resultCount = resultCount;
+    }
+
+    public int getResultCount() {
+        return resultCount;
+    }
+
+    public void setResults(List<Results> results) {
+        this.results = results;
+    }
+
+    public List<Results> getResults() {
+        return results;
+    }
+
     public class Results {
 
         private String wrapperType;
@@ -55,9 +59,11 @@ public class Top5 {
         private String artworkUrl600;
         private List<String> genreIds;
         private List<String> genres;
+
         public void setWrapperType(String wrapperType) {
             this.wrapperType = wrapperType;
         }
+
         public String getWrapperType() {
             return wrapperType;
         }
@@ -65,6 +71,7 @@ public class Top5 {
         public void setKind(String kind) {
             this.kind = kind;
         }
+
         public String getKind() {
             return kind;
         }
@@ -72,6 +79,7 @@ public class Top5 {
         public void setArtistId(long artistId) {
             this.artistId = artistId;
         }
+
         public long getArtistId() {
             return artistId;
         }
@@ -79,6 +87,7 @@ public class Top5 {
         public void setCollectionId(long collectionId) {
             this.collectionId = collectionId;
         }
+
         public long getCollectionId() {
             return collectionId;
         }
@@ -86,6 +95,7 @@ public class Top5 {
         public void setTrackId(long trackId) {
             this.trackId = trackId;
         }
+
         public long getTrackId() {
             return trackId;
         }
@@ -93,6 +103,7 @@ public class Top5 {
         public void setArtistName(String artistName) {
             this.artistName = artistName;
         }
+
         public String getArtistName() {
             return artistName;
         }
@@ -100,6 +111,7 @@ public class Top5 {
         public void setCollectionName(String collectionName) {
             this.collectionName = collectionName;
         }
+
         public String getCollectionName() {
             return collectionName;
         }
@@ -107,6 +119,7 @@ public class Top5 {
         public void setTrackName(String trackName) {
             this.trackName = trackName;
         }
+
         public String getTrackName() {
             return trackName;
         }
@@ -114,6 +127,7 @@ public class Top5 {
         public void setCollectionCensoredName(String collectionCensoredName) {
             this.collectionCensoredName = collectionCensoredName;
         }
+
         public String getCollectionCensoredName() {
             return collectionCensoredName;
         }
@@ -121,6 +135,7 @@ public class Top5 {
         public void setTrackCensoredName(String trackCensoredName) {
             this.trackCensoredName = trackCensoredName;
         }
+
         public String getTrackCensoredName() {
             return trackCensoredName;
         }
@@ -128,6 +143,7 @@ public class Top5 {
         public void setArtistViewUrl(String artistViewUrl) {
             this.artistViewUrl = artistViewUrl;
         }
+
         public String getArtistViewUrl() {
             return artistViewUrl;
         }
@@ -135,6 +151,7 @@ public class Top5 {
         public void setCollectionViewUrl(String collectionViewUrl) {
             this.collectionViewUrl = collectionViewUrl;
         }
+
         public String getCollectionViewUrl() {
             return collectionViewUrl;
         }
@@ -142,6 +159,7 @@ public class Top5 {
         public void setFeedUrl(String feedUrl) {
             this.feedUrl = feedUrl;
         }
+
         public String getFeedUrl() {
             return feedUrl;
         }
@@ -149,6 +167,7 @@ public class Top5 {
         public void setTrackViewUrl(String trackViewUrl) {
             this.trackViewUrl = trackViewUrl;
         }
+
         public String getTrackViewUrl() {
             return trackViewUrl;
         }
@@ -156,6 +175,7 @@ public class Top5 {
         public void setArtworkUrl30(String artworkUrl30) {
             this.artworkUrl30 = artworkUrl30;
         }
+
         public String getArtworkUrl30() {
             return artworkUrl30;
         }
@@ -163,6 +183,7 @@ public class Top5 {
         public void setArtworkUrl60(String artworkUrl60) {
             this.artworkUrl60 = artworkUrl60;
         }
+
         public String getArtworkUrl60() {
             return artworkUrl60;
         }
@@ -170,6 +191,7 @@ public class Top5 {
         public void setArtworkUrl100(String artworkUrl100) {
             this.artworkUrl100 = artworkUrl100;
         }
+
         public String getArtworkUrl100() {
             return artworkUrl100;
         }
@@ -177,6 +199,7 @@ public class Top5 {
         public void setCollectionPrice(int collectionPrice) {
             this.collectionPrice = collectionPrice;
         }
+
         public int getCollectionPrice() {
             return collectionPrice;
         }
@@ -184,6 +207,7 @@ public class Top5 {
         public void setTrackPrice(int trackPrice) {
             this.trackPrice = trackPrice;
         }
+
         public int getTrackPrice() {
             return trackPrice;
         }
@@ -191,6 +215,7 @@ public class Top5 {
         public void setTrackRentalPrice(int trackRentalPrice) {
             this.trackRentalPrice = trackRentalPrice;
         }
+
         public int getTrackRentalPrice() {
             return trackRentalPrice;
         }
@@ -198,6 +223,7 @@ public class Top5 {
         public void setCollectionHdPrice(int collectionHdPrice) {
             this.collectionHdPrice = collectionHdPrice;
         }
+
         public int getCollectionHdPrice() {
             return collectionHdPrice;
         }
@@ -205,6 +231,7 @@ public class Top5 {
         public void setTrackHdPrice(int trackHdPrice) {
             this.trackHdPrice = trackHdPrice;
         }
+
         public int getTrackHdPrice() {
             return trackHdPrice;
         }
@@ -212,6 +239,7 @@ public class Top5 {
         public void setTrackHdRentalPrice(int trackHdRentalPrice) {
             this.trackHdRentalPrice = trackHdRentalPrice;
         }
+
         public int getTrackHdRentalPrice() {
             return trackHdRentalPrice;
         }
@@ -219,6 +247,7 @@ public class Top5 {
         public void setReleaseDate(Date releaseDate) {
             this.releaseDate = releaseDate;
         }
+
         public Date getReleaseDate() {
             return releaseDate;
         }
@@ -226,6 +255,7 @@ public class Top5 {
         public void setCollectionExplicitness(String collectionExplicitness) {
             this.collectionExplicitness = collectionExplicitness;
         }
+
         public String getCollectionExplicitness() {
             return collectionExplicitness;
         }
@@ -233,6 +263,7 @@ public class Top5 {
         public void setTrackExplicitness(String trackExplicitness) {
             this.trackExplicitness = trackExplicitness;
         }
+
         public String getTrackExplicitness() {
             return trackExplicitness;
         }
@@ -240,6 +271,7 @@ public class Top5 {
         public void setTrackCount(int trackCount) {
             this.trackCount = trackCount;
         }
+
         public int getTrackCount() {
             return trackCount;
         }
@@ -247,6 +279,7 @@ public class Top5 {
         public void setCountry(String country) {
             this.country = country;
         }
+
         public String getCountry() {
             return country;
         }
@@ -254,6 +287,7 @@ public class Top5 {
         public void setCurrency(String currency) {
             this.currency = currency;
         }
+
         public String getCurrency() {
             return currency;
         }
@@ -261,6 +295,7 @@ public class Top5 {
         public void setPrimaryGenreName(String primaryGenreName) {
             this.primaryGenreName = primaryGenreName;
         }
+
         public String getPrimaryGenreName() {
             return primaryGenreName;
         }
@@ -268,6 +303,7 @@ public class Top5 {
         public void setArtworkUrl600(String artworkUrl600) {
             this.artworkUrl600 = artworkUrl600;
         }
+
         public String getArtworkUrl600() {
             return artworkUrl600;
         }
@@ -275,6 +311,7 @@ public class Top5 {
         public void setGenreIds(List<String> genreIds) {
             this.genreIds = genreIds;
         }
+
         public List<String> getGenreIds() {
             return genreIds;
         }
@@ -282,6 +319,7 @@ public class Top5 {
         public void setGenres(List<String> genres) {
             this.genres = genres;
         }
+
         public List<String> getGenres() {
             return genres;
         }

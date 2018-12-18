@@ -1,4 +1,4 @@
-package com.example.common.first;
+package com.example.common.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -120,18 +120,18 @@ public class PlayerViewFold extends RelativeLayout {
                     context.sendBroadcast(intent);
                 }
                 //向上划 改变
-                if (distanceY <= -50) {
+                else if (distanceY <= -50) {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeReciever");
                     context.sendBroadcast(intent);
                     //向左滑Tab
-                } else if (distanceX <= -90) {
+                } else if (distanceX <= -5) {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeTabToLeft");
                     context.sendBroadcast(intent);
                 }
                 //向右滑Tab
-                else if (distanceX >= 90) {
+                else if (distanceX >= 5) {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeTabToRight");
                     context.sendBroadcast(intent);

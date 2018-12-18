@@ -1,4 +1,4 @@
-package com.example.common.first;
+package com.example.common.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -132,13 +132,13 @@ public class PlayerViewUnFold extends RelativeLayout {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeReciever");
                     context.sendBroadcast(intent);
-                } else if (distanceX <= -90) {
+                } else if (distanceX <= -5) {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeTabToLeft");
                     context.sendBroadcast(intent);
                 }
                 //向右滑Tab
-                if (distanceX >= 240) {
+                else if (distanceX >= 5) {
                     scrollBy(distanceX, 0);
                     intent.setAction("com.example.changeTabToRight");
                     context.sendBroadcast(intent);

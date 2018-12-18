@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:width="375dp"
+        android:height="44dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+    <!--<item-->
+    <!--android:width="17dp"-->
+    <!--android:height="18dp"-->
+    <!--android:top="13dp"-->
+    <!--android:start="29dp">-->
+    <!--<bitmap android:src="@drawable/local" />-->
+    <!--</item>-->
+    <item
+        android:width="315dp"
+        android:height="2dp"
+        android:end="30dp"
+        android:start="30dp"
+        android:top="43dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="0dp"
+                android:color="#f5f5f5" />
+        </shape>
+    </item>
+</layer-list>

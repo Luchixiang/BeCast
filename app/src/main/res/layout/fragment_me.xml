@@ -1,20 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".me.MeFragment"
-    android:orientation="vertical"
-    >
+    tools:context=".me.MeFragment">
 
-   <Button
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:text="@string/a"
-       android:id="@+id/test_button"/>
-    <Button
-        android:layout_width="match_parent"
+    <TextView
+        style="@style/mefragmenttitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/a"
-        android:id="@+id/test_button2"/>
-</LinearLayout>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/aboutme"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/my_head_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
+
+    <ImageView
+        android:id="@+id/me_subscribe"
+        android:layout_width="146dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="157dp"
+        android:src="@drawable/subsribe" />
+
+    <ImageView
+        android:id="@+id/me_like"
+        android:layout_width="146dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="199dp"
+        android:layout_marginTop="157dp"
+        android:src="@drawable/shelf"
+        />
+    <TextView
+        android:id="@+id/me_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_head_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="@string/userName" />
+
+    <View
+        android:id="@+id/local"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="245dp"
+        android:background="@drawable/buttonback" />
+
+    <View
+        android:id="@+id/history"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="290dp"
+        android:background="@drawable/buttonback" />
+
+    <View
+        android:id="@+id/set"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="354dp"
+        android:background="@drawable/buttonback" />
+
+    <View
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="398dp"
+        android:background="@drawable/buttonback" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="270dp"
+        android:src="@drawable/local"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="313dp"
+        android:src="@drawable/history"
+         />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="368dp"
+        android:background="@drawable/witheback"
+        android:src="@drawable/set"
+      />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="411dp"
+        android:background="@drawable/witheback"
+        android:src="@drawable/about"
+        />
+
+    <TextView
+        style="@style/meItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="269dp"
+        android:text="@string/local"
+        android:visibility="visible" />
+
+    <TextView
+        style="@style/meItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="312dp"
+        android:text="@string/history" />
+
+    <TextView
+        style="@style/meItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="366dp"
+        android:text="@string/set" />
+
+    <TextView
+        style="@style/meItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="409dp"
+        android:text="@string/about"
+        android:visibility="visible" />
+</RelativeLayout>

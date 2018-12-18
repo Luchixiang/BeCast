@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="315"
+    android:viewportHeight="40" android:width="315dp" android:height="40dp">
+    <group android:name="Logout" android:translateY="0" android:translateX="0">
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Rectangle-14"
+            android:fillType="nonZero" android:strokeColor="#00000000"
+            android:pathData="M 309,0 Q 315,0 315,6 L 315,34 Q 315,40 309,40 L 6,40 Q 0,40 0,34 L 0,6 Q 0,0 6,0 z" />
+    </group>
+</vector>

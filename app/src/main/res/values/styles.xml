@@ -8,4 +8,110 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="FirstFragmentItemTitle">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="FirstFragmentItemName">
+        <item name="android:textColor">#8b8b8b</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="FirstFragmentItemTime">
+        <item name="android:textColor">#c7ab72</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="FirstFragmentTitle">
+        <item name="android:textColor">#f3be3f</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="playerViewTitle">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="playerViewTime">
+        <item name="android:textColor">#f3be3f</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">right</item>
+    </style>
+    <style name="tourRank">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="mefragmenttitle">
+        <item name="android:textColor">#f7c242</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="likeText">
+        <item name="android:textColor">#fff8eb</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="userName">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="meItemText">
+        <item name="android:textColor">#343434</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="rankTitle">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="rankName">
+        <item name="android:textColor">#8b8b8b</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="chooseTitle">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="top4">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="sort">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="about_title">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="about_text">
+        <item name="android:textColor">#343434</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="single_title">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="more">
+        <item name="android:textColor">#323232</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="single_time">
+        <item name="android:textColor">#c7ab72</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">right</item>
+    </style>
+
 </resources>

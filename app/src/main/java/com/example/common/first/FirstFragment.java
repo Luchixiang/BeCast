@@ -17,6 +17,7 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.example.common.ApiService;
 import com.example.common.R;
+import com.example.common.tour.Chosen;
 import com.example.common.tour.Classify;
 import com.example.common.tour.ClassifyAdapter;
 import com.trello.rxlifecycle2.components.support.RxFragment;
@@ -30,8 +31,8 @@ import java.util.List;
 
 public class FirstFragment extends RxFragment {
     private static final String TAG = "luchixiang";
-    public List<Classify> list = new ArrayList<>();
-
+    public List<Top5.Results> list = new ArrayList<>();
+    private View rootView;
     public static FirstFragment newInstance() {
         return new FirstFragment();
     }
@@ -40,44 +41,46 @@ public class FirstFragment extends RxFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Context context = getActivity();
-        View view = inflater.inflate(R.layout.fragment_first, container, false);
-        SwipeMenuRecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        SwipeMenuCreator mSwipeMenuCreator = (leftMenu, rightMenu, position) -> {
-            SwipeMenuItem deleteItem = new SwipeMenuItem(context);
-            deleteItem.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.last,null));
-            deleteItem.setText("shanchu");
-            rightMenu.addMenuItem(deleteItem);
-        };
-        SwipeMenuItemClickListener mMenuItemClickListener = (menuBridge, position) -> {
-            // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
-            menuBridge.closeMenu();
-            // 左侧还是右侧菜单：
-            int direction = menuBridge.getDirection();
-            // 菜单在Item中的Position：
-            int menuPosition = menuBridge.getPosition();
-            Toast.makeText(context,"asas",Toast.LENGTH_LONG).show();
-        };
-        recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
-        recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
-        ClassifyAdapter classifyAdapter = new ClassifyAdapter(context, list, recyclerView);
-        recyclerView.setAdapter(classifyAdapter);
-        classifyAdapter.notifyDataSetChanged();
-        RxHttpUtils.createApi(ApiService.class)
-                .getQiNiuToken()
-                .compose(Transformer.switchSchedulers())
-                .subscribe(new CommonObserver<Top5> (){
-                    @Override
-                    protected void onError(String errorMsg) {
-                        Log.d(TAG, "onError: "+1);
-                    }
-                    @Override
-                    protected void onSuccess(Top5 data) {
-                        Log.d("luchixiang", "onSuccess: "+data.getResults().size());
-                    }
-                });
-        return view;
+            rootView = inflater.inflate(R.layout.fragment_first, container, false);
+            SwipeMenuRecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
+            SwipeMenuCreator mSwipeMenuCreator = (leftMenu, rightMenu, position) -> {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(context);
+                deleteItem.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.last,null));
+                deleteItem.setText("shanchu");
+                rightMenu.addMenuItem(deleteItem);
+            };
+            SwipeMenuItemClickListener mMenuItemClickListener = (menuBridge, position) -> {
+                // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+                menuBridge.closeMenu();
+                // 左侧还是右侧菜单：
+                int direction = menuBridge.getDirection();
+                // 菜单在Item中的Position：
+                int menuPosition = menuBridge.getPosition();
+                Toast.makeText(context,"asas",Toast.LENGTH_LONG).show();
+            };
+            recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+            recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            recyclerView.setLayoutManager(layoutManager);
+            FirstFragmentAdapter adapter = new FirstFragmentAdapter(context, list, recyclerView);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            RxHttpUtils.createApi(ApiService.class)
+                    .getQiNiuToken()
+                    .compose(Transformer.switchSchedulers())
+                    .subscribe(new CommonObserver<Top5> (){
+                        @Override
+                        protected void onError(String errorMsg) {
+                            Log.d(TAG, "onError: "+1);
+                        }
+                        @Override
+                        protected void onSuccess(Top5 data) {
+                            adapter.listChanger(data.getResults());
+                            adapter.notifyDataSetChanged();
+                            Log.d("luchixiang", "onSuccess: "+data.getResults().size());
+                        }
+                    });
+        return rootView;
     }
 
     @Override

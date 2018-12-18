@@ -5,12 +5,14 @@ import android.app.Application;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
+import com.example.common.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import library.common.util.Utils;
 import okhttp3.OkHttpClient;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class BaseApplication extends Application {
     Map<String, Object> headerMaps = new HashMap<>();
@@ -65,6 +67,10 @@ public class BaseApplication extends Application {
                 .setBaseUrl("https://itunes.apple.com/")
                 //开启全局配置
                 .setOkClient(okHttpClient);
-
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 }

@@ -10,7 +10,7 @@
         android:layout_height="50pt"
         android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
         android:layout_marginStart="15pt"
-         />
+        />
 
     <LinearLayout
         android:layout_width="138pt"

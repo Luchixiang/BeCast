@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="17"
+    android:viewportHeight="16" android:width="17dp" android:height="16dp">
+    <group android:name="Leaderboard" android:translateY="0" android:translateX="0">
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Rectangle-4"
+            android:fillType="nonZero" android:strokeColor="#00000000"
+            android:pathData="M 10,0 Q 11,0 11,1 L 11,13 Q 11,14 10,14 L 8,14 Q 7,14 7,13 L 7,1 Q 7,0 8,0 z" />
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Rectangle-4-Copy"
+            android:fillType="nonZero" android:strokeColor="#00000000"
+            android:pathData="M 4,7 Q 5,7 5,8 L 5,13 Q 5,14 4,14 L 2,14 Q 1,14 1,13 L 1,8 Q 1,7 2,7 z" />
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Rectangle-4-Copy-2"
+            android:fillType="nonZero" android:strokeColor="#00000000"
+            android:pathData="M 16,5 Q 17,5 17,6 L 17,13 Q 17,14 16,14 L 14,14 Q 13,14 13,13 L 13,6 Q 13,5 14,5 z" />
+        <path android:fillColor="#00000000" android:strokeWidth="1" android:name="Rectangle-4"
+            android:fillType="nonZero" android:strokeColor="#323232"
+            android:pathData="M 8.5,2.5 Q 9.5,2.5 9.5,3.5 L 9.5,14.5 Q 9.5,15.5 8.5,15.5 L 7.5,15.5 Q 6.5,15.5 6.5,14.5 L 6.5,3.5 Q 6.5,2.5 7.5,2.5 z" />
+        <path android:fillColor="#00000000" android:strokeWidth="1" android:name="Rectangle-4-Copy"
+            android:fillType="nonZero" android:strokeColor="#323232"
+            android:pathData="M 2.5,9.5 Q 3.5,9.5 3.5,10.5 L 3.5,14.5 Q 3.5,15.5 2.5,15.5 L 1.5,15.5 Q 0.5,15.5 0.5,14.5 L 0.5,10.5 Q 0.5,9.5 1.5,9.5 z" />
+        <path android:fillColor="#00000000" android:strokeWidth="1"
+            android:name="Rectangle-4-Copy-2" android:fillType="nonZero"
+            android:strokeColor="#323232"
+            android:pathData="M 14.5,7.5 Q 15.5,7.5 15.5,8.5 L 15.5,14.5 Q 15.5,15.5 14.5,15.5 L 13.5,15.5 Q 12.5,15.5 12.5,14.5 L 12.5,8.5 Q 12.5,7.5 13.5,7.5 z" />
+    </group>
+</vector>

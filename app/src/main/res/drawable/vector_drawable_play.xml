@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:viewportWidth="48"
+    android:viewportHeight="48" android:width="48dp" android:height="48dp">
+    <group android:name="play" android:translateY="48" android:translateX="48"
+        android:rotation="180">
+        <path android:fillColor="#323232" android:strokeWidth="1" android:name="Oval-6"
+            android:fillType="nonZero" android:strokeColor="#00000000"
+            android:pathData="M 0,24 a 24,24 0 0 1 48,0 a 24,24 0 0 1 -48,0 z" />
+        <path android:fillColor="#F7C242" android:strokeWidth="1" android:name="Fill-1"
+            android:fillType="evenOdd" android:strokeColor="#00000000"
+            android:pathData="M19.594884 25.0759925 L31.215348 32.9300476 C32.0085267 33.3877117 33 32.8154333 33 31.899312 L33 16.1915983 C33 15.275477 32.0085267 14.7031986 31.215348 15.1612592 L19.594884 23.0153144 C18.8017053 23.4729784 18.8017053 24.6179318 19.594884 25.0759925" />
+    </group>
+</vector>
