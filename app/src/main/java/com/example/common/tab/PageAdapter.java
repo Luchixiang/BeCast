@@ -13,6 +13,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     private android.support.v4.app.Fragment[] fragments;
 
    public PageAdapter(FragmentManager fm, int num) {
+       //luchixiang
         super(fm);
         this.num = num;
     }
