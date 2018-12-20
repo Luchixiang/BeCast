@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".tab.MainActivity">
+        tools:context=".MainActivity">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -27,7 +27,7 @@
 
         <!--</android.support.v7.widget.Toolbar>-->
 
-        <com.example.common.tab.HonrizonViewPager
+        <com.example.common.utils.HonrizonViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

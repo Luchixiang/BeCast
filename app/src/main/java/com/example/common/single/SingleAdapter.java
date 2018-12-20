@@ -1,6 +1,8 @@
 package com.example.common.single;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +44,14 @@ public class SingleAdapter extends RecyclerView.Adapter<SingleAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(v -> {
+            Single single = singleList.get(viewHolder.getAdapterPosition());
+            Intent intent = new Intent("com.example.add");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("single",single);
+            intent.putExtras(bundle);
+            mContext.sendBroadcast(intent);
+        });
         return viewHolder;
     }
 

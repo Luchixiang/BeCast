@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity android:name=".tab.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +27,7 @@
         <activity android:name="library.common.base.BaseActivity" />
 
         <receiver
-            android:name=".tab.MainActivity$ChangeReceiver"
+            android:name=".MainActivity$ChangeReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -44,7 +44,8 @@
 
         <activity android:name=".activities.PlayerDetailsActivity" />
         <activity android:name=".activities.AboutActivity" />
-        <activity android:name=".single.SingleActivity"></activity>
+        <activity android:name=".single.SingleActivity" />
+        <activity android:name=".activities.HistoryActivity"></activity>
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/player_view_time_unfold"
-        android:layout_width="17pt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/player_view_img_unfold"
         android:layout_alignParentEnd="true"

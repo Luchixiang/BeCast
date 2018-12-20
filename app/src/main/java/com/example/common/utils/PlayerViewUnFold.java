@@ -66,6 +66,10 @@ public class PlayerViewUnFold extends RelativeLayout {
             intent.setAction("com.example.next");
             context.sendBroadcast(intent);
         });
+        lastButton.setOnClickListener(v->{
+            intent.setAction("com.example.last");
+            context.sendBroadcast(intent);
+        });
     }
 
     public SeekBar getSeekBar() {

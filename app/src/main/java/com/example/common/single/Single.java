@@ -1,10 +1,27 @@
 package com.example.common.single;
 
-public class Single {
-    private String title;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
+@Entity(tableName = "singleHistory")
+public class Single implements Serializable {
+    @PrimaryKey
+    @NonNull
+    private String title="";
     private String updataTime;
     private String vioiceUrl;
     private String imgUrL;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getImgUrL() {
         return imgUrL;

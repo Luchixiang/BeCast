@@ -1,4 +1,4 @@
-package com.example.common.tab;
+package com.example.common.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

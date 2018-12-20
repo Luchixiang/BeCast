@@ -10,25 +10,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.common.R;
 import com.example.common.activities.AboutActivity;
-import com.example.common.tab.MainActivity;
+import com.example.common.activities.HistoryActivity;
 
 public class MeFragment extends Fragment {
     private Context mContext;
-
+    private View rootView;
     public static MeFragment newInstance() {
         return new MeFragment();
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_me, container, false);
-        mContext = getActivity();
-        initView(view);
-        return view;
+        if (null != rootView) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (null != parent) {
+                parent.removeView(rootView);
+            }
+        }else {
+            rootView = inflater.inflate(R.layout.fragment_me, container, false);
+            mContext = getActivity();
+            initView(rootView);
+        }
+        return rootView;
     }
     public void initView(View view)
     {
@@ -38,6 +44,10 @@ public class MeFragment extends Fragment {
         View setView = view.findViewById(R.id.set);
         aboutView.setOnClickListener(v->{
             Intent intent = new Intent(mContext, AboutActivity.class);
+            mContext.startActivity(intent);
+        });
+        historyView.setOnClickListener(v->{
+            Intent intent = new Intent(mContext, HistoryActivity.class);
             mContext.startActivity(intent);
         });
     }

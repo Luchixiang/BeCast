@@ -12,7 +12,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     private HashMap<Integer, android.support.v4.app.Fragment> mfragments = new HashMap<>();
     private android.support.v4.app.Fragment[] fragments;
 
-    PageAdapter(FragmentManager fm, int num) {
+   public PageAdapter(FragmentManager fm, int num) {
         super(fm);
         this.num = num;
     }

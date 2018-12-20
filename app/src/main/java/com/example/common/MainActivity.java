@@ -1,4 +1,4 @@
-package com.example.common.tab;
+package com.example.common;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -14,29 +14,27 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.example.common.R;
 import com.example.common.activities.PlayerDetailsActivity;
+import com.example.common.single.Single;
+import com.example.common.tab.FragmentGenerator;
+import com.example.common.tab.PageAdapter;
+import com.example.common.utils.ChangeTime;
+import com.example.common.utils.HonrizonViewPager;
 import com.example.common.utils.PlayerViewFold;
 import com.example.common.utils.PlayerViewUnFold;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -47,8 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import library.common.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
@@ -57,8 +53,9 @@ public class MainActivity extends BaseActivity {
     ConcatenatingMediaSource concatenatingMediaSource;
     DataSource.Factory dataSourceFactory;
     static boolean isPlay = false;
-    static List<String> allUrl = new ArrayList<>();
-    static int current = 0;
+    //List<String> allUrl = new ArrayList<>();
+    List<Single> singleList = new ArrayList<>();
+    int current = 0;
     PlayerViewFold playerViewFold;
     SeekBar foldseekBar;
     ChangeReceiver changeReceiver = new ChangeReceiver();
@@ -68,18 +65,16 @@ public class MainActivity extends BaseActivity {
     double transtionY2;
     static boolean isFold = true;
     private static final String TAG = "luchixiang";
-    private final String testUrl = "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46";
-    Uri playerUri = Uri.parse(testUrl);
-    @BindView(R.id.viewpager)
+    private final String testUrl = "https://media.acast.com/theeconomistallaudio/theeconomistmoneytalks/moneytalks-thechristmasjamboree/media.mp3";
     HonrizonViewPager viewPager;
-    @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        viewPager = findViewById(R.id.viewpager);
+        tabLayout = findViewById(R.id.tab_layout);
         playerViewFold = findViewById(R.id.player_views);
         playerViewUnFold = findViewById(R.id.player_views_unfold);
         foldseekBar = playerViewFold.getSeekbar();
@@ -105,9 +100,10 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(changeReceiver);
-        super.onStop();
+        mPlayer.release();
     }
 
     //初始化tab
@@ -129,30 +125,27 @@ public class MainActivity extends BaseActivity {
                 = new DefaultDataSourceFactory(MainActivity.this,
                 Util.getUserAgent(MainActivity.this, "test"), bandwidthMeter);
         mPlayer = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
-        playerHandler = new PlayerHandler(foldseekBar, mPlayer,concatenatingMediaSource);
+        playerHandler = new PlayerHandler(foldseekBar, mPlayer, concatenatingMediaSource);
         initSeekBar(foldseekBar);
         mPlayer.setPlayWhenReady(false);
-        addMusic(testUrl);
-        mPlayer.prepare(concatenatingMediaSource);
-    }
-
-    public void initSeekBar(SeekBar seekBar) {
-        playerHandler.changeSeekBar(seekBar);
         concatenatingMediaSource.addEventListener(playerHandler, new DefaultMediaSourceEventListener() {
             @Override
             public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
                 super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
-                seekBar.setMax((int) mPlayer.getDuration());
-                seekBar.setMax((int) mPlayer.getDuration());
-                playerHandler.sendEmptyMessage(0);
                 current++;
-            }
-
-            @Override
-            public void onLoadCompleted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
-                super.onLoadCompleted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
+                playerViewFold.setPlayerTime(ChangeTime.calculateTime((singleList.get(current-1).getTime())));
+                playerViewUnFold.setPlayerTime(ChangeTime.calculateTime(singleList.get(current-1).getTime()));
+                playerViewFold.setPlayerTitle(singleList.get(current-1).getTitle());
+                playerViewUnFold.setPlayerTitle(singleList.get(current-1).getTitle());
+                playerViewFold.setImgView(singleList.get(current-1).getImgUrL());
+                playerViewUnFold.setImgView(singleList.get(current-1).getImgUrL());
+                playerHandler.sendEmptyMessage(0);
             }
         });
+    }
+
+    public void initSeekBar(SeekBar seekBar) {
+        playerHandler.changeSeekBar(seekBar);
         //seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -166,6 +159,7 @@ public class MainActivity extends BaseActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -189,10 +183,10 @@ public class MainActivity extends BaseActivity {
         Uri uri = Uri.parse(url);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         concatenatingMediaSource.addMediaSource(mediaSource);
-        allUrl.add(url);
-        if (!mPlayer.getPlayWhenReady()) {
+        if (!mPlayer.getPlayWhenReady() || mPlayer.getPlaybackState() == Player.STATE_IDLE) {
             mPlayer.setPlayWhenReady(true);
             isPlay = true;
+            mPlayer.prepare(concatenatingMediaSource);
         }
     }
 
@@ -213,22 +207,86 @@ public class MainActivity extends BaseActivity {
         Uri uri;
         MediaSource mediaSource;
         mPlayer.seekTo(mPlayer.getDuration());
-        if (allUrl.size() > 1) {
-            int n = allUrl.size() - 1;
-            String string = allUrl.get(n - 1);
-            for (int i = 0; i < concatenatingMediaSource.getSize(); i++) {
-                concatenatingMediaSource.removeMediaSource(i);
-            }
-            if (current >= 1) {
-                for (int i = current - 1; i < allUrl.size(); i++) {
-                    uri = Uri.parse(allUrl.get(current));
-                    mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-                    concatenatingMediaSource.addMediaSource(mediaSource);
-                }
-                current = current - 1;
-            }
+        if (current > 0) {
+            current=current-2;
+        }
+        String url = singleList.get(current).getVioiceUrl();
+        uri = Uri.parse(url);
+        mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+        concatenatingMediaSource.addMediaSource(0, mediaSource);
+        mPlayer.prepare(concatenatingMediaSource);
+    }
 
-            mPlayer.prepare(concatenatingMediaSource);
+    public void changePlayer() {
+        if (isFold) {
+            AnimatorSet set = new AnimatorSet();
+            set.playTogether(
+                    ObjectAnimator.ofFloat(playerViewFold, "translationY", -30),
+                    ObjectAnimator.ofFloat(playerViewFold, "alpha", 1, 0),
+                    ObjectAnimator.ofFloat(playerViewUnFold, "translationY", -playerViewUnFold.getHeight() / 2),
+                    ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 0, 1)
+            );
+            set.setDuration(500).addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    playerViewUnFold.setTranslationY((float) transtionY2);
+                    playerViewUnFold.setVisibility(View.VISIBLE);
+                    playerViewFold.setVisibility(View.GONE);
+                    foldseekBar = playerViewUnFold.getSeekBar();
+                    initSeekBar(foldseekBar);
+                    isFold = false;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            set.start();
+        } else {
+            AnimatorSet set = new AnimatorSet();
+            set.playTogether(
+                    ObjectAnimator.ofFloat(playerViewFold, "translationY", 30),
+                    ObjectAnimator.ofFloat(playerViewFold, "alpha", 0, 1),
+                    ObjectAnimator.ofFloat(playerViewUnFold, "translationY", playerViewUnFold.getHeight() / 2),
+                    ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 1, 0)
+            );
+            set.setDuration(500).addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    playerViewFold.setVisibility(View.VISIBLE);
+                    playerViewUnFold.setVisibility(View.GONE);
+                    foldseekBar = playerViewFold.getSeekbar();
+                    initSeekBar(foldseekBar);
+                    isFold = true;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+            set.start();
         }
     }
 
@@ -236,7 +294,8 @@ public class MainActivity extends BaseActivity {
         WeakReference oneseekBars;
         WeakReference players;
         WeakReference sources;
-        PlayerHandler(SeekBar oneseekBar, ExoPlayer exoPlayer,ConcatenatingMediaSource concatenatingMediaSource) {
+
+        PlayerHandler(SeekBar oneseekBar, ExoPlayer exoPlayer, ConcatenatingMediaSource concatenatingMediaSource) {
             this.oneseekBars = new WeakReference<>(oneseekBar);
             this.players = new WeakReference<>(exoPlayer);
             this.sources = new WeakReference<>(concatenatingMediaSource);
@@ -250,7 +309,7 @@ public class MainActivity extends BaseActivity {
                     SeekBar seekBar = (SeekBar) oneseekBars.get();
                     ExoPlayer exoPlayer = (ExoPlayer) players.get();
                     ConcatenatingMediaSource source = (ConcatenatingMediaSource) sources.get();
-                    if (source.getSize()!=0) {
+                    if (source.getSize() != 0) {
                         seekBar.setMax((int) exoPlayer.getDuration());
                         seekBar.setProgress((int) exoPlayer.getCurrentPosition());
                     }
@@ -272,78 +331,10 @@ public class MainActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             switch (Objects.requireNonNull(intent.getAction())) {
                 //上下滑动改变view的高度
-                case "com.example.changeReciever":
-                    if (isFold) {
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(
-                                ObjectAnimator.ofFloat(playerViewFold, "translationY", -30),
-                                ObjectAnimator.ofFloat(playerViewFold, "alpha", 1, 0),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", -playerViewUnFold.getHeight() / 2),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 0, 1)
-                        );
-                        set.setDuration(500).addListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                playerViewUnFold.setTranslationY((float) transtionY2);
-                                playerViewUnFold.setVisibility(View.VISIBLE);
-                                playerViewFold.setVisibility(View.GONE);
-                                foldseekBar = playerViewUnFold.getSeekBar();
-                                initSeekBar(foldseekBar);
-                                isFold = false;
-                            }
-
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
-
-                            }
-                        });
-                        set.start();
-                    } else {
-                        AnimatorSet set = new AnimatorSet();
-                        set.playTogether(
-                                ObjectAnimator.ofFloat(playerViewFold, "translationY", 30),
-                                ObjectAnimator.ofFloat(playerViewFold, "alpha", 0, 1),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "translationY", playerViewUnFold.getHeight() / 2),
-                                ObjectAnimator.ofFloat(playerViewUnFold, "alpha", 1, 0)
-                        );
-                        set.setDuration(500).addListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                playerViewFold.setVisibility(View.VISIBLE);
-                                playerViewUnFold.setVisibility(View.GONE);
-                                foldseekBar = playerViewFold.getSeekbar();
-                                initSeekBar(foldseekBar);
-                                isFold = true;
-                            }
-
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
-
-                            }
-                        });
-                        set.start();
-                    }
-                    break;
+                case "com.example.changeReciever": {
+                    changePlayer();
+                }
+                break;
                 //暂停
                 case "com.example.change":
                     PlayOrPause();
@@ -363,8 +354,10 @@ public class MainActivity extends BaseActivity {
                     break;
                 //添加音乐
                 case "com.example.add":
-                    Intent intent2 = getIntent();
-                    String url = intent2.getStringExtra("URL");
+                    Single single = (Single) intent.getSerializableExtra("single");
+                    String url = single.getVioiceUrl();
+                    singleList.add(single);
+                    Log.d(TAG, "onReceive: " + url);
                     addMusic(url);
                     break;
                 //向右滑动tab

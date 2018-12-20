@@ -37,9 +37,15 @@ public class TourFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (null != rootView) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (null != parent) {
+                parent.removeView(rootView);
+            }
+        }else {
             rootView = inflater.inflate(R.layout.fragment_tour, container, false);
             context = getActivity();
-            initView(rootView);
+            initView(rootView);}
         return rootView;
     }
 

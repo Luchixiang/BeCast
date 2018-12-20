@@ -17,9 +17,6 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.example.common.ApiService;
 import com.example.common.R;
-import com.example.common.tour.Chosen;
-import com.example.common.tour.Classify;
-import com.example.common.tour.ClassifyAdapter;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
@@ -33,6 +30,7 @@ public class FirstFragment extends RxFragment {
     private static final String TAG = "luchixiang";
     public List<Top5.Results> list = new ArrayList<>();
     private View rootView;
+
     public static FirstFragment newInstance() {
         return new FirstFragment();
     }
@@ -40,12 +38,18 @@ public class FirstFragment extends RxFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Context context = getActivity();
+        if (null != rootView) {
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (null != parent) {
+                parent.removeView(rootView);
+            }
+        } else {
+            Context context = getActivity();
             rootView = inflater.inflate(R.layout.fragment_first, container, false);
             SwipeMenuRecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
             SwipeMenuCreator mSwipeMenuCreator = (leftMenu, rightMenu, position) -> {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(context);
-                deleteItem.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.last,null));
+                deleteItem.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.last, null));
                 deleteItem.setText("shanchu");
                 rightMenu.addMenuItem(deleteItem);
             };
@@ -56,7 +60,7 @@ public class FirstFragment extends RxFragment {
                 int direction = menuBridge.getDirection();
                 // 菜单在Item中的Position：
                 int menuPosition = menuBridge.getPosition();
-                Toast.makeText(context,"asas",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "asas", Toast.LENGTH_LONG).show();
             };
             recyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
             recyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
@@ -68,18 +72,20 @@ public class FirstFragment extends RxFragment {
             RxHttpUtils.createApi(ApiService.class)
                     .getQiNiuToken()
                     .compose(Transformer.switchSchedulers())
-                    .subscribe(new CommonObserver<Top5> (){
+                    .subscribe(new CommonObserver<Top5>() {
                         @Override
                         protected void onError(String errorMsg) {
-                            Log.d(TAG, "onError: "+1);
+                            Log.d(TAG, "onError: " + 1);
                         }
+
                         @Override
                         protected void onSuccess(Top5 data) {
                             adapter.listChanger(data.getResults());
                             adapter.notifyDataSetChanged();
-                            Log.d("luchixiang", "onSuccess: "+data.getResults().size());
+                            Log.d("luchixiang", "onSuccess: " + data.getResults().size());
                         }
                     });
+        }
         return rootView;
     }
 

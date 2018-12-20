@@ -1,17 +1,9 @@
 package com.example.common.tour;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-//@Entity(tableName = "favorite_class")
 public class Classify implements Serializable {
 
     private String wrapperType;

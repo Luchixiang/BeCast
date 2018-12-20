@@ -53,9 +53,11 @@ public class SingleModel {
                 for (int i = 0; i < itemElement.size(); i++) {
                     Element element = (Element) itemElement.get(i);
                     String songTitle = element.element("title").getText();
+                    String time = element.element("duration").getText();
                     String updataTime = element.element("pubDate").getText();
                     String voiceUrl = element.element("enclosure").attributeValue("url");
                     Single single = new Single(songTitle, updataTime, voiceUrl,"");
+                    single.setTime(time);
                     singleList.add(single);
                 }
                 SingleHandler singleHandler = new SingleHandler(Looper.getMainLooper(),this);

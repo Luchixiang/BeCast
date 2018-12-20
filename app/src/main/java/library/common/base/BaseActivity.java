@@ -1,6 +1,5 @@
 package library.common.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,13 +8,11 @@ import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.jaeger.library.StatusBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
-import butterknife.ButterKnife;
 import library.common.util.Utils;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -28,7 +25,6 @@ public class BaseActivity extends RxAppCompatActivity {
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        ButterKnife.bind(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
