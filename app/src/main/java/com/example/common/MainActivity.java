@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.example.common.activities.PlayerDetailsActivity;
+import com.example.common.model.Model;
 import com.example.common.single.Single;
 import com.example.common.tab.FragmentGenerator;
 import com.example.common.tab.PageAdapter;
@@ -52,8 +53,7 @@ public class MainActivity extends BaseActivity {
     SimpleExoPlayer mPlayer;
     ConcatenatingMediaSource concatenatingMediaSource;
     DataSource.Factory dataSourceFactory;
-    static boolean isPlay = false;
-    //List<String> allUrl = new ArrayList<>();
+    boolean isPlay = false;
     List<Single> singleList = new ArrayList<>();
     int current = 0;
     PlayerViewFold playerViewFold;
@@ -81,11 +81,11 @@ public class MainActivity extends BaseActivity {
         transtionY = playerViewFold.getTranslationY();
         transtionY2 = playerViewUnFold.getTranslationY();
         initTab();
+        registerBroadcast();
         initPlay();
     }
 
-    @Override
-    protected void onResume() {
+    protected void registerBroadcast() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.changeReciever");
         intentFilter.addAction("com.example.change");
@@ -96,7 +96,6 @@ public class MainActivity extends BaseActivity {
         intentFilter.addAction("com.example.last");
         intentFilter.addAction("com.example.add");
         registerReceiver(changeReceiver, intentFilter);
-        super.onResume();
     }
 
     @Override
@@ -104,6 +103,7 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         unregisterReceiver(changeReceiver);
         mPlayer.release();
+        playerHandler.removeMessages(0);
     }
 
     //初始化tab
@@ -128,18 +128,19 @@ public class MainActivity extends BaseActivity {
         playerHandler = new PlayerHandler(foldseekBar, mPlayer, concatenatingMediaSource);
         initSeekBar(foldseekBar);
         mPlayer.setPlayWhenReady(false);
+        playerHandler.sendEmptyMessage(0);
         concatenatingMediaSource.addEventListener(playerHandler, new DefaultMediaSourceEventListener() {
             @Override
             public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
                 super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
                 current++;
-                playerViewFold.setPlayerTime(ChangeTime.calculateTime((singleList.get(current-1).getTime())));
-                playerViewUnFold.setPlayerTime(ChangeTime.calculateTime(singleList.get(current-1).getTime()));
-                playerViewFold.setPlayerTitle(singleList.get(current-1).getTitle());
-                playerViewUnFold.setPlayerTitle(singleList.get(current-1).getTitle());
-                playerViewFold.setImgView(singleList.get(current-1).getImgUrL());
-                playerViewUnFold.setImgView(singleList.get(current-1).getImgUrL());
-                playerHandler.sendEmptyMessage(0);
+                Model.getInstance(getApplication()).addHistory(singleList.get(current - 1));
+                playerViewFold.setPlayerTime(ChangeTime.calculateTime((singleList.get(current - 1).getTime())));
+                playerViewUnFold.setPlayerTime(ChangeTime.calculateTime(singleList.get(current - 1).getTime()));
+                playerViewFold.setPlayerTitle(singleList.get(current - 1).getTitle());
+                playerViewUnFold.setPlayerTitle(singleList.get(current - 1).getTitle());
+                playerViewFold.setImgView(singleList.get(current - 1).getImgUrL());
+                playerViewUnFold.setImgView(singleList.get(current - 1).getImgUrL());
             }
         });
     }
@@ -150,9 +151,6 @@ public class MainActivity extends BaseActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    mPlayer.seekTo((long) seekBar.getProgress());
-                }
             }
 
             @Override
@@ -162,6 +160,8 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                current--;
+                mPlayer.seekTo((long) seekBar.getProgress());
             }
         });
     }
@@ -203,17 +203,19 @@ public class MainActivity extends BaseActivity {
         mPlayer.prepare(concatenatingMediaSource);
     }
 
+    //上一首
     public void lastMusic() {
         Uri uri;
         MediaSource mediaSource;
         mPlayer.seekTo(mPlayer.getDuration());
         if (current > 0) {
-            current=current-2;
+            current = current - 1;
         }
         String url = singleList.get(current).getVioiceUrl();
         uri = Uri.parse(url);
         mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         concatenatingMediaSource.addMediaSource(0, mediaSource);
+        current = current-1;
         mPlayer.prepare(concatenatingMediaSource);
     }
 
@@ -290,7 +292,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static class PlayerHandler extends Handler {
+    private static class PlayerHandler extends Handler {
         WeakReference oneseekBars;
         WeakReference players;
         WeakReference sources;

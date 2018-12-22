@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,9 +25,12 @@ public class SingleActivity extends AppCompatActivity implements SingleView {
     private ImageView share;
     private ImageView subscribe;
     private RecyclerView singleRecycler;
-    private String  imgUrl;
+    private String imgUrl;
     private ImageView albumImg;
     private SingleAdapter singleAdapter;
+    SingleModel singleModel;
+    int start = 0;
+    int end = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +40,62 @@ public class SingleActivity extends AppCompatActivity implements SingleView {
         feedUrl = intent.getStringExtra("feedUrl");
         imgUrl = intent.getStringExtra("imgUrl");
         initView();
-        SingleModel singleModel = new SingleModel(this);
-        singleModel.startXml(feedUrl);
+        singleModel = new SingleModel(this);
+        singleModel.startXml(feedUrl, end, start);
     }
 
     public void initView() {
-         glideLoader = new GlideLoader();
-         singleRecycler = findViewById(R.id.single_recycler);
-         albumTitle = findViewById(R.id.album_title);
-         albumDescription = findViewById(R.id.album_description);
-         albumImg = findViewById(R.id.album_img);
-         share = findViewById(R.id.album_share);
-         subscribe = findViewById(R.id.album_subsrcibe);
+        glideLoader = new GlideLoader();
+        singleRecycler = findViewById(R.id.single_recycler);
+        albumTitle = findViewById(R.id.album_title);
+        albumDescription = findViewById(R.id.album_description);
+        albumImg = findViewById(R.id.album_img);
+        share = findViewById(R.id.album_share);
+        subscribe = findViewById(R.id.album_subsrcibe);
+        ImageView back = findViewById(R.id.more_back);
+        back.setOnClickListener(v-> finish());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         singleRecycler.setLayoutManager(layoutManager);
-        singleAdapter = new SingleAdapter(singleList,this);
+        singleAdapter = new SingleAdapter(singleList, this);
+        singleRecycler.addOnScrollListener(monScrollListener);
         singleRecycler.setAdapter(singleAdapter);
         singleAdapter.notifyDataSetChanged();
-        glideLoader.loadImage(this,imgUrl,albumImg);
+        glideLoader.loadImage(this, imgUrl, albumImg);
+    }
+
+    private int mLastVisibleItemPosition;
+    private RecyclerView.OnScrollListener monScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            if (layoutManager instanceof LinearLayoutManager) {
+                mLastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+            }
+            if (singleAdapter != null) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && mLastVisibleItemPosition + 1 == singleAdapter.getItemCount()) {
+                    //发送网络请求获取更多数据
+                    sendMoreRequest();
+                }
+            }
+        }
+    };
+
+    public void sendMoreRequest() {
+        start = start + 20;
+        end = end + 20;
+        singleModel.startXml(feedUrl, end, start);
     }
 
     @Override
     public void getList(List<Single> singleList) {
-        if (singleList!=null&&singleList.size()!=0) {
-            this.singleList = singleList;
-            singleAdapter.listChange(singleList);
+        if (singleList != null && singleList.size() != 0) {
+            this.singleList.addAll(singleList);
+            singleAdapter.listChange(this.singleList);
             singleAdapter.notifyDataSetChanged();
-        }
-        else {
+        } else {
+            singleAdapter.setIsLoadMore();
         }
     }
 
@@ -76,10 +106,16 @@ public class SingleActivity extends AppCompatActivity implements SingleView {
 
     @Override
     public void setDescription(String description) {
-    albumDescription.setText(description);
+        albumDescription.setText(description);
     }
 
     @Override
     public void setImage(String url) {
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        singleModel.stop();
     }
 }

@@ -45,7 +45,10 @@
         <activity android:name=".activities.PlayerDetailsActivity" />
         <activity android:name=".activities.AboutActivity" />
         <activity android:name=".single.SingleActivity" />
-        <activity android:name=".activities.HistoryActivity"></activity>
+        <activity android:name=".activities.HistoryActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

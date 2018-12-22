@@ -27,16 +27,17 @@
         android:id="@+id/player_view_seekbar_unflod"
         android:layout_width="243dp"
         android:layout_height="2dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/player_view_title_unflod"
         android:layout_alignStart="@+id/player_view_title_unflod"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="10dp"
         android:progressDrawable="@drawable/seekbar_bg" />
 
     <TextView
         android:id="@+id/player_view_time_unfold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/player_view_img_unfold"
+       android:layout_below="@id/player_view_seekbar_unflod"
+        android:layout_marginTop="10dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="32dp"
         android:text="@string/time"
@@ -47,8 +48,7 @@
         android:id="@+id/player_view_pause"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="81dp"
-        android:layout_marginBottom="11dp"
+        android:layout_below="@+id/player_view_time_unfold"
         android:layout_centerHorizontal="true"
         android:src="@drawable/vector_drawable_play" />
 
@@ -59,7 +59,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginStart="104dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/exo_controls_previous"
         android:background="@drawable/playerback"
         />
@@ -68,9 +68,10 @@
         android:id="@+id/next_button"
         android:layout_width="18dp"
         android:layout_height="17dp"
-        android:layout_alignBottom="@+id/player_view_pause"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="103dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:src="@drawable/exo_controls_next"
         android:background="@drawable/playerback"
        />

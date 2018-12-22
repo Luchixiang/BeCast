@@ -34,8 +34,10 @@
         style="@style/playerViewTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/player_view_img"
-        android:layout_alignEnd="@+id/player_view_seekbar"
+        android:layout_below="@+id/player_view_seekbar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/time"
        />
 
@@ -43,9 +45,9 @@
         android:id="@+id/player_view_seekbar"
         android:layout_width="243dp"
         android:layout_height="2dp"
-        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/player_view_title"
-        android:layout_marginTop="46dp"
+        android:layout_below="@+id/player_view_title"
+        android:layout_marginTop="10dp"
         android:progressDrawable="@drawable/seekbar_bg"
         />
 </RelativeLayout>

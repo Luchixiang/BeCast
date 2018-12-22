@@ -6,12 +6,14 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface SingleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addHistory(Single single);
     @Query("SELECT*FROM singleHistory")
-    void getAllHistory();
+    List<Single> getAllHistory();
     @Delete
     void deleteHistory(Single single);
 }

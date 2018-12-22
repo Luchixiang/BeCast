@@ -26,6 +26,8 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.common.util.RxUtil;
+
 public class FirstFragment extends RxFragment {
     private static final String TAG = "luchixiang";
     public List<Top5.Results> list = new ArrayList<>();
