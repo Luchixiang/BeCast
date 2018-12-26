@@ -19,7 +19,7 @@ import java.util.List;
 import library.common.img.GlideLoader;
 
 public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Single> singleList = new ArrayList<>();
+    private List<? extends Single> singleList;
     private Context mContext;
     private GlideLoader glideLoader;
     private static final int view_Foot = 1;
@@ -34,12 +34,12 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         glideLoader = new GlideLoader();
     }
 
-    static class NormalViewHolder extends RecyclerView.ViewHolder {
+    public static class NormalViewHolder extends RecyclerView.ViewHolder {
         TextView singleTitle;
         TextView singleTime;
         ImageView singleImg;
 
-        NormalViewHolder(View view) {
+        public NormalViewHolder(View view) {
             super(view);
             singleImg = view.findViewById(R.id.single_img);
             singleTitle = view.findViewById(R.id.single_title);
@@ -110,8 +110,8 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    static class FootViewHolder extends RecyclerView.ViewHolder {
-        FootViewHolder(View itemView) {
+    protected static class FootViewHolder extends RecyclerView.ViewHolder {
+        public FootViewHolder(View itemView) {
             super(itemView);
         }
     }

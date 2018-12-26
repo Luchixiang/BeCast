@@ -29,7 +29,8 @@
         android:layout_height="80dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="157dp"
-        android:src="@drawable/subsribe" />
+        android:src="@drawable/subsribe"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/me_like"
@@ -38,7 +39,7 @@
         android:layout_marginStart="199dp"
         android:layout_marginTop="157dp"
         android:src="@drawable/shelf"
-        />
+        android:contentDescription="@string/todo" />
     <TextView
         android:id="@+id/me_user_name"
         android:layout_width="wrap_content"

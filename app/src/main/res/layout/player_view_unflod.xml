@@ -57,12 +57,10 @@
         android:layout_width="18dp"
         android:layout_height="17dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:layout_marginStart="104dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/exo_controls_previous"
-        android:background="@drawable/playerback"
-        />
+        android:src="@drawable/vector_drawable_previous"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:id="@+id/next_button"
@@ -72,7 +70,17 @@
         android:layout_marginEnd="103dp"
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/exo_controls_next"
-        android:background="@drawable/playerback"
-       />
+        android:src="@drawable/vector_drawable_next"
+        android:contentDescription="@string/todo" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/vector_drawable_downloadone"
+        android:id="@+id/download_button"
+        android:contentDescription="@string/todo" />
 </RelativeLayout>

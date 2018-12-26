@@ -24,6 +24,12 @@ public class HonrizonViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        performClick();
         return false;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }

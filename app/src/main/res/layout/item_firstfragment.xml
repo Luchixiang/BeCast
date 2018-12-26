@@ -13,7 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/assa"
-      />
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/firstFragment_title"

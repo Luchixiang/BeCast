@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -23,13 +22,11 @@ import com.example.common.model.Model;
 import com.example.common.single.Single;
 import com.example.common.tab.FragmentGenerator;
 import com.example.common.tab.PageAdapter;
-import com.example.common.utils.ChangeTime;
 import com.example.common.utils.HonrizonViewPager;
 import com.example.common.utils.PlayerViewFold;
 import com.example.common.utils.PlayerViewUnFold;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.DefaultMediaSourceEventListener;
@@ -58,14 +55,13 @@ public class MainActivity extends BaseActivity {
     int current = 0;
     PlayerViewFold playerViewFold;
     SeekBar foldseekBar;
-    ChangeReceiver changeReceiver = new ChangeReceiver();
+    ChangeReceiver changeReceiver = new ChangeReceiver(this);
     PlayerHandler playerHandler;
     PlayerViewUnFold playerViewUnFold;
     double transtionY;
     double transtionY2;
     static boolean isFold = true;
     private static final String TAG = "luchixiang";
-    private final String testUrl = "https://media.acast.com/theeconomistallaudio/theeconomistmoneytalks/moneytalks-thechristmasjamboree/media.mp3";
     HonrizonViewPager viewPager;
     TabLayout tabLayout;
 
@@ -135,12 +131,10 @@ public class MainActivity extends BaseActivity {
                 super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
                 current++;
                 Model.getInstance(getApplication()).addHistory(singleList.get(current - 1));
-                playerViewFold.setPlayerTime(ChangeTime.calculateTime((singleList.get(current - 1).getTime())));
-                playerViewUnFold.setPlayerTime(ChangeTime.calculateTime(singleList.get(current - 1).getTime()));
-                playerViewFold.setPlayerTitle(singleList.get(current - 1).getTitle());
-                playerViewUnFold.setPlayerTitle(singleList.get(current - 1).getTitle());
-                playerViewFold.setImgView(singleList.get(current - 1).getImgUrL());
-                playerViewUnFold.setImgView(singleList.get(current - 1).getImgUrL());
+                playerViewFold.setView(singleList.get(current - 1));
+                playerViewUnFold.setView(singleList.get(current - 1));
+                mPlayer.setPlayWhenReady(true);
+                isPlay = true;
             }
         });
     }
@@ -179,15 +173,11 @@ public class MainActivity extends BaseActivity {
     }
 
     //添加队列
-    public void addMusic(String url) {
-        Uri uri = Uri.parse(url);
+    public void addMusic(Uri uri) {
+        mPlayer.setPlayWhenReady(false);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-        concatenatingMediaSource.addMediaSource(mediaSource);
-        if (!mPlayer.getPlayWhenReady() || mPlayer.getPlaybackState() == Player.STATE_IDLE) {
-            mPlayer.setPlayWhenReady(true);
-            isPlay = true;
-            mPlayer.prepare(concatenatingMediaSource);
-        }
+        concatenatingMediaSource.addMediaSource(0, mediaSource);
+        mPlayer.prepare(concatenatingMediaSource);
     }
 
     //下一首
@@ -215,7 +205,7 @@ public class MainActivity extends BaseActivity {
         uri = Uri.parse(url);
         mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         concatenatingMediaSource.addMediaSource(0, mediaSource);
-        current = current-1;
+        current = current - 1;
         mPlayer.prepare(concatenatingMediaSource);
     }
 
@@ -326,52 +316,64 @@ public class MainActivity extends BaseActivity {
     }
 
     //改变播放器的广播
-    public class ChangeReceiver extends BroadcastReceiver {
-        boolean hasChange;
+    public static class ChangeReceiver extends BroadcastReceiver {
+        WeakReference mainActivity;
+
+        public ChangeReceiver(MainActivity mainActivity) {
+            this.mainActivity =new WeakReference<>(mainActivity);
+        }
+
+        public ChangeReceiver() {
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            MainActivity mainActivity = (MainActivity) this.mainActivity.get();
             switch (Objects.requireNonNull(intent.getAction())) {
                 //上下滑动改变view的高度
                 case "com.example.changeReciever": {
-                    changePlayer();
+                    mainActivity.changePlayer();
                 }
                 break;
                 //暂停
                 case "com.example.change":
-                    PlayOrPause();
+                   mainActivity. PlayOrPause();
                     break;
                 //进入具体页面
                 case "com.example.detail":
-                    Intent intent1 = new Intent(MainActivity.this, PlayerDetailsActivity.class);
+                    Intent intent1 = new Intent(mainActivity, PlayerDetailsActivity.class);
                     context.startActivity(intent1);
                     break;
                 //下一首
                 case "com.example.next":
-                    nextMusic();
+                    mainActivity.nextMusic();
                     break;
                 //上一首
                 case "com.example.last":
-                    lastMusic();
+                   mainActivity. lastMusic();
                     break;
                 //添加音乐
                 case "com.example.add":
                     Single single = (Single) intent.getSerializableExtra("single");
-                    String url = single.getVioiceUrl();
-                    singleList.add(single);
-                    Log.d(TAG, "onReceive: " + url);
-                    addMusic(url);
+                    Uri uri;
+                    if (single.getFile()!=null) {
+                        uri = Uri.fromFile(single.getFile());
+                    } else {
+                        uri = Uri.parse(single.getVioiceUrl());
+                    }
+                    mainActivity.singleList.add(0, single);
+                   mainActivity. addMusic(uri);
                     break;
                 //向右滑动tab
                 case "com.example.changeTabToRight":
-                    if (viewPager.getCurrentItem() < 3) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    if (mainActivity.viewPager.getCurrentItem() < 3) {
+                       mainActivity. viewPager.setCurrentItem(mainActivity.viewPager.getCurrentItem() + 1);
                     }
                     break;
                 //向左滑动tab
                 case "com.example.changeTabToLeft":
-                    if (viewPager.getCurrentItem() > 0) {
-                        viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                    if (mainActivity.viewPager.getCurrentItem() > 0) {
+                        mainActivity.viewPager.setCurrentItem(mainActivity.viewPager.getCurrentItem() - 1);
                     }
                     break;
             }

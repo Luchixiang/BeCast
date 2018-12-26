@@ -31,7 +31,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="60dp"
-        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
+        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
+        android:contentDescription="@string/todo" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -39,7 +40,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="252dp"
         android:src="@drawable/vector_drawable_leaderboard"
-        android:background="@drawable/witheback"/>
+        android:background="@drawable/witheback"
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/rank_text"
@@ -67,7 +69,7 @@
     android:layout_marginTop="22dp"
     android:layout_marginStart="23dp"
     android:id="@+id/top1"
-    />
+    android:contentDescription="@string/todo" />
     <ImageView
         android:layout_width="14dp"
         android:layout_height="22dp"
@@ -75,7 +77,8 @@
         android:id="@+id/top2"
         android:layout_below="@+id/top1"
         android:layout_marginStart="23dp"
-        android:layout_marginTop="22dp"/>
+        android:layout_marginTop="22dp"
+        android:contentDescription="@string/todo" />
     <ImageView
         android:layout_width="14dp"
         android:layout_height="22dp"
@@ -83,14 +86,16 @@
         android:layout_marginTop="22dp"
         android:layout_marginStart="23dp"
         android:src="@drawable/vector_drawable_t_3"
-        android:id="@+id/top3"/>
+        android:id="@+id/top3"
+        android:contentDescription="@string/todo" />
     <ImageView
         android:layout_width="17dp"
         android:layout_height="16dp"
         android:layout_below="@+id/tour_rank_recycler"
         android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
-        android:src="@drawable/vector_drawable_choice"/>
+        android:src="@drawable/vector_drawable_choice"
+        android:contentDescription="@string/todo" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -134,7 +139,8 @@
     android:src="@drawable/vector_drawable_search"
     android:layout_alignParentEnd="true"
     android:layout_marginEnd="15dp"
-    android:layout_marginTop="19dp"/>
+    android:layout_marginTop="19dp"
+    android:contentDescription="@string/todo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -153,7 +159,8 @@
             android:layout_marginTop="98dp"
             android:layout_marginStart="18dp"
             android:src="@drawable/vector_drawable_sort"
-            android:id="@+id/sort_img_2"/>
+            android:id="@+id/sort_img_2"
+            android:contentDescription="@string/todo" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

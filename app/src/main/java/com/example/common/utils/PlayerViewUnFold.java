@@ -3,6 +3,7 @@ package com.example.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -11,7 +12,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.single.Single;
 
+import library.common.http.downLoad.DownLoadObserver;
+import library.common.http.downLoad.DownloadManager;
 import library.common.img.GlideLoader;
 
 public class PlayerViewUnFold extends RelativeLayout {
@@ -21,14 +25,12 @@ public class PlayerViewUnFold extends RelativeLayout {
     private SeekBar playerSeekbar;
     private TextView playerTime;
     private GlideLoader glideLoader;
-    private ImageView lastButton;
-    private ImageView nextButton;
-    private ImageView pauseButton;
     private int latestX = 0;
     private int latestY = 0;
     private int distanceY = 0;
     private int distanceX = 0;
     private Intent intent = new Intent();
+    private Single single;
 
     public PlayerViewUnFold(Context context) {
         super(context);
@@ -53,9 +55,20 @@ public class PlayerViewUnFold extends RelativeLayout {
         playerTitle = findViewById(R.id.player_view_title_unflod);
         playerSeekbar = findViewById(R.id.player_view_seekbar_unflod);
         playerTime = findViewById(R.id.player_view_time_unfold);
-        lastButton = findViewById(R.id.last_button);
-        nextButton = findViewById(R.id.next_button);
-        pauseButton = findViewById(R.id.player_view_pause);
+        ImageView lastButton = findViewById(R.id.last_button);
+        ImageView nextButton = findViewById(R.id.next_button);
+        ImageView pauseButton = findViewById(R.id.player_view_pause);
+        ImageView downloadButton = findViewById(R.id.download_button);
+        downloadButton.setOnClickListener(v->{
+            Log.d("hujiewen", "initView: "+single.getVioiceUrl());
+            if (this.single!=null)
+            DownloadManager.getInstance().download(single, new DownLoadObserver() {
+                @Override
+                public void onComplete() {
+
+                }
+            });
+        });
         pauseButton.setOnClickListener(v ->
                 {
                     intent.setAction("com.example.change");
@@ -76,20 +89,12 @@ public class PlayerViewUnFold extends RelativeLayout {
         return this.playerSeekbar;
     }
 
-    public void setPlayerTime(String s) {
-        if (s != null) {
-            playerTime.setText(s);
-        }
-    }
-
-    public void setPlayerTitle(String s) {
-        if (s != null) {
-            playerTitle.setText(s);
-        }
-    }
-
-    public void setImgView(String url) {
-        glideLoader.loadImage(context, url, playerImg);
+    public void setView(Single single)
+    {
+        this.single = single;
+        playerTime.setText(single.getTime());
+        playerTitle.setText(single.getTitle());
+        glideLoader.loadImage(context,single.getImgUrL(),playerImg);
     }
 
     @Override
@@ -153,6 +158,12 @@ public class PlayerViewUnFold extends RelativeLayout {
         }
         latestX = x;
         latestY = y;
+        performClick();
         return true;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }

@@ -3,17 +3,15 @@ package com.example.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Scroller;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.single.Single;
 
 import library.common.img.GlideLoader;
 
@@ -28,7 +26,7 @@ public class PlayerViewFold extends RelativeLayout {
     private int latestY = 0;
     private int distanceX = 0;
     private int distanceY = 0;
-    private Scroller scroller;
+    private Single single;
     private Intent intent = new Intent();
     private static final String TAG = "luchixiang";
 
@@ -57,24 +55,16 @@ public class PlayerViewFold extends RelativeLayout {
         playerTime = findViewById(R.id.player_view_time);
     }
 
-    public void setPlayerTime(String s) {
-        if (s != null) {
-            playerTime.setText(s);
-        }
-    }
-
-    public void setPlayerTitle(String s) {
-        if (s != null) {
-            playerTitle.setText(s);
-        }
-    }
-
     public SeekBar getSeekbar() {
         return this.playerSeekbar;
     }
 
-    public void setImgView(String url) {
-        glideLoader.loadImage(context, url, playerImg);
+    public void setView(Single single)
+    {
+        this.single = single;
+        playerTime.setText(single.getTime());
+        playerTitle.setText(single.getTitle());
+        glideLoader.loadImage(context,single.getImgUrL(),playerImg);
     }
 
     @Override
@@ -142,24 +132,12 @@ public class PlayerViewFold extends RelativeLayout {
         }
         latestX = x;
         latestY = y;
+        performClick();
         return true;
     }
 
-    public static class ViewWrapper {
-        private View target;
-
-        public ViewWrapper(View view) {
-            target = view;
-        }
-
-        public int getHeight() {
-            Log.d("luchixiang", "getHeight: " + target.getLayoutParams().height);
-            return target.getLayoutParams().height;
-        }
-
-        public void setHeight(int height) {
-            target.getLayoutParams().height = height;
-            target.requestLayout();
-        }
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }

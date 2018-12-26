@@ -18,14 +18,15 @@
         android:src="@drawable/ic_back"
         android:layout_marginTop="18dp"
         android:layout_marginStart="15dp"
-        android:id="@+id/more_back"/>
+        android:id="@+id/more_back"
+        android:contentDescription="@string/todo" />
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/album_img"
         android:layout_marginTop="73dp"
         android:layout_centerHorizontal="true"
-       />
+        android:contentDescription="@string/todo" />
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/album_subsrcibe"
         android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
-        />
+        android:contentDescription="@string/todo" />
     <ImageView
         android:layout_width="28dp"
         android:layout_height="28dp"
@@ -51,7 +52,7 @@
         android:layout_marginStart="10dp"
         android:src="@drawable/assa"
         android:id="@+id/album_share"
-        />
+        android:contentDescription="@string/todo" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -18,7 +18,7 @@
             android:id="@+id/chosen_img"
             android:layout_width="30dp"
             android:layout_height="50dp"
-            />
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/chosen_title"

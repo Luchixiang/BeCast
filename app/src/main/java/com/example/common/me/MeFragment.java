@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.common.R;
-import com.example.common.activities.AboutActivity;
-import com.example.common.activities.HistoryActivity;
+import com.example.common.about.AboutActivity;
+import com.example.common.history.HistoryActivity;
+import com.example.common.local.LocalActivity;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import library.common.base.BaseApplication;
@@ -54,6 +55,10 @@ public class MeFragment extends Fragment {
         });
         historyView.setOnClickListener(v->{
             Intent intent = new Intent(mContext, HistoryActivity.class);
+            mContext.startActivity(intent);
+        });
+        localView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, LocalActivity.class);
             mContext.startActivity(intent);
         });
         myHead.setOnClickListener(v-> wxLogin());

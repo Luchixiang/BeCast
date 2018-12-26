@@ -1,5 +1,6 @@
 package com.example.common.tab;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ public class FragmentGenerator {
     }
 
     public static View getTabView(Context context, int positon) {
-        View view = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
         TextView text = view.findViewById(R.id.tab_text);
         text.setText(mTabTitles[positon]);
         return view;

@@ -1,9 +1,11 @@
 package com.example.common.single;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.File;
 import java.io.Serializable;
 @Entity(tableName = "singleHistory")
 public class Single implements Serializable {
@@ -14,6 +16,16 @@ public class Single implements Serializable {
     private String vioiceUrl;
     private String imgUrL;
     private String time;
+    @Ignore
+    private File file = null;
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 
     public String getTime() {
         return time;
@@ -31,13 +43,16 @@ public class Single implements Serializable {
         this.imgUrL = imgUrL;
     }
 
-    public Single(String title, String updataTime, String vioiceUrl,String  imgUrL) {
+    public Single(@NonNull String title, String updataTime, String vioiceUrl, String  imgUrL) {
         this.title = title;
         this.updataTime = updataTime;
         this.vioiceUrl = vioiceUrl;
         this.imgUrL = imgUrL;
     }
-
+    @Ignore
+    public Single()
+    {
+    }
     public String getTitle() {
         return title;
     }

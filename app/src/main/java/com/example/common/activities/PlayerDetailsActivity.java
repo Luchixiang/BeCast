@@ -1,11 +1,12 @@
 package com.example.common.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.common.R;
 
-public class PlayerDetailsActivity extends AppCompatActivity {
+import library.common.base.BaseActivity;
+
+public class PlayerDetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

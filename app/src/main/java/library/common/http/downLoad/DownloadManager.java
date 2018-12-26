@@ -1,5 +1,9 @@
 package library.common.http.downLoad;
 
+import android.util.Log;
+
+import com.example.common.single.Single;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,12 +49,12 @@ public class DownloadManager {
     /**
      * 开始下载
      *
-     * @param url              下载请求的网址
+     * @param single              下载请求的网址
      * @param downLoadObserver 用来回调的接口
      */
-    public void download(String url, DownLoadObserver downLoadObserver) {
-        Observable.just(url)
-                .filter(s -> !downCalls.containsKey(s))//call的map已经有了,就证明正在下载,则这次不下载
+    public void download(Single single, DownLoadObserver downLoadObserver) {
+        Observable.just(single)
+                .filter(s -> !downCalls.containsKey(s.getVioiceUrl()))//call的map已经有了,就证明正在下载,则这次不下载
                 .flatMap(s -> Observable.just(createDownInfo(s)))
                 .map(this::getRealFileName)//检测本地文件夹,生成新的文件名
                 .flatMap(downloadInfo -> Observable.create(new DownloadSubscribe(downloadInfo)))//下载
@@ -72,14 +76,15 @@ public class DownloadManager {
     /**
      * 创建DownInfo
      *
-     * @param url 请求网址
+     * @param single 请求网址
      * @return DownInfo
      */
-    private DownloadInfo createDownInfo(String url) {
-        DownloadInfo downloadInfo = new DownloadInfo(url);
-        long contentLength = getContentLength(url);//获得文件大小
+    private DownloadInfo createDownInfo(Single single) {
+        DownloadInfo downloadInfo = new DownloadInfo(single.getVioiceUrl());
+        long contentLength = getContentLength(single.getVioiceUrl());//获得文件大小
         downloadInfo.setTotal(contentLength);
-        String fileName = url.substring(url.lastIndexOf("/"));
+//        String fileName = url.substring(url.lastIndexOf("/"));
+        String fileName = single.getTitle();
         downloadInfo.setFileName(fileName);
         return downloadInfo;
     }
@@ -111,6 +116,7 @@ public class DownloadManager {
         //设置改变过的文件名/大小
         downloadInfo.setProgress(downloadLength);
         downloadInfo.setFileName(file.getName());
+        Log.d("hujiewen", "getRealFileName: "+file.getName());
         return downloadInfo;
     }
 
@@ -151,6 +157,7 @@ public class DownloadManager {
                     fileOutputStream.write(buffer, 0, len);
                     downloadLength += len;
                     downloadInfo.setProgress(downloadLength);
+                    Log.d("luchixiang", "subscribe: "+downloadLength);
                     e.onNext(downloadInfo);
                 }
                 fileOutputStream.flush();
