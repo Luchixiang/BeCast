@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.interfaces.PlayerListener;
+import com.example.common.utils.BecastPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +22,14 @@ import library.common.img.GlideLoader;
 
 public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<? extends Single> singleList;
-    private Context mContext;
-    private GlideLoader glideLoader;
+    private final Context mContext;
+    private final GlideLoader glideLoader;
     private static final int view_Foot = 1;
     //主要布局
     private static final int view_Normal = 2;
     //是否隐藏
     private boolean isLoadMore = false;
+    private List<PlayerListener> listeners = new ArrayList<>();
 
     public SingleAdapter(List<Single> singleList, Context mContext) {
         this.singleList = singleList;
@@ -34,12 +37,12 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         glideLoader = new GlideLoader();
     }
 
-    public static class NormalViewHolder extends RecyclerView.ViewHolder {
-        TextView singleTitle;
-        TextView singleTime;
-        ImageView singleImg;
+    static class NormalViewHolder extends RecyclerView.ViewHolder {
+        final TextView singleTitle;
+        final TextView singleTime;
+        final ImageView singleImg;
 
-        public NormalViewHolder(View view) {
+        NormalViewHolder(View view) {
             super(view);
             singleImg = view.findViewById(R.id.single_img);
             singleTitle = view.findViewById(R.id.single_title);
@@ -55,11 +58,10 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             NormalViewHolder normalViewHolder = new NormalViewHolder(view);
             view.setOnClickListener(v -> {
                 Single single = singleList.get(normalViewHolder.getAdapterPosition());
-                Intent intent = new Intent("com.example.add");
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("single", single);
-                intent.putExtras(bundle);
-                mContext.sendBroadcast(intent);
+                if (BecastPlayer.getINSTANCE()!=null)
+                {
+                    BecastPlayer.getINSTANCE().addMusic(single);
+                }
             });
             return normalViewHolder;
         } else {
@@ -82,7 +84,7 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Single single = singleList.get(position);
                 ((NormalViewHolder) holder).singleTitle.setText(single.getTitle());
                 ((NormalViewHolder) holder).singleTime.setText(single.getUpdataTime());
-//            glideLoader.loadImage(mContext,single.getImgUrL(),holder.singleImg);
+            glideLoader.loadImage(mContext,single.getImgUrL(),((NormalViewHolder) holder).singleImg);
             }
         }
     }
@@ -110,9 +112,17 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    protected static class FootViewHolder extends RecyclerView.ViewHolder {
-        public FootViewHolder(View itemView) {
+    static class FootViewHolder extends RecyclerView.ViewHolder {
+        FootViewHolder(View itemView) {
             super(itemView);
         }
+    }
+    public void addListener(PlayerListener playerListener)
+    {
+        listeners.add(playerListener);
+    }
+    public void removeListener(PlayerListener playerListener)
+    {
+        listeners.remove(playerListener);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.common.utils;
 
-public class ChangeTime {
+class ChangeTime {
         public static String calculateTime(String timee) {
             int minute;
             int second;

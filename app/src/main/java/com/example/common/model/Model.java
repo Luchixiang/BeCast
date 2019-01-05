@@ -5,12 +5,10 @@ import android.app.Application;
 import com.example.common.single.Single;
 
 public class Model {
-    public static Model INSTANCE = null;
+    private static Model INSTANCE = null;
     private static BecastResoprity becastResoprity;
-    private Application application;
 
-    public Model(Application application) {
-        this.application = application;
+    private Model(Application application) {
     }
     public static Model getInstance(Application application)
     {

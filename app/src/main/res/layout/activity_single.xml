@@ -1,75 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".single.SingleActivity">
+
     <TextView
+        style="@style/about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/more"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"/>
+        android:layout_marginTop="18dp"
+        android:text="@string/more" />
+
     <ImageView
+        android:id="@+id/more_back"
         android:layout_width="11dp"
         android:layout_height="18dp"
-        android:src="@drawable/ic_back"
-        android:layout_marginTop="18dp"
         android:layout_marginStart="15dp"
-        android:id="@+id/more_back"
-        android:contentDescription="@string/todo" />
+        android:layout_marginTop="18dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/ic_back" />
+
     <ImageView
+        android:id="@+id/album_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/album_img"
-        android:layout_marginTop="73dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
         android:contentDescription="@string/todo" />
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/album_img"
-       android:layout_centerHorizontal="true"
-       android:layout_marginTop="19dp"
-       android:id="@+id/album_title"/>
+
+    <TextView
+        android:id="@+id/album_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/album_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp" />
+
     <ImageView
+        android:id="@+id/album_subsrcibe"
         android:layout_width="76dp"
         android:layout_height="28dp"
         android:layout_below="@id/album_title"
         android:layout_marginStart="131dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/album_subsrcibe"
-        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:src="@drawable/assa" />
+
     <ImageView
+        android:id="@+id/album_share"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_toEndOf="@+id/album_subsrcibe"
         android:layout_below="@id/album_title"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:src="@drawable/assa"
-        android:id="@+id/album_share"
-        android:contentDescription="@string/todo" />
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/album_subsrcibe"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/assa" />
+
     <TextView
+        android:id="@+id/album_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/album_subsrcibe"
-        android:id="@+id/album_description"
-       android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
         android:layout_marginEnd="20dp"
-        />
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp" />
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/single_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/single_recycler"
         android:layout_below="@+id/album_description"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="18dp" />
+
+    <ImageView
+        android:id="@+id/single_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/album_description"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/vector_drawable_error"
+        android:contentDescription="@string/todo"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/single_text"
+        style="@style/about_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/single_error"
+        android:layout_centerHorizontal="true"
+        android:text="@string/error"
+        android:visibility="gone" />
 </RelativeLayout>

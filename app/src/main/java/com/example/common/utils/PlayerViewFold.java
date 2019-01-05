@@ -1,7 +1,6 @@
 package com.example.common.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,7 +10,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.interfaces.PlayerListener;
 import com.example.common.single.Single;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import library.common.img.GlideLoader;
 
@@ -26,9 +29,7 @@ public class PlayerViewFold extends RelativeLayout {
     private int latestY = 0;
     private int distanceX = 0;
     private int distanceY = 0;
-    private Single single;
-    private Intent intent = new Intent();
-    private static final String TAG = "luchixiang";
+    private List<PlayerListener> listeners = new ArrayList<>();
 
     public PlayerViewFold(Context context) {
         super(context);
@@ -45,7 +46,7 @@ public class PlayerViewFold extends RelativeLayout {
         initView(context);
     }
 
-    public void initView(Context context) {
+    private void initView(Context context) {
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.plyayer_view, this, true);
         glideLoader = new GlideLoader();
@@ -61,8 +62,7 @@ public class PlayerViewFold extends RelativeLayout {
 
     public void setView(Single single)
     {
-        this.single = single;
-        playerTime.setText(single.getTime());
+        playerTime.setText(ChangeTime.calculateTime(single.getTime()));
         playerTitle.setText(single.getTitle());
         glideLoader.loadImage(context,single.getImgUrL(),playerImg);
     }
@@ -106,25 +106,33 @@ public class PlayerViewFold extends RelativeLayout {
             case MotionEvent.ACTION_UP:
                 //单纯点击则触发暂停
                 if (distanceX == 0 && distanceY == 0) {
-                    intent.setAction("com.example.change");
-                    context.sendBroadcast(intent);
+                    for (PlayerListener playerListener :listeners)
+                    {
+                        playerListener.pause();
+                    }
                 }
                 //向上划 改变
                 else if (distanceY <= -50) {
                     scrollBy(distanceX, 0);
-                    intent.setAction("com.example.changeReciever");
-                    context.sendBroadcast(intent);
+                    for (PlayerListener playerListener :listeners)
+                    {
+                        playerListener.Changer();
+                    }
                     //向左滑Tab
                 } else if (distanceX <= -5) {
                     scrollBy(distanceX, 0);
-                    intent.setAction("com.example.changeTabToLeft");
-                    context.sendBroadcast(intent);
+                    for (PlayerListener playerListener :listeners)
+                    {
+                        playerListener.toLeft();
+                    }
                 }
                 //向右滑Tab
                 else if (distanceX >= 5) {
                     scrollBy(distanceX, 0);
-                    intent.setAction("com.example.changeTabToRight");
-                    context.sendBroadcast(intent);
+                    for (PlayerListener playerListener :listeners)
+                    {
+                        playerListener.toRight();
+                    }
                 }
                 distanceY = 0;
                 distanceX = 0;
@@ -139,5 +147,15 @@ public class PlayerViewFold extends RelativeLayout {
     @Override
     public boolean performClick() {
         return super.performClick();
+    }
+    public void registerListener(PlayerListener playerListener)
+    {
+        if (!listeners.contains(playerListener))
+        listeners.add(playerListener);
+    }
+    public void unRegisterListener(PlayerListener playerListener)
+    {
+        if (!listeners.contains(playerListener))
+        listeners.remove(playerListener);
     }
 }

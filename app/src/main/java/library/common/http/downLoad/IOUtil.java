@@ -3,7 +3,7 @@ package library.common.http.downLoad;
 import java.io.Closeable;
 import java.io.IOException;
 
-public class IOUtil {
+class IOUtil {
     public static void closeAll(Closeable... closeables){
         if(closeables == null){
             return;

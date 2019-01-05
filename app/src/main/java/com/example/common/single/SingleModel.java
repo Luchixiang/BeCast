@@ -1,6 +1,5 @@
 package com.example.common.single;
 
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -25,86 +24,118 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SingleModel {
-    private SingleView singleView;
-    private List<Single> singleList = new ArrayList<>();
-    private String albumTitle;
-    private String albumDescription;
+class SingleModel {
+    private final SingleView singleView;
+    private final List<Single> singleList = new ArrayList<>();
+    private String albumTitle = "";
+    private String albumDescription = "";
+    private static final  int ERROR= 0x000002;
     private static final int ALBUMTITLE = 0x0000001;
-    private SingleHandler singleHandler;
+    private final SingleHandler singleHandler;
     private Element channelElement = null;
-    private ThreadPoolExecutor poolExecutor;
+    private final ThreadPoolExecutor poolExecutor;
     private Runnable runnable;
+
     SingleModel(SingleView singleView) {
         this.singleView = singleView;
-        singleHandler = new SingleHandler(Looper.getMainLooper(),this);
+        singleHandler = new SingleHandler(Looper.getMainLooper(), this);
         poolExecutor = new ThreadPoolExecutor(3, 5,
                 1, TimeUnit.SECONDS, new LinkedBlockingDeque<>(10));
     }
-    public void startXml(String feedUrl,int end, int start) {
+
+    public void startXml(String feedUrl, int end, int start) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(feedUrl).build();
         runnable = () -> {
             Response response;
             singleList.clear();
             try {
-                if (start==0){
+                if (start == 0) {
                     response = client.newCall(request).execute();
-                    assert response != null;
-                    assert response.body() != null;
-                    Log.d("luchixiangg", "startXml: "+feedUrl);
+                    Log.d("luchixiangg", "startXml: " + feedUrl);
                     String data = Objects.requireNonNull(response.body()).string();
                     SAXReader reader = new SAXReader();
                     Document document;
                     document = reader.read(new ByteArrayInputStream(data.getBytes("UTF-8")));
                     Element rootElement = document.getRootElement();
                     channelElement = rootElement.element("channel");
-                    albumTitle = channelElement.element("title").getText();
-                    albumDescription = channelElement.element("description").getText();}
-                List itemElement = channelElement.elements("item");
-                int size = itemElement.size()>=end? end:itemElement.size();
-                for (int i = start; i < size; i++) {
-                    Element element = (Element) itemElement.get(i);
-                    String songTitle = element.element("title").getText();
-                    String time = element.element("duration").getText();
-                    String updataTime = element.element("pubDate").getText();
-                    String voiceUrl = element.element("enclosure").attributeValue("url");
-                    Single single = new Single(songTitle, updataTime, voiceUrl,"");
-                    single.setTime(time);
-                    singleList.add(single);
                 }
-                Message message = new Message();
-                message.what = ALBUMTITLE;
-                singleHandler.sendMessage(message);
+                if (channelElement != null) {
+                    Element titleElement = channelElement.element("title");
+                    if (titleElement != null) albumTitle = titleElement.getText();
+                    titleElement = channelElement.element("description");
+                    if (titleElement != null) albumDescription = titleElement.getText();
+                    List itemElement = channelElement.elements("item");
+                    int size = itemElement.size() >= end ? end : itemElement.size();
+                    for (int i = start; i < size; i++) {
+                        Element element = (Element) itemElement.get(i);
+                        Element subElement;
+                        subElement = element.element("title");
+                        String songTitle = "";
+                        String time = "";
+                        String updataTime;
+                        String realTime = "";
+                        String voiceUrl = "";
+                        if (subElement != null) songTitle = subElement.getText();
+                        subElement = element.element("duration");
+                        if (subElement != null) time = subElement.getText();
+                        subElement = element.element("pubDate");
+                        if (subElement != null) {
+                            updataTime = subElement.getText();
+                            realTime = updataTime.substring(0, updataTime.indexOf("201") + 4);
+                        }
+                        subElement = element.element("enclosure");
+                        if (subElement!=null)
+                            voiceUrl = element.element("enclosure").attributeValue("url");
+                        subElement = element.element("image");
+                        Single single = new Single(songTitle, realTime, voiceUrl, "");
+                        if (subElement != null) {
+                            String imgUrl = subElement.attributeValue("href");
+                            single.setImgUrL(imgUrl);
+                        }
+                        single.setTime(time);
+                        singleList.add(single);
+                    }
+                    Message message = new Message();
+                    message.what = ALBUMTITLE;
+                    singleHandler.sendMessage(message);
+                }
             } catch (IOException | DocumentException e) {
-                e.printStackTrace();
+              Message message = new Message();
+              message.what = ERROR;
+              singleHandler.sendMessage(message);
             }
         };
         poolExecutor.execute(runnable);
     }
-    public static class SingleHandler extends Handler {
-        private WeakReference<SingleModel> singleViewWeakReference;
-        SingleHandler(Looper looper, SingleModel singleModel)
-        {
+
+    static class SingleHandler extends Handler {
+        private final WeakReference<SingleModel> singleViewWeakReference;
+
+        SingleHandler(Looper looper, SingleModel singleModel) {
             super(looper);
             singleViewWeakReference = new WeakReference<>(singleModel);
         }
+
         @Override
-        public void handleMessage( Message msg) {
+        public void handleMessage(Message msg) {
             SingleModel singleModel = singleViewWeakReference.get();
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case ALBUMTITLE:
-                singleModel.singleView.setTitle(singleModel.albumTitle);
-                singleModel.singleView.setDescription(singleModel.albumDescription);
-                singleModel.singleView.getList(singleModel.singleList);
-                break;
+                    singleModel.singleView.setTitle(singleModel.albumTitle);
+                    singleModel.singleView.setDescription(singleModel.albumDescription);
+                    singleModel.singleView.getList(singleModel.singleList);
+                    break;
+                case ERROR:
+                    singleModel.singleView.Error();
+                    break;
             }
         }
     }
-    public void stop()
-    {
+
+    public void stop() {
         singleHandler.removeMessages(ALBUMTITLE);
+        singleHandler.removeMessages(ERROR);
         poolExecutor.remove(runnable);
     }
 }

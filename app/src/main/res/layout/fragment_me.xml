@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +23,6 @@
         android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
 
     <ImageView
-        android:id="@+id/me_subscribe"
         android:layout_width="146dp"
         android:layout_height="80dp"
         android:layout_marginStart="30dp"
@@ -33,7 +31,6 @@
         android:contentDescription="@string/todo" />
 
     <ImageView
-        android:id="@+id/me_like"
         android:layout_width="146dp"
         android:layout_height="80dp"
         android:layout_marginStart="199dp"
@@ -41,7 +38,6 @@
         android:src="@drawable/shelf"
         android:contentDescription="@string/todo" />
     <TextView
-        android:id="@+id/me_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/my_head_img"

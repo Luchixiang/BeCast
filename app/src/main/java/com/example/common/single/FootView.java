@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.example.common.R;
 
 public class FootView extends RelativeLayout {
-    ProgressBar footViewProgressbar;
+    private ProgressBar footViewProgressbar;
 
     public FootView(Context context) {
         this(context, null);

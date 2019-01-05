@@ -1,11 +1,8 @@
 package library.common.http.downLoad;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-
-public  class DownloadInfo  {
+class DownloadInfo  {
     public static final long TOTAL_ERROR = -1;//获取进度失败
-    private String url;
+    private final String url;
     private long total;
     private long progress;
     private String fileName;

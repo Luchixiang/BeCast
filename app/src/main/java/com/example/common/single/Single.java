@@ -53,11 +53,12 @@ public class Single implements Serializable {
     public Single()
     {
     }
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 

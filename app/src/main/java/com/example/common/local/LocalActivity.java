@@ -1,7 +1,6 @@
 package com.example.common.local;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,11 +18,10 @@ import library.common.base.BaseActivity;
 import library.common.base.BaseApplication;
 
 public class LocalActivity extends BaseActivity {
-    private static final String TAG = "hujiwen";
-    private RecyclerView localRecycler;
+    private static final String TAG = "hujiewen";
     private SingleAdapter localSingleAdapter;
-    private List<String> fileName = new ArrayList<>();
-    private List<Single> realList = new ArrayList<>();
+    private final List<String> fileName = new ArrayList<>();
+    private final List<Single> realList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +31,9 @@ public class LocalActivity extends BaseActivity {
         File file = BaseApplication.getApplication().getFilesDir();
         File[] files = file.listFiles();
         Log.d(TAG, "onCreate: " + files.length);
-        for (int i = 0; i < files.length; i++) {
-            fileName.add(files[i].getName());
-            Log.d(TAG, "fileName: " + files[i].getName());
+        for (File file1 : files) {
+            fileName.add(file1.getName());
+            Log.d(TAG, "fileName: " + file1.getName());
         }
         Model.getInstance(getApplication()).getSingleList(singleList -> {
             for (Single single : singleList) {
@@ -50,8 +48,8 @@ public class LocalActivity extends BaseActivity {
         });
     }
 
-    void initView() {
-        localRecycler = findViewById(R.id.local_recycler);
+    private void initView() {
+        RecyclerView localRecycler = findViewById(R.id.local_recycler);
         localSingleAdapter = new SingleAdapter(realList, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         localRecycler.setLayoutManager(linearLayoutManager);

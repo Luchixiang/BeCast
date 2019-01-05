@@ -21,7 +21,8 @@
         android:layout_marginStart="92dp"
         android:layout_marginTop="13dp"
         android:text="@string/title"
-        style="@style/playerViewTitle"/>
+        style="@style/playerViewTitle"
+        android:maxLines="1"/>
 
     <SeekBar
         android:id="@+id/player_view_seekbar_unflod"
@@ -46,8 +47,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/player_view_pause"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/player_view_time_unfold"
         android:layout_centerHorizontal="true"
         android:src="@drawable/vector_drawable_play" />

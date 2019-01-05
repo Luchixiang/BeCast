@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BecastResoprity {
-    private SingleDao singleDao;
-    private List<AsyncTask> asyncTasks = new ArrayList<>();
+    private final SingleDao singleDao;
+    private final List<AsyncTask> asyncTasks = new ArrayList<>();
     private static BecastResoprity INSTANCE = null;
     private static final String TAG = "luchixiang";
 
@@ -37,7 +37,7 @@ public class BecastResoprity {
     }
 
     private static class InsertFavoriteAsynTask extends AsyncTask<Single, Void, Void> {
-        private SingleDao singleDao;
+        private final SingleDao singleDao;
 
         InsertFavoriteAsynTask(SingleDao singleDao) {
             this.singleDao = singleDao;
@@ -59,9 +59,9 @@ public class BecastResoprity {
     }
 
     private static class getHistoryTask extends AsyncTask<Void, Void, List<Single>> {
-        private SingleDao singleDao;
+        private final SingleDao singleDao;
         private List<Single> singles = new ArrayList<>();
-        private HistoryCallBack historyCallBack;
+        private final HistoryCallBack historyCallBack;
 
         getHistoryTask(SingleDao singleDao,HistoryCallBack historyCallBack) {
             this.singleDao = singleDao;

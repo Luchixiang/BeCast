@@ -7,12 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.HashMap;
 
 public class PageAdapter extends FragmentPagerAdapter {
-    private int num;
+    private final int num;
     @SuppressLint("UseSparseArrays")
-    private HashMap<Integer, android.support.v4.app.Fragment> mfragments = new HashMap<>();
-    private android.support.v4.app.Fragment[] fragments;
+    private final HashMap<Integer, android.support.v4.app.Fragment> mfragments = new HashMap<>();
 
-   public PageAdapter(FragmentManager fm, int num) {
+    public PageAdapter(FragmentManager fm, int num) {
        //luchixiang
         super(fm);
         this.num = num;
@@ -35,7 +34,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     private android.support.v4.app.Fragment createFragment(int pos) {
         android.support.v4.app.Fragment fragment = mfragments.get(pos);
-        fragments = FragmentGenerator.getFragments();
+        android.support.v4.app.Fragment[] fragments = FragmentGenerator.getFragments();
         if (fragment == null) {
             switch (pos) {
                 case 0:

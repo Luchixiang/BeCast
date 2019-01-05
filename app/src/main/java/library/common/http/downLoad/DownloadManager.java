@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Observable;
@@ -24,8 +25,8 @@ import okhttp3.Response;
 
 public class DownloadManager {
     private static final AtomicReference<DownloadManager> INSTANCE = new AtomicReference<>();
-    private HashMap<String, Call> downCalls;//用来存放各个下载的请求
-    private OkHttpClient mClient;//OKHttpClient;
+    private final HashMap<String, Call> downCalls;//用来存放各个下载的请求
+    private final OkHttpClient mClient;//OKHttpClient;
 
     //获得一个单例类
     public static DownloadManager getInstance() {
@@ -121,7 +122,7 @@ public class DownloadManager {
     }
 
     private class DownloadSubscribe implements ObservableOnSubscribe<DownloadInfo> {
-        private DownloadInfo downloadInfo;
+        private final DownloadInfo downloadInfo;
 
         DownloadSubscribe(DownloadInfo downloadInfo) {
             this.downloadInfo = downloadInfo;
@@ -149,7 +150,7 @@ public class DownloadManager {
             FileOutputStream fileOutputStream = null;
             try {
                 assert response.body() != null;
-                is = response.body().byteStream();
+                is = Objects.requireNonNull(response.body()).byteStream();
                 fileOutputStream = new FileOutputStream(file, true);
                 byte[] buffer = new byte[2048];//缓冲数组2kB
                 int len;
@@ -174,8 +175,8 @@ public class DownloadManager {
     /**
      * 获取下载长度
      *
-     * @param downloadUrl
-     * @return
+     * @param downloadUrl= "
+     * @return DownloadInfo.TOTAL_ERROR
      */
     private long getContentLength(String downloadUrl) {
         Request request = new Request.Builder()
@@ -184,7 +185,7 @@ public class DownloadManager {
         try {
             Response response = mClient.newCall(request).execute();
             if (response != null && response.isSuccessful()) {
-                long contentLength = response.body().contentLength();
+                long contentLength = Objects.requireNonNull(response.body()).contentLength();
                 response.close();
                 return contentLength == 0 ? DownloadInfo.TOTAL_ERROR : contentLength;
             }

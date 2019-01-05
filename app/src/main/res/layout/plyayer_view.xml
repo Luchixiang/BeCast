@@ -27,6 +27,7 @@
         android:layout_marginTop="17dp"
         android:layout_toEndOf="@+id/player_view_img"
         android:text="@string/title"
+        android:maxLines="1"
        />
 
     <TextView

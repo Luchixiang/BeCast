@@ -5,7 +5,6 @@ import android.app.Application;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
-import com.example.common.R;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -14,10 +13,9 @@ import java.util.Map;
 
 import library.common.util.Utils;
 import okhttp3.OkHttpClient;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class BaseApplication extends Application {
-    Map<String, Object> headerMaps = new HashMap<>();
+    private final Map<String, Object> headerMaps = new HashMap<>();
 
     private static BaseApplication APPLICATION;
     public static IWXAPI mWxApi;

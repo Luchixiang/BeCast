@@ -18,15 +18,14 @@ import java.util.List;
 import library.common.img.GlideLoader;
 
 public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdapter.ViewHolder> {
-    private Context mContext;
-    private RecyclerView recyclerView;
-    private GlideLoader glideLoader;
-    private List<Top5.Results> resultsList;
+    private final Context mContext;
+    private final GlideLoader glideLoader;
+    private List<Bean.Results> resultsList;
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView chosenTitle;
-        ImageView chosenImg;
-        TextView chosenTime;
-        TextView chosenName;
+        final TextView chosenTitle;
+        final ImageView chosenImg;
+        final TextView chosenTime;
+        final TextView chosenName;
 
         ViewHolder(View view) {
             super(view);
@@ -36,10 +35,9 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
             chosenTime = view.findViewById(R.id.firstFragment_time);
         }
     }
-    FirstFragmentAdapter(Context mContext, List<Top5.Results> resultsList, RecyclerView recyclerView) {
+    FirstFragmentAdapter(Context mContext, List<Bean.Results> resultsList, RecyclerView recyclerView) {
         this.mContext = mContext;
         this.resultsList = resultsList;
-        this.recyclerView = recyclerView;
         glideLoader =new GlideLoader();
     }
 
@@ -50,7 +48,7 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
        ViewHolder viewHolder= new ViewHolder(view);
         view.setOnClickListener(v -> {
             int position = viewHolder.getAdapterPosition();
-            Top5.Results results = resultsList.get(position);
+            Bean.Results results = resultsList.get(position);
             Intent intent = new Intent(mContext, SingleActivity.class);
             intent.putExtra("feedUrl",results.getFeedUrl());
             intent.putExtra("imgUrl",results.getArtworkUrl100());
@@ -63,13 +61,13 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
     public void onBindViewHolder(@NonNull FirstFragmentAdapter.ViewHolder holder, int position) {
         if (!resultsList.isEmpty())
         {
-           Top5.Results results = resultsList.get(position);
+           Bean.Results results = resultsList.get(position);
            holder.chosenTitle.setText(results.getCollectionName());
            holder.chosenName.setText(results.getArtistName());
            glideLoader.loadImage(mContext,results.getArtworkUrl30(),holder.chosenImg);
         }
     }
-    public void listChanger(List<Top5.Results> resultsList)
+    public void listChanger(List<Bean.Results> resultsList)
     {
         this.resultsList = resultsList;
     }

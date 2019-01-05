@@ -14,7 +14,7 @@ import com.example.common.tour.TourFragment;
 
 public class FragmentGenerator {
 
-    public static final String[] mTabTitles = {"收藏", "游览", "我的"};
+    private static final String[] mTabTitles = {"收藏", "游览", "我的"};
 
     public static Fragment[] getFragments() {
         Fragment[] fragments = new Fragment[3];

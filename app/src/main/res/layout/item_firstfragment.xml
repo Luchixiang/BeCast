@@ -23,6 +23,7 @@
         android:layout_marginStart="135dp"
         android:layout_marginTop="22dp"
         style="@style/FirstFragmentItemTitle"
+        android:maxLines="1"
         />
     <TextView
         android:id="@+id/firstFragment_name"
@@ -32,14 +33,16 @@
         android:layout_below="@+id/firstFragment_title"
         android:layout_marginStart="135dp"
         android:layout_marginTop="17dp"
-        style="@style/FirstFragmentItemName" />
+        style="@style/FirstFragmentItemName"
+        android:maxLines="1"/>
     <TextView
         android:id="@+id/firstFragment_time"
         android:layout_width="wrap_content"
-        android:layout_height="14dp"
+        android:layout_height="wrap_content"
         android:text="@string/a"
         android:layout_marginStart="248dp"
         android:layout_marginTop="96dp"
         android:layout_marginBottom="20dp"
-        style="@style/FirstFragmentItemTime" />
+        style="@style/FirstFragmentItemTime"
+        android:maxLines="1"/>
 </RelativeLayout>

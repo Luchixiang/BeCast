@@ -55,17 +55,9 @@ public class GlideLoader implements Loader {
 
     @Override
     public void loadImage(android.app.Fragment fragment, String res, ImageView target) {
-        Glide.with(fragment)
-                .load(res)
-                .into(target);
-
     }
 
     @Override
     public void loadImage(android.app.Fragment fragment, int res, ImageView target) {
-        Glide.with(fragment)
-                .load(res)
-                .into(target);
-
     }
 }

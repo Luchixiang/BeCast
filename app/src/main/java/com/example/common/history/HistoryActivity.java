@@ -15,8 +15,7 @@ import java.util.List;
 import library.common.base.BaseActivity;
 
 public class HistoryActivity extends BaseActivity {
-    private RecyclerView historyRecycler;
-    private List<Single> singleList = new ArrayList<>();
+    private final List<Single> singleList = new ArrayList<>();
     private SingleAdapter singleAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +24,9 @@ public class HistoryActivity extends BaseActivity {
         initView();
         getHistory();
     }
-    public void initView()
+    private void initView()
     {
-        historyRecycler = findViewById(R.id.history_recycler);
+        RecyclerView historyRecycler = findViewById(R.id.history_recycler);
         singleAdapter = new SingleAdapter(singleList,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         historyRecycler.setLayoutManager(linearLayoutManager);
@@ -36,7 +35,7 @@ public class HistoryActivity extends BaseActivity {
         singleAdapter.setIsLoadMore();
     }
 
-    public void getHistory()
+    private void getHistory()
     {
        Model.getInstance(getApplication()).getSingleList(singleList -> {
            singleAdapter.listChange(singleList);

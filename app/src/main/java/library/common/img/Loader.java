@@ -5,7 +5,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 
-public interface Loader {
+interface Loader {
     void loadImage(Context context, String res, ImageView target);
 
     void loadImage(Context context, int res, ImageView target);

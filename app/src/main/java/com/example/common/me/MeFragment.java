@@ -42,7 +42,7 @@ public class MeFragment extends Fragment {
         }
         return rootView;
     }
-    public void initView(View view)
+    private void initView(View view)
     {
         View localView = view.findViewById(R.id.local);
         View historyView = view.findViewById(R.id.history);
@@ -68,7 +68,7 @@ public class MeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d("luuchixiang", "onCreate: "+"2");
     }
-    public void wxLogin() {
+    private void wxLogin() {
         if (!BaseApplication.mWxApi.isWXAppInstalled()) {
             Toast.makeText(mContext,"没有安装微信客户端",Toast.LENGTH_LONG).show();
             return;
