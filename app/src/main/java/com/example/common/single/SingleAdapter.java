@@ -29,7 +29,6 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int view_Normal = 2;
     //是否隐藏
     private boolean isLoadMore = false;
-    private List<PlayerListener> listeners = new ArrayList<>();
 
     public SingleAdapter(List<Single> singleList, Context mContext) {
         this.singleList = singleList;
@@ -58,8 +57,7 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             NormalViewHolder normalViewHolder = new NormalViewHolder(view);
             view.setOnClickListener(v -> {
                 Single single = singleList.get(normalViewHolder.getAdapterPosition());
-                if (BecastPlayer.getINSTANCE()!=null)
-                {
+                if (BecastPlayer.getINSTANCE() != null) {
                     BecastPlayer.getINSTANCE().addMusic(single);
                 }
             });
@@ -84,7 +82,7 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Single single = singleList.get(position);
                 ((NormalViewHolder) holder).singleTitle.setText(single.getTitle());
                 ((NormalViewHolder) holder).singleTime.setText(single.getUpdataTime());
-            glideLoader.loadImage(mContext,single.getImgUrL(),((NormalViewHolder) holder).singleImg);
+                glideLoader.loadImage(mContext, single.getImgUrL(), ((NormalViewHolder) holder).singleImg);
             }
         }
     }
@@ -116,13 +114,5 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         FootViewHolder(View itemView) {
             super(itemView);
         }
-    }
-    public void addListener(PlayerListener playerListener)
-    {
-        listeners.add(playerListener);
-    }
-    public void removeListener(PlayerListener playerListener)
-    {
-        listeners.remove(playerListener);
     }
 }

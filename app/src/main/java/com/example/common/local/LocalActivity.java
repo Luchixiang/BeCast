@@ -39,7 +39,7 @@ public class LocalActivity extends BaseActivity {
             for (Single single : singleList) {
                 Log.d(TAG, "asd: " + single.getTitle());
                 if (fileName.contains(single.getTitle())) {
-                     single.setFile(files[fileName.indexOf(single.getTitle())]);
+                    single.setFile(files[fileName.indexOf(single.getTitle())]);
                     realList.add(single);
                 }
             }
@@ -51,6 +51,7 @@ public class LocalActivity extends BaseActivity {
     private void initView() {
         RecyclerView localRecycler = findViewById(R.id.local_recycler);
         localSingleAdapter = new SingleAdapter(realList, this);
+        findViewById(R.id.about_back).setOnClickListener(v -> finish());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         localRecycler.setLayoutManager(linearLayoutManager);
         localRecycler.setAdapter(localSingleAdapter);

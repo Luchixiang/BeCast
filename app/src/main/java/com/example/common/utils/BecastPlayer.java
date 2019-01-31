@@ -38,19 +38,18 @@ public class BecastPlayer {
     private ExoPlayer mPlayer;
     private int current = 0;
     private static final String TAG = "luchixiang";
+    private boolean isFromUser = false;
     private PlayerHandler playerHandler;
     private BecastPlayerCallBack becastPlayerCallBack;
     private static BecastPlayer INSTANCE;
     private List<Single> singleList = new ArrayList<>();
+    private Single currentSingle = new Single();
 
     public BecastPlayer(BecastPlayerCallBack becastPlayerCallBack) {
         this.becastPlayerCallBack = becastPlayerCallBack;
         initPlay();
         initSeekBar(becastPlayerCallBack.getSeekBar());
         INSTANCE = this;
-    }
-
-    private BecastPlayer() {
     }
 
     private void initPlay() {
@@ -138,15 +137,21 @@ public class BecastPlayer {
             @Override
             public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
                 super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData);
-                if (mPlayer.getContentPosition() == 0) {
+                if (mPlayer.getCurrentPosition() == 0 && !isFromUser) {
                     current++;
-                    Log.d(TAG, "current++: " + current);
+                    currentSingle = singleList.get(current - 1);
+                    for (Single single : singleList) single.setPlay(false);
+                    becastPlayerCallBack.storeInformation(currentSingle);
+                    becastPlayerCallBack.changeTitle(currentSingle);
+                    currentSingle.setHasListened(true);
+                    currentSingle.setPlay(true);
                 }
-                becastPlayerCallBack.changeTitle(singleList.get(current - 1));
                 mPlayer.setPlayWhenReady(true);
                 isPlay = true;
+                isFromUser = false;
             }
         });
+        mPlayer.prepare(concatenatingMediaSource);
     }
 
     public void initSeekBar(SeekBar seekBar) {
@@ -164,6 +169,7 @@ public class BecastPlayer {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                isFromUser = true;
                 mPlayer.seekTo((long) seekBar.getProgress());
             }
         });
@@ -205,13 +211,14 @@ public class BecastPlayer {
     public void lastMusic() {
         Uri uri;
         MediaSource mediaSource;
-        if (current > 1) {
-            current = current - 2;
-            String url = singleList.get(current).getVioiceUrl();
+        if (current >= 1) {
+            current = current - 1;
+            String url = singleList.get(current - 1).getVioiceUrl();
             uri = Uri.parse(url);
             mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
             concatenatingMediaSource.addMediaSource(0, mediaSource);
             mPlayer.seekTo(0);
+            current = current - 1;
         }
         mPlayer.prepare(concatenatingMediaSource);
     }
@@ -235,11 +242,16 @@ public class BecastPlayer {
         } else {
             uri = Uri.parse(single.getVioiceUrl());
         }
-        mPlayer.setPlayWhenReady(false);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
         concatenatingMediaSource.addMediaSource(0, mediaSource);
-        singleList.add(current, single);
-        mPlayer.prepare(concatenatingMediaSource);
+        if (!currentSingle.getTitle().equals(single.getTitle())) {
+            mPlayer.setPlayWhenReady(false);
+            if (singleList.contains(single)) {
+                singleList.remove(single);
+            }
+            singleList.add(current, single);
+            mPlayer.prepare(concatenatingMediaSource);
+        }
     }
 
     public void PlayOrPause() {
@@ -257,10 +269,39 @@ public class BecastPlayer {
         playerHandler.removeMessages(0);
     }
 
-    public static BecastPlayer getINSTANCE() {
-        if (INSTANCE != null) {
-            return INSTANCE;
+    public void initSingleList(List<Single> singleList) {
+        this.singleList = singleList;
+        int nowNumber = 0;
+        for (int i = 0; i < singleList.size(); i++) {
+            if (singleList.get(i).isPlay()) {
+                nowNumber = i;
+                current = nowNumber;
+                break;
+            }
         }
-        return new BecastPlayer();
+        for (int j = nowNumber; j < singleList.size(); j++) {
+            Single single = singleList.get(j);
+            Uri uri;
+            if (single.getFile() != null) {
+                uri = Uri.fromFile(single.getFile());
+            } else {
+                uri = Uri.parse(single.getVioiceUrl());
+            }
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+            concatenatingMediaSource.addMediaSource(mediaSource);
+        }
+        mPlayer.setPlayWhenReady(false);
+        isPlay = false;
+        mPlayer.prepare(concatenatingMediaSource);
+    }
+
+    public static BecastPlayer getINSTANCE() {
+        return INSTANCE;
+    }
+
+    public void storeInformation() {
+        for (Single single : singleList) {
+            becastPlayerCallBack.storeInformation(single);
+        }
     }
 }

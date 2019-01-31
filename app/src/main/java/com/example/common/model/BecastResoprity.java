@@ -17,7 +17,7 @@ public class BecastResoprity {
     private static final String TAG = "luchixiang";
 
     //得到仓库实例
-   public BecastResoprity(Application application) {
+    BecastResoprity(Application application) {
         BecastDataBase becastDataBase = BecastDataBase.getDatabase(application);
         singleDao = becastDataBase.singleDao();
     }
@@ -71,6 +71,34 @@ public class BecastResoprity {
         @Override
         protected List<Single> doInBackground(Void... voids) {
             this.singles = singleDao.getAllHistory();
+            return singles;
+        }
+
+        @Override
+        protected void onPostExecute(List<Single> singleList) {
+            historyCallBack.getHistoryList(singleList);
+            super.onPostExecute(singleList);
+        }
+    }
+    public void getAllList(HistoryCallBack historyCallBack) {
+        getAllListTask getAllListTask = new getAllListTask(singleDao,historyCallBack);
+        asyncTasks.add(getAllListTask);
+        getAllListTask.execute();
+    }
+
+    private static class getAllListTask extends AsyncTask<Void, Void, List<Single>> {
+        private final SingleDao singleDao;
+        private List<Single> singles = new ArrayList<>();
+        private final HistoryCallBack historyCallBack;
+
+        getAllListTask(SingleDao singleDao,HistoryCallBack historyCallBack) {
+            this.singleDao = singleDao;
+            this.historyCallBack = historyCallBack;
+        }
+
+        @Override
+        protected List<Single> doInBackground(Void... voids) {
+            this.singles = singleDao.getAllList();
             return singles;
         }
 

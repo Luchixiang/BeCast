@@ -10,4 +10,5 @@ public interface BecastPlayerCallBack {
     void changeTitle(Single single);
     SeekBar getSeekBar();
     Context getContext();
+    void storeInformation(Single single);
 }

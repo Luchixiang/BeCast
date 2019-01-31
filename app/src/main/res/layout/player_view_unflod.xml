@@ -27,10 +27,12 @@
     <SeekBar
         android:id="@+id/player_view_seekbar_unflod"
         android:layout_width="243dp"
-        android:layout_height="2dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/player_view_title_unflod"
         android:layout_alignStart="@+id/player_view_title_unflod"
         android:layout_marginTop="10dp"
+        android:thumb="@drawable/slider_thum_normal"
+        android:maxHeight="2dp"
         android:progressDrawable="@drawable/seekbar_bg" />
 
     <TextView

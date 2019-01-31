@@ -8,6 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/local_recycler"
+        android:layout_below="@id/local_back"
+        android:layout_marginTop="10dp"
         >
     </android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/local_back"
+        android:layout_width="11dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="18dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/ic_back" />
 </RelativeLayout>

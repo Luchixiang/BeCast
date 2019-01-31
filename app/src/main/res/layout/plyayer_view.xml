@@ -37,18 +37,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/player_view_seekbar"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
         android:text="@string/time"
        />
 
     <SeekBar
         android:id="@+id/player_view_seekbar"
         android:layout_width="243dp"
-        android:layout_height="2dp"
+        android:layout_height="wrap_content"
         android:layout_alignStart="@+id/player_view_title"
         android:layout_below="@+id/player_view_title"
         android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:splitTrack="false"
+        android:maxHeight="2dp"
         android:progressDrawable="@drawable/seekbar_bg"
+        android:thumb="@drawable/slider_thum_normal"
         />
 </RelativeLayout>

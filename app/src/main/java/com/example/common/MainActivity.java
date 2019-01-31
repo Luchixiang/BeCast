@@ -47,8 +47,14 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
         transtionY2 = playerViewUnFold.getTranslationY();
         initTab();
         becastPlayer = new BecastPlayer(this);
+        Model.getInstance(getApplication()).getSingleList(singleList -> becastPlayer.initSingleList(singleList));
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        becastPlayer.storeInformation();
+    }
 
     @Override
     protected void onDestroy() {
@@ -189,7 +195,6 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
 
     @Override
     public void changeTitle(Single single) {
-        Model.getInstance(getApplication()).addHistory(single);
         playerViewFold.setView(single);
         playerViewUnFold.setView(single);
     }
@@ -202,6 +207,11 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    public void storeInformation(Single single) {
+        Model.getInstance(getApplication()).addHistory(single);
     }
 }
 

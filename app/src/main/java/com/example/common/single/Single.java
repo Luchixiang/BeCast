@@ -16,7 +16,27 @@ public class Single implements Serializable {
     private String vioiceUrl;
     private String imgUrL;
     private String time;
+    private boolean hasListened = false;
+    private boolean isPlay = false;
+
+    public boolean isPlay() {
+        return isPlay;
+    }
+
+    public void setPlay(boolean play) {
+        isPlay = play;
+    }
+
+    public boolean isHasListened() {
+        return hasListened;
+    }
+
+    public void setHasListened(boolean hasListened) {
+        this.hasListened = hasListened;
+    }
+
     @Ignore
+
     private File file = null;
 
     public File getFile() {

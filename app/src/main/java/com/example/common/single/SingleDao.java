@@ -9,11 +9,14 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface SingleDao {
+public interface
+SingleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addHistory(Single single);
-    @Query("SELECT*FROM singleHistory")
+    @Query("SELECT*FROM singleHistory WHERE hasListened = 1")
     List<Single> getAllHistory();
     @Delete
     void deleteHistory(Single single);
+    @Query("SELECT*FROM singleHistory")
+    List<Single> getAllList();
 }
