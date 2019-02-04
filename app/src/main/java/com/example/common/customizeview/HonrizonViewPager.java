@@ -1,4 +1,4 @@
-package com.example.common.utils;
+package com.example.common.customizeview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

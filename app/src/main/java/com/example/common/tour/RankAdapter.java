@@ -26,6 +26,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
         private final TextView rankName;
         private final ImageView rankImg;
         private final TextView rankNumber;
+
         ViewHolder(View itemView) {
             super(itemView);
             rankName = itemView.findViewById(R.id.rank_name);
@@ -44,13 +45,14 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rank, parent, false);
-        ViewHolder viewHolder= new ViewHolder(view);
-        view.setOnClickListener(v->{
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setOnClickListener(v -> {
             int position = viewHolder.getAdapterPosition();
             Bean.Results results = rankList.get(position);
             Intent intent = new Intent(context, SingleActivity.class);
-            intent.putExtra("feedUrl",results.getFeedUrl());
-            intent.putExtra("imgUrl",results.getArtworkUrl100());
+            intent.putExtra("feedUrl", results.getFeedUrl());
+            intent.putExtra("imgUrl", results.getArtworkUrl100());
+            intent.putExtra("title", results.getCollectionName());
             context.startActivity(intent);
         });
         return viewHolder;
@@ -58,14 +60,12 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (rankList!=null&&rankList.size()!=0)
-        {
+        if (rankList != null && rankList.size() != 0) {
             Bean.Results results = rankList.get(position);
             holder.rankTitle.setText(results.getCollectionName());
             holder.rankName.setText(results.getPrimaryGenreName());
         }
-        switch (position)
-        {
+        switch (position) {
             case 0:
                 holder.rankImg.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.vector_drawable_t_1, null));
                 holder.rankNumber.setVisibility(View.GONE);
@@ -78,9 +78,9 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
                 holder.rankImg.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.vector_drawable_t_3, null));
                 holder.rankNumber.setVisibility(View.GONE);
                 break;
-                default:
-                    //holder.rankImg.setVisibility(View.GONE);
-                    holder.rankNumber.setText(String.valueOf(position+1));
+            default:
+                //holder.rankImg.setVisibility(View.GONE);
+                holder.rankNumber.setText(String.valueOf(position + 1));
         }
     }
 
@@ -88,8 +88,8 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     public int getItemCount() {
         return 10;
     }
-    public void listChanged(List<Bean.Results> resultsList)
-    {
+
+    public void listChanged(List<Bean.Results> resultsList) {
         this.rankList = resultsList;
         this.notifyDataSetChanged();
     }

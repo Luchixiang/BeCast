@@ -6,22 +6,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.customizeview.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import library.common.base.BaseActivity;
+import library.common.base.BaseSwipeActivity;
 import library.common.img.GlideLoader;
 
-public class SingleActivity extends BaseActivity implements SingleView {
+public class SingleActivity extends BaseSwipeActivity implements SingleView, ObservableScrollView.OnObservableScrollViewScrollChanged {
     private String feedUrl;
     private static final String TAG = "luchixiangg";
     private final List<Single> singleList = new ArrayList<>();
     private TextView albumTitle;
     private TextView albumDescription;
+    private RelativeLayout ll_topView;
+    private RelativeLayout ll_fixedView;
+    private ObservableScrollView observableScrollView;
+    private TextView moreTitle;
     private RecyclerView singleRecycler;
     private String imgUrl;
     private ImageView errorImg;
@@ -30,6 +39,8 @@ public class SingleActivity extends BaseActivity implements SingleView {
     private SingleModel singleModel;
     private int start = 0;
     private int end = 20;
+    private int mHeight = 0;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,7 @@ public class SingleActivity extends BaseActivity implements SingleView {
         Intent intent = getIntent();
         feedUrl = intent.getStringExtra("feedUrl");
         imgUrl = intent.getStringExtra("imgUrl");
+        title = intent.getStringExtra("title");
         initView();
         singleModel = new SingleModel(this);
         singleModel.startXml(feedUrl, end, start);
@@ -52,9 +64,16 @@ public class SingleActivity extends BaseActivity implements SingleView {
         ImageView share = findViewById(R.id.album_share);
         ImageView subscribe = findViewById(R.id.album_subsrcibe);
         ImageView back = findViewById(R.id.more_back);
-        back.setOnClickListener(v-> finish());
+        moreTitle = findViewById(R.id.more_title);
+        moreTitle.setText(title);
+        ll_fixedView = findViewById(R.id.ll_fixedLayout);
+        ll_topView = findViewById(R.id.ll_topView);
+        observableScrollView = findViewById(R.id.sv_scroller);
+        observableScrollView.setOnObservableScrollViewScrollChanged(this);
+        back.setOnClickListener(v -> finish());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         singleRecycler.setLayoutManager(layoutManager);
+        singleRecycler.setNestedScrollingEnabled(false);
         singleAdapter = new SingleAdapter(singleList, this);
         singleRecycler.addOnScrollListener(monScrollListener);
         singleRecycler.setAdapter(singleAdapter);
@@ -121,5 +140,26 @@ public class SingleActivity extends BaseActivity implements SingleView {
         singleRecycler.setVisibility(View.GONE);
         errorImg.setVisibility(View.VISIBLE);
         errorText.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onObservableScrollViewScrollChanged(int l, int t, int oldl, int oldt) {
+        if (t >= mHeight) {
+            if (moreTitle.getParent() != ll_fixedView) {
+                ll_topView.removeView(moreTitle);
+                ll_fixedView.addView(moreTitle);
+            }
+        } else {
+            if (moreTitle.getParent() != ll_topView) {
+                ll_fixedView.removeView(moreTitle);
+                ll_topView.addView(moreTitle);
+            }
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        mHeight = singleRecycler.getTop();
     }
 }

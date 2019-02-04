@@ -51,6 +51,7 @@ public class ChooseAdapter extends RecyclerView.Adapter<ChooseAdapter.ViewHolder
             Intent intent = new Intent(context, SingleActivity.class);
             intent.putExtra("feedUrl",results.getFeedUrl());
             intent.putExtra("imgUrl",results.getArtworkUrl100());
+            intent.putExtra("title",results.getCollectionName());
             context.startActivity(intent);
         });
         return viewHolder;

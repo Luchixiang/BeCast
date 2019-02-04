@@ -35,5 +35,6 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
         <activity android:name=".local.LocalActivity" />
+        <activity android:name="library.common.base.BaseSwipeActivity" />
     </application>
 </manifest>

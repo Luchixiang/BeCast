@@ -14,7 +14,7 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
-        <com.example.common.utils.HonrizonViewPager
+        <com.example.common.customizeview.HonrizonViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -16,7 +16,7 @@ import com.example.common.single.Single;
 import com.example.common.tab.FragmentGenerator;
 import com.example.common.tab.PageAdapter;
 import com.example.common.utils.BecastPlayer;
-import com.example.common.utils.HonrizonViewPager;
+import com.example.common.customizeview.HonrizonViewPager;
 import com.example.common.utils.PlayerViewFold;
 import com.example.common.utils.PlayerViewUnFold;
 
