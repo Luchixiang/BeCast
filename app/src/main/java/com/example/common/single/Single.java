@@ -5,17 +5,30 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.lzx.starrysky.model.SongInfo;
+
 import java.io.File;
 import java.io.Serializable;
+
 @Entity(tableName = "singleHistory")
 public class Single implements Serializable {
     @PrimaryKey
     @NonNull
-    private String title="";
+    private String title = "";
     private String updataTime;
     private String vioiceUrl;
     private String imgUrL;
     private String time;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private boolean hasListened = false;
     private boolean isPlay = false;
 
@@ -63,16 +76,17 @@ public class Single implements Serializable {
         this.imgUrL = imgUrL;
     }
 
-    public Single(@NonNull String title, String updataTime, String vioiceUrl, String  imgUrL) {
+    public Single(@NonNull String title, String updataTime, String vioiceUrl, String imgUrL) {
         this.title = title;
         this.updataTime = updataTime;
         this.vioiceUrl = vioiceUrl;
         this.imgUrL = imgUrL;
     }
+
     @Ignore
-    public Single()
-    {
+    public Single() {
     }
+
     @NonNull
     public String getTitle() {
         return title;
@@ -96,5 +110,25 @@ public class Single implements Serializable {
 
     public void setVioiceUrl(String vioiceUrl) {
         this.vioiceUrl = vioiceUrl;
+    }
+
+    @Ignore
+    public void changeFromSongInfo(SongInfo songInfo) {
+        this.setUpdataTime(songInfo.getPublishTime());
+        this.setTime(String.valueOf(songInfo.getDuration()));
+        this.setTitle(songInfo.getSongName());
+        this.setImgUrL(songInfo.getSongCover());
+        this.setVioiceUrl(songInfo.getSongUrl());
+        this.setId(Integer.parseInt(songInfo.getSongId()));
+    }
+
+    @Ignore
+    public void changToSongInfo(SongInfo songInfo) {
+        songInfo.setSongCover(this.getImgUrL());
+        songInfo.setSongName(this.getTitle());
+        songInfo.setDuration(Long.parseLong(this.getTime()));
+        songInfo.setPublishTime(this.getUpdataTime());
+        songInfo.setSongUrl(this.getVioiceUrl());
+        songInfo.setSongId(String.valueOf(this.getId()));
     }
 }

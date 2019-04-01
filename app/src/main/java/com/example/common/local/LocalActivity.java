@@ -14,8 +14,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import library.common.base.BaseActivity;
-import library.common.base.BaseApplication;
+import com.example.common.base.BaseActivity;
+import com.example.common.base.BaseApplication;
 
 public class LocalActivity extends BaseActivity {
     private static final String TAG = "hujiewen";
@@ -51,7 +51,7 @@ public class LocalActivity extends BaseActivity {
     private void initView() {
         RecyclerView localRecycler = findViewById(R.id.local_recycler);
         localSingleAdapter = new SingleAdapter(realList, this);
-        findViewById(R.id.about_back).setOnClickListener(v -> finish());
+        findViewById(R.id.local_back).setOnClickListener(v -> finish());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         localRecycler.setLayoutManager(linearLayoutManager);
         localRecycler.setAdapter(localSingleAdapter);

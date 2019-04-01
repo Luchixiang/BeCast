@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.example.common.R;
 
-import library.common.base.BaseActivity;
+import com.example.common.base.BaseActivity;
 
 public class PlayerDetailsActivity extends BaseActivity {
 

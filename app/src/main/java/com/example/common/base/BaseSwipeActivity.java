@@ -1,4 +1,4 @@
-package library.common.base;
+package com.example.common.base;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

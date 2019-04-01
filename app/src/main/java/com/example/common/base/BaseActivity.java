@@ -1,4 +1,4 @@
-package library.common.base;
+package com.example.common.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,11 +9,9 @@ import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.example.common.customizeview.SwipeBackLayout;
 import com.jaeger.library.StatusBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 

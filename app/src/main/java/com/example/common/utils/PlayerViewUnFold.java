@@ -1,7 +1,6 @@
 package com.example.common.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,8 @@ import android.widget.TextView;
 
 import com.example.common.R;
 import com.example.common.interfaces.PlayerListener;
-import com.example.common.single.Single;
+import com.lzx.starrysky.manager.MusicManager;
+import com.lzx.starrysky.model.SongInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +33,6 @@ public class PlayerViewUnFold extends RelativeLayout {
     private int latestY = 0;
     private int distanceY = 0;
     private int distanceX = 0;
-    private final Intent intent = new Intent();
-    private Single single;
     private List<PlayerListener> listeners = new ArrayList<>();
 
     public PlayerViewUnFold(Context context) {
@@ -65,9 +63,9 @@ public class PlayerViewUnFold extends RelativeLayout {
         ImageView pauseButton = findViewById(R.id.player_view_pause);
         ImageView downloadButton = findViewById(R.id.download_button);
         downloadButton.setOnClickListener(v->{
-            Log.d("hujiewen", "initView: "+single.getVioiceUrl());
-            if (this.single!=null)
-            DownloadManager.getInstance().download(single, new DownLoadObserver() {
+            SongInfo songInfo = MusicManager.getInstance().getNowPlayingSongInfo();
+            Log.d("hujiewen", "initView: "+songInfo.getSongUrl());
+            DownloadManager.getInstance().download(songInfo, new DownLoadObserver() {
                 @Override
                 public void onComplete() {
 
@@ -100,12 +98,11 @@ public class PlayerViewUnFold extends RelativeLayout {
         return this.playerSeekbar;
     }
 
-    public void setView(Single single)
+    public void setView(SongInfo songInfo)
     {
-        this.single = single;
-        playerTime.setText(ChangeTime.calculateTime(single.getTime()));
-        playerTitle.setText(single.getTitle());
-        glideLoader.loadImage(context,single.getImgUrL(),playerImg);
+        playerTime.setText(ChangeTime.calculateTime(String.valueOf(songInfo.getDuration())));
+        playerTitle.setText(songInfo.getSongName());
+        glideLoader.loadImage(context, songInfo.getSongCover(), playerImg);
     }
 
     @Override

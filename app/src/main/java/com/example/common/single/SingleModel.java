@@ -5,6 +5,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.common.utils.ChangeTime;
+import com.lzx.starrysky.model.SongInfo;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -35,6 +38,7 @@ class SingleModel {
     private Element channelElement = null;
     private final ThreadPoolExecutor poolExecutor;
     private Runnable runnable;
+    private int id =0;
 
     SingleModel(SingleView singleView) {
         this.singleView = singleView;
@@ -68,6 +72,7 @@ class SingleModel {
                     List itemElement = channelElement.elements("item");
                     int size = itemElement.size() >= end ? end : itemElement.size();
                     for (int i = start; i < size; i++) {
+                        id = start +i;
                         Element element = (Element) itemElement.get(i);
                         Element subElement;
                         subElement = element.element("title");
@@ -88,13 +93,20 @@ class SingleModel {
                         if (subElement!=null)
                             voiceUrl = element.element("enclosure").attributeValue("url");
                         subElement = element.element("image");
-                        Single single = new Single(songTitle, realTime, voiceUrl, "");
+//                        Single single = new Single(songTitle, realTime, voiceUrl, "");
+                        SongInfo single = new SongInfo();
+                        single.setSongName(songTitle);
+                        single.setPublishTime(realTime);
+                        single.setSongUrl(voiceUrl);
                         if (subElement != null) {
                             String imgUrl = subElement.attributeValue("href");
-                            single.setImgUrL(imgUrl);
+                            single.setSongCover(imgUrl);
                         }
-                        single.setTime(time);
-                        singleList.add(single);
+                        single.setDuration(ChangeTime.changTimeintoLong(time));
+                        single.setSongId(String.valueOf(id));
+                        Single single1 = new Single();
+                        single1.changeFromSongInfo(single);
+                        singleList.add(single1);
                     }
                     Message message = new Message();
                     message.what = ALBUMTITLE;

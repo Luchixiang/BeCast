@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Becast</string>
     <string name="a">1</string>
-    <string name="title">节目标题</string>
-    <string name="time">2:30</string>
+    <string name="title">Becast</string>
+    <string name="time">0:00</string>
     <string name="helloWorld">音乐详情</string>
     <string name="becast">Becast</string>
     <string name="tour">游览</string>

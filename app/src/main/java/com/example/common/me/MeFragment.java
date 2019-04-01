@@ -19,7 +19,7 @@ import com.example.common.history.HistoryActivity;
 import com.example.common.local.LocalActivity;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
-import library.common.base.BaseApplication;
+import com.example.common.base.BaseApplication;
 
 public class MeFragment extends Fragment {
     private Context mContext;

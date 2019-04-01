@@ -1,6 +1,6 @@
 package com.example.common.utils;
 
-class ChangeTime {
+public class ChangeTime {
         public static String calculateTime(String timee) {
             int minute;
             int second;
@@ -27,5 +27,19 @@ class ChangeTime {
                     }
                 }
             }
+        }
+        public static long changTimeintoLong(String time){
+            if (time.contains(":"))
+            {
+                String[] tempt = time.split(":");
+                long timeLong = 0;
+                int multipe = 1;
+                for (int i = tempt.length-1;i>=0;i--){
+                    timeLong = Integer.parseInt(tempt[i])*multipe + timeLong;
+                    multipe = multipe*60;
+                }
+                return timeLong;
+            }
+            return Long.parseLong(time);
         }
 }

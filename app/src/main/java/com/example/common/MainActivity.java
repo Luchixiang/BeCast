@@ -3,26 +3,31 @@ package com.example.common;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.example.common.interfaces.BecastPlayerCallBack;
+import com.example.common.base.BaseActivity;
+import com.example.common.customizeview.HonrizonViewPager;
 import com.example.common.interfaces.PlayerListener;
 import com.example.common.model.Model;
 import com.example.common.single.Single;
 import com.example.common.tab.FragmentGenerator;
 import com.example.common.tab.PageAdapter;
-import com.example.common.utils.BecastPlayer;
-import com.example.common.customizeview.HonrizonViewPager;
 import com.example.common.utils.PlayerViewFold;
 import com.example.common.utils.PlayerViewUnFold;
+import com.lzx.starrysky.manager.MediaSessionConnection;
+import com.lzx.starrysky.manager.MusicManager;
+import com.lzx.starrysky.manager.OnPlayerEventListener;
+import com.lzx.starrysky.model.SongInfo;
+import com.lzx.starrysky.utils.TimerTaskManager;
 
-import library.common.base.BaseActivity;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends BaseActivity implements PlayerListener, BecastPlayerCallBack {
+public class MainActivity extends BaseActivity implements PlayerListener, OnPlayerEventListener {
     private PlayerViewFold playerViewFold;
     private SeekBar foldseekBar;
     private PlayerViewUnFold playerViewUnFold;
@@ -31,12 +36,16 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
     private HonrizonViewPager viewPager;
     private TabLayout tabLayout;
     private static final String TAG = "luchixiang";
-    BecastPlayer becastPlayer;
+    private List<SongInfo> songInfoList = new ArrayList<>();
+    private TimerTaskManager mTimerTask;
+    //    BecastPlayer becastPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MediaSessionConnection.getInstance().connect();
+        mTimerTask = new TimerTaskManager();
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tab_layout);
         playerViewFold = findViewById(R.id.player_views);
@@ -46,22 +55,33 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
         foldseekBar = playerViewFold.getSeekbar();
         transtionY2 = playerViewUnFold.getTranslationY();
         initTab();
-        becastPlayer = new BecastPlayer(this);
-        Model.getInstance(getApplication()).getSingleList(singleList -> becastPlayer.initSingleList(singleList));
+        MusicManager.getInstance().addPlayerEventListener(this);
+        mTimerTask.setUpdateProgressTask(()->{
+            long position = MusicManager.getInstance().getPlayingPosition();
+            long duration =  MusicManager.getInstance().getDuration();
+            if (foldseekBar.getMax()!=duration) foldseekBar.setMax((int)duration);
+            foldseekBar.setProgress((int)position);
+        });
+        changeSeekbar(foldseekBar);
+//        becastPlayer = new BecastPlayer(this);
+//        Model.getInstance(getApplication()).getSingleList(singleList -> becastPlayer.initSingleList(singleList));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        becastPlayer.storeInformation();
+//        becastPlayer.storeInformation();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MediaSessionConnection.getInstance().disconnect();
         playerViewUnFold.unRegisterListener(this);
         playerViewFold.unRegisterListener(this);
-        becastPlayer.release();
+        MusicManager.getInstance().removePlayerEventListener(this);
+        mTimerTask.removeUpdateProgressTask();
+//        becastPlayer.release();
     }
 
     //初始化tab
@@ -95,7 +115,7 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
                     playerViewUnFold.setVisibility(View.VISIBLE);
                     playerViewFold.setVisibility(View.GONE);
                     foldseekBar = playerViewUnFold.getSeekBar();
-                    becastPlayer.initSeekBar(foldseekBar);
+                    changeSeekbar(foldseekBar);
                     isFold = false;
                 }
 
@@ -129,7 +149,7 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
                     playerViewFold.setVisibility(View.VISIBLE);
                     playerViewUnFold.setVisibility(View.GONE);
                     foldseekBar = playerViewFold.getSeekbar();
-                    becastPlayer.initSeekBar(foldseekBar);
+                    changeSeekbar(foldseekBar);
                     isFold = true;
                 }
 
@@ -153,24 +173,37 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
     }
 
     @Override
-    public void addSong(Single single) {
-        becastPlayer.addMusic(single);
+    public void addSong(SongInfo songInfo) {
+        List<SongInfo> temp = MusicManager.getInstance().getPlayList();
+        int current = MusicManager.getInstance().getNowPlayingIndex();
+        temp.add(current,songInfo);
+        MusicManager.getInstance().updatePlayList(temp);
     }
 
 
     @Override
     public void pause() {
-        becastPlayer.PlayOrPause();
+        if (!MusicManager.getInstance().isPaused()) {
+            MusicManager.getInstance().pauseMusic();
+        } else {
+            MusicManager.getInstance().playMusic();
+        }
     }
 
     @Override
     public void lastSong() {
-        becastPlayer.lastMusic();
+//        becastPlayer.lastMusic();
+//        if (MusicManager.getInstance().isSkipToPreviousEnabled())
+        MusicManager.getInstance().skipToPrevious();
+//        else MusicManager.getInstance().seekTo(0);
     }
 
     @Override
     public void nextSong() {
-        becastPlayer.nextMusic();
+//        becastPlayer.nextMusic();
+//        if (MusicManager.getInstance().isSkipToNextEnabled())
+        MusicManager.getInstance().skipToNext();
+//        else MusicManager.getInstance().seekTo(0);
     }
 
     @Override
@@ -193,25 +226,74 @@ public class MainActivity extends BaseActivity implements PlayerListener, Becast
         }
     }
 
-    @Override
-    public void changeTitle(Single single) {
-        playerViewFold.setView(single);
-        playerViewUnFold.setView(single);
+    public void changeTitle(SongInfo songInfo) {
+        playerViewFold.setView(songInfo);
+        playerViewUnFold.setView(songInfo);
     }
 
-    @Override
-    public SeekBar getSeekBar() {
-        return foldseekBar;
-    }
 
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void storeInformation(Single single) {
+    public void storeInformation() {
+        SongInfo songInfo = MusicManager.getInstance().getNowPlayingSongInfo();
+        Single single = new Single();
+        single.changeFromSongInfo(songInfo);
+        Log.d("add", "storeInformation: "+single.getTitle());
         Model.getInstance(getApplication()).addHistory(single);
+    }
+
+    @Override
+    public void onMusicSwitch(SongInfo songInfo) {
+
+    }
+
+    @Override
+    public void onPlayerStart() {
+        SongInfo songInfo = MusicManager.getInstance().getNowPlayingSongInfo();
+        changeTitle(songInfo);
+        storeInformation();
+        mTimerTask.startToUpdateProgress();
+    }
+
+    @Override
+    public void onPlayerPause() {
+        mTimerTask.stopToUpdateProgress();
+    }
+
+    @Override
+    public void onPlayerStop() {
+
+    }
+
+    @Override
+    public void onPlayCompletion(SongInfo songInfo) {
+
+    }
+
+    @Override
+    public void onBuffering() {
+
+    }
+
+    @Override
+    public void onError(int errorCode, String errorMsg) {
+
+    }
+    public void changeSeekbar(SeekBar seekBar)
+    {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                MusicManager.getInstance().seekTo((long) seekBar.getProgress());
+            }
+        });
     }
 }
 

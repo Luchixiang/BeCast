@@ -1,10 +1,11 @@
-package library.common.base;
+package com.example.common.base;
 
 import android.app.Application;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
+import com.lzx.starrysky.manager.MusicManager;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -30,6 +31,8 @@ public class BaseApplication extends Application {
         APPLICATION = this;
         //初始化工具类
         Utils.init(this);
+        //音乐播放集成
+        MusicManager.initMusicManager(this);
         OkHttpClient okHttpClient = new OkHttpConfig
                 .Builder(this)
                 //全局的请求头信息

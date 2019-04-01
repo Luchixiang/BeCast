@@ -11,7 +11,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
-import library.common.base.BaseApplication;
+import com.example.common.base.BaseApplication;
 
 public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
     private static final int RETURN_MSG_TYPE_LOGIN = 1;

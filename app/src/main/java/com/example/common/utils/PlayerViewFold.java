@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.common.R;
 import com.example.common.interfaces.PlayerListener;
 import com.example.common.single.Single;
+import com.lzx.starrysky.model.SongInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +61,10 @@ public class PlayerViewFold extends RelativeLayout {
         return this.playerSeekbar;
     }
 
-    public void setView(Single single)
-    {
-        playerTime.setText(ChangeTime.calculateTime(single.getTime()));
-        playerTitle.setText(single.getTitle());
-        glideLoader.loadImage(context,single.getImgUrL(),playerImg);
+    public void setView(SongInfo songInfo) {
+        playerTime.setText(ChangeTime.calculateTime(String.valueOf(songInfo.getDuration())));
+        playerTitle.setText(songInfo.getSongName());
+        glideLoader.loadImage(context, songInfo.getSongCover(), playerImg);
     }
 
     @Override
@@ -106,31 +106,27 @@ public class PlayerViewFold extends RelativeLayout {
             case MotionEvent.ACTION_UP:
                 //单纯点击则触发暂停
                 if (distanceX == 0 && distanceY == 0) {
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.pause();
                     }
                 }
                 //向上划 改变
                 else if (distanceY <= -50) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.Changer();
                     }
                     //向左滑Tab
                 } else if (distanceX <= -5) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.toLeft();
                     }
                 }
                 //向右滑Tab
                 else if (distanceX >= 5) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.toRight();
                     }
                 }
@@ -148,14 +144,14 @@ public class PlayerViewFold extends RelativeLayout {
     public boolean performClick() {
         return super.performClick();
     }
-    public void registerListener(PlayerListener playerListener)
-    {
+
+    public void registerListener(PlayerListener playerListener) {
         if (!listeners.contains(playerListener))
-        listeners.add(playerListener);
+            listeners.add(playerListener);
     }
-    public void unRegisterListener(PlayerListener playerListener)
-    {
+
+    public void unRegisterListener(PlayerListener playerListener) {
         if (!listeners.contains(playerListener))
-        listeners.remove(playerListener);
+            listeners.remove(playerListener);
     }
 }

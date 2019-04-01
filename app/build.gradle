@@ -60,8 +60,6 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.archLifecycleVersion"
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.1'
     implementation 'com.danikula:videocache:2.7.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.github.lygttpod:RxHttpUtils:2.1.7'
@@ -72,4 +70,5 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     implementation files('libs/dom4j-2.1.1.jar')
     implementation 'me.imid.swipebacklayout.lib:library:1.0.0'
+    implementation 'com.lzx:StarrySkyJava:2.0.8'
 }

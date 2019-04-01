@@ -2,7 +2,8 @@ package library.common.http.downLoad;
 
 import android.util.Log;
 
-import com.example.common.single.Single;
+import com.example.common.base.BaseApplication;
+import com.lzx.starrysky.model.SongInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,7 +18,6 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import library.common.base.BaseApplication;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,13 +50,13 @@ public class DownloadManager {
     /**
      * 开始下载
      *
-     * @param single              下载请求的网址
+     * @param songInfo             下载请求的网址
      * @param downLoadObserver 用来回调的接口
      */
-    public void download(Single single, DownLoadObserver downLoadObserver) {
-        Observable.just(single)
-                .filter(s -> !downCalls.containsKey(s.getVioiceUrl()))//call的map已经有了,就证明正在下载,则这次不下载
-                .flatMap(s -> Observable.just(createDownInfo(s)))
+    public void download(SongInfo songInfo, DownLoadObserver downLoadObserver) {
+        Observable.just(songInfo)
+                .filter(s -> !downCalls.containsKey(s.getSongUrl()))//call的map已经有了,就证明正在下载,则这次不下载
+                .flatMap(s -> Observable.just(createDownInfo(songInfo)))
                 .map(this::getRealFileName)//检测本地文件夹,生成新的文件名
                 .flatMap(downloadInfo -> Observable.create(new DownloadSubscribe(downloadInfo)))//下载
                 .observeOn(AndroidSchedulers.mainThread())//在主线程回调
@@ -77,15 +77,15 @@ public class DownloadManager {
     /**
      * 创建DownInfo
      *
-     * @param single 请求网址
+     * @param songInfo 请求网址
      * @return DownInfo
      */
-    private DownloadInfo createDownInfo(Single single) {
-        DownloadInfo downloadInfo = new DownloadInfo(single.getVioiceUrl());
-        long contentLength = getContentLength(single.getVioiceUrl());//获得文件大小
+    private DownloadInfo createDownInfo(SongInfo songInfo) {
+        DownloadInfo downloadInfo = new DownloadInfo(songInfo.getSongUrl());
+        long contentLength = getContentLength(songInfo.getSongUrl());//获得文件大小
         downloadInfo.setTotal(contentLength);
 //        String fileName = url.substring(url.lastIndexOf("/"));
-        String fileName = single.getTitle();
+        String fileName = songInfo.getSongName();
         downloadInfo.setFileName(fileName);
         return downloadInfo;
     }

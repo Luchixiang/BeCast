@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,10 +14,8 @@ import com.example.common.customizeview.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-import library.common.base.BaseActivity;
-import library.common.base.BaseSwipeActivity;
+import com.example.common.base.BaseSwipeActivity;
 import library.common.img.GlideLoader;
 
 public class SingleActivity extends BaseSwipeActivity implements SingleView, ObservableScrollView.OnObservableScrollViewScrollChanged {

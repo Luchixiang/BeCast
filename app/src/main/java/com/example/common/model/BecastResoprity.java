@@ -76,6 +76,7 @@ public class BecastResoprity {
 
         @Override
         protected void onPostExecute(List<Single> singleList) {
+            Log.d("history", "onPostExecute: "+singleList.size());
             historyCallBack.getHistoryList(singleList);
             super.onPostExecute(singleList);
         }

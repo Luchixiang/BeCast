@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.example.common.R;
 
-import library.common.base.BaseActivity;
+import com.example.common.base.BaseActivity;
 
 public class AboutActivity extends BaseActivity {
 
