@@ -14,8 +14,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
-       />
+        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
 
     <TextView
         android:id="@+id/player_view_title"
@@ -26,20 +25,18 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="17dp"
         android:layout_toEndOf="@+id/player_view_img"
-        android:text="@string/title"
         android:maxLines="1"
-       />
+        android:text="@string/title" />
 
     <TextView
         android:id="@+id/player_view_time"
         style="@style/playerViewTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/player_view_seekbar"
         android:layout_alignParentEnd="true"
+        android:layout_below="@+id/player_view_seekbar"
         android:layout_marginEnd="25dp"
-        android:text="@string/time"
-       />
+        android:text="@string/time" />
 
     <SeekBar
         android:id="@+id/player_view_seekbar"
@@ -49,9 +46,8 @@
         android:layout_below="@+id/player_view_title"
         android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
-        android:splitTrack="false"
         android:maxHeight="2dp"
         android:progressDrawable="@drawable/seekbar_bg"
-        android:thumb="@drawable/slider_thum_normal"
-        />
+        android:splitTrack="false"
+        android:thumb="@drawable/slider_thum_normal" />
 </RelativeLayout>

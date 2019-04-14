@@ -9,40 +9,40 @@
         android:id="@+id/player_view_img_unfold"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
 
     <TextView
         android:id="@+id/player_view_title_unflod"
+        style="@style/playerViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="92dp"
         android:layout_marginTop="13dp"
-        android:text="@string/title"
-        style="@style/playerViewTitle"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:text="@string/title" />
 
     <SeekBar
         android:id="@+id/player_view_seekbar_unflod"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/player_view_title_unflod"
         android:layout_alignStart="@+id/player_view_title_unflod"
+        android:layout_below="@+id/player_view_title_unflod"
         android:layout_marginTop="10dp"
-        android:thumb="@drawable/slider_thum_normal"
         android:maxHeight="2dp"
-        android:progressDrawable="@drawable/seekbar_bg" />
+        android:progressDrawable="@drawable/seekbar_bg"
+        android:thumb="@drawable/slider_thum_normal" />
 
     <TextView
         android:id="@+id/player_view_time_unfold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_below="@id/player_view_seekbar_unflod"
-        android:layout_marginTop="10dp"
         android:layout_alignParentEnd="true"
+        android:layout_below="@id/player_view_seekbar_unflod"
         android:layout_marginEnd="32dp"
+        android:layout_marginTop="10dp"
         android:text="@string/time"
         android:textColor="@color/jinse"
         android:textSize="6pt" />
@@ -60,30 +60,30 @@
         android:layout_width="18dp"
         android:layout_height="17dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="104dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/vector_drawable_previous"
-        android:contentDescription="@string/todo" />
+        android:layout_marginStart="104dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/vector_drawable_previous" />
 
     <ImageView
         android:id="@+id/next_button"
         android:layout_width="18dp"
         android:layout_height="17dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="103dp"
-        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/vector_drawable_next"
-        android:contentDescription="@string/todo" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="103dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/vector_drawable_next" />
 
     <ImageView
+        android:id="@+id/download_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="53dp"
-        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/vector_drawable_downloadone"
-        android:id="@+id/download_button"
-        android:contentDescription="@string/todo" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="53dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/vector_drawable_downloadone" />
 </RelativeLayout>

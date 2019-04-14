@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.common.R;
+import com.example.common.base.BaseActivity;
+import com.example.common.base.BaseApplication;
 import com.example.common.model.Model;
 import com.example.common.single.Single;
 import com.example.common.single.SingleAdapter;
@@ -13,9 +15,6 @@ import com.example.common.single.SingleAdapter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.common.base.BaseActivity;
-import com.example.common.base.BaseApplication;
 
 public class LocalActivity extends BaseActivity {
     private static final String TAG = "hujiewen";

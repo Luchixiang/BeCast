@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.common.R;
 import com.example.common.interfaces.PlayerListener;
-import com.example.common.single.Single;
 import com.lzx.starrysky.model.SongInfo;
 
 import java.util.ArrayList;
@@ -153,5 +152,10 @@ public class PlayerViewFold extends RelativeLayout {
     public void unRegisterListener(PlayerListener playerListener) {
         if (!listeners.contains(playerListener))
             listeners.remove(playerListener);
+    }
+
+    public ImageView getPlayerImg()
+    {
+        return playerImg;
     }
 }

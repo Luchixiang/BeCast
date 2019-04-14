@@ -12,7 +12,6 @@ public class PageAdapter extends FragmentPagerAdapter {
     private final HashMap<Integer, android.support.v4.app.Fragment> mfragments = new HashMap<>();
 
     public PageAdapter(FragmentManager fm, int num) {
-       //luchixiang
         super(fm);
         this.num = num;
     }

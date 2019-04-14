@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.common.R;
 import com.example.common.interfaces.PlayerListener;
@@ -62,33 +63,37 @@ public class PlayerViewUnFold extends RelativeLayout {
         ImageView nextButton = findViewById(R.id.next_button);
         ImageView pauseButton = findViewById(R.id.player_view_pause);
         ImageView downloadButton = findViewById(R.id.download_button);
-        downloadButton.setOnClickListener(v->{
+        downloadButton.setOnClickListener(v -> {
+            Toast.makeText(context, "开始下载", Toast.LENGTH_LONG).show();
             SongInfo songInfo = MusicManager.getInstance().getNowPlayingSongInfo();
-            Log.d("hujiewen", "initView: "+songInfo.getSongUrl());
+            Log.d("hujiewen", "initView: " + songInfo.getSongUrl());
             DownloadManager.getInstance().download(songInfo, new DownLoadObserver() {
                 @Override
-                public void onComplete() {
+                public void onError(Throwable e) {
+                    Toast.makeText(context, "下载失败", Toast.LENGTH_LONG).show();
+                }
 
+                @Override
+                public void onComplete() {
+                    Toast.makeText(context, "下载完成", Toast.LENGTH_LONG).show();
                 }
             });
+
         });
         pauseButton.setOnClickListener(v ->
                 {
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.pause();
                     }
                 }
         );
         nextButton.setOnClickListener(v -> {
-            for (PlayerListener playerListener :listeners)
-            {
+            for (PlayerListener playerListener : listeners) {
                 playerListener.nextSong();
             }
         });
-        lastButton.setOnClickListener(v->{
-            for (PlayerListener playerListener :listeners)
-            {
+        lastButton.setOnClickListener(v -> {
+            for (PlayerListener playerListener : listeners) {
                 playerListener.lastSong();
             }
         });
@@ -98,8 +103,7 @@ public class PlayerViewUnFold extends RelativeLayout {
         return this.playerSeekbar;
     }
 
-    public void setView(SongInfo songInfo)
-    {
+    public void setView(SongInfo songInfo) {
         playerTime.setText(ChangeTime.calculateTime(String.valueOf(songInfo.getDuration())));
         playerTitle.setText(songInfo.getSongName());
         glideLoader.loadImage(context, songInfo.getSongCover(), playerImg);
@@ -143,28 +147,24 @@ public class PlayerViewUnFold extends RelativeLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 if (distanceY == 0 && distanceX == 0) {
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.detail();
                     }
                 } else if (distanceY >= 90) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.Changer();
                     }
                 } else if (distanceX <= -5) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.toLeft();
                     }
                 }
                 //向右滑Tab
                 else if (distanceX >= 5) {
                     scrollBy(distanceX, 0);
-                    for (PlayerListener playerListener :listeners)
-                    {
+                    for (PlayerListener playerListener : listeners) {
                         playerListener.toRight();
                     }
                 }
@@ -182,12 +182,12 @@ public class PlayerViewUnFold extends RelativeLayout {
     public boolean performClick() {
         return super.performClick();
     }
-    public void registerListener(PlayerListener playerListener)
-    {
+
+    public void registerListener(PlayerListener playerListener) {
         listeners.add(playerListener);
     }
-    public void unRegisterListener(PlayerListener playerListener)
-    {
+
+    public void unRegisterListener(PlayerListener playerListener) {
         listeners.remove(playerListener);
     }
 }

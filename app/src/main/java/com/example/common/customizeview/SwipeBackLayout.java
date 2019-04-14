@@ -23,10 +23,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-/**
- * @author xiaanming
- * @blog http://blog.csdn.net/xiaanming
- */
 public class SwipeBackLayout extends FrameLayout {
     private static final String TAG = SwipeBackLayout.class.getSimpleName();
     private View mContentView;

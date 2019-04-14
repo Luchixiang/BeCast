@@ -3,24 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".first.FirstFragment"
-    >
+    tools:context=".first.FirstFragment">
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/FirstFragmentTitle"
-        android:text="@string/becast"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-      />
-    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/recyclerView"
-        android:layout_marginTop="58dp"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginTop="10dp"
+        android:text="@string/becast" />
+
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="58dp"
+        android:orientation="vertical">
 
     </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
 </RelativeLayout>

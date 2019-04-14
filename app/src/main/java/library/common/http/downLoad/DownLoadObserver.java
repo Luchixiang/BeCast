@@ -14,8 +14,8 @@ public  abstract class DownLoadObserver implements Observer<DownloadInfo> {
         DownloadInfo downloadInfo1 = downloadInfo;
     }
 
-    @Override
-    public void onError(Throwable e) {
-        e.printStackTrace();
-    }
+//    @Override
+//    public void onError(Throwable e) {
+//        e.printStackTrace();
+//    }
 }

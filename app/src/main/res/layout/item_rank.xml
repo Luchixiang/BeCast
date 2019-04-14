@@ -2,37 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/rank_title"
         style="@style/rankTitle"
-        android:layout_marginTop="6dp"
-        android:layout_marginStart="54dp"
-        android:maxLines="1"
-        />
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="6dp"
+        android:maxLines="1" />
+
+    <TextView
         android:id="@+id/rank_name"
         style="@style/rankName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/rank_title"
         android:layout_marginStart="54dp"
         android:layout_marginTop="2dp"
-        android:maxLines="1"
-        />
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/rank_img"
-    android:layout_marginStart="21dp"
-    android:layout_marginTop="6dp"
-    android:contentDescription="@string/todo" />
-    <TextView
+        android:maxLines="1" />
+
+    <ImageView
+        android:id="@+id/rank_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rank_number"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="21dp"
         android:layout_marginTop="6dp"
-        style="@style/top4"/>
+        android:contentDescription="@string/todo" />
+
+    <TextView
+        android:id="@+id/rank_number"
+        style="@style/top4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="6dp" />
 </RelativeLayout>

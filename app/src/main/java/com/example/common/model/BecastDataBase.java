@@ -8,10 +8,12 @@ import android.content.Context;
 import com.example.common.single.Single;
 import com.example.common.single.SingleDao;
 
-@Database(entities = {Single.class},version = 1,exportSchema = false)
-public abstract class BecastDataBase extends RoomDatabase{
+@Database(entities = {Single.class}, version = 1, exportSchema = false)
+public abstract class BecastDataBase extends RoomDatabase {
     private static volatile BecastDataBase INSTANCE;
+
     public abstract SingleDao singleDao();
+
     public static BecastDataBase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (BecastDataBase.class) {

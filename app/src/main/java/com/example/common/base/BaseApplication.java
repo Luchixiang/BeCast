@@ -6,6 +6,7 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.cookie.store.SPCookieStore;
 import com.lzx.starrysky.manager.MusicManager;
+import com.lzx.starrysky.notification.NotificationConstructor;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -33,6 +34,9 @@ public class BaseApplication extends Application {
         Utils.init(this);
         //音乐播放集成
         MusicManager.initMusicManager(this);
+        NotificationConstructor constructor = new NotificationConstructor.Builder()
+                .bulid();
+        MusicManager.getInstance().setNotificationConstructor(constructor);
         OkHttpClient okHttpClient = new OkHttpConfig
                 .Builder(this)
                 //全局的请求头信息
@@ -63,6 +67,7 @@ public class BaseApplication extends Application {
 //        );
         registToWX();
     }
+
     private void registToWX() {
         //AppConst.WEIXIN.APP_ID是指你应用在微信开放平台上的AppID，记得替换。
         mWxApi = WXAPIFactory.createWXAPI(this, "wx7cb922e9f38b476e", false);

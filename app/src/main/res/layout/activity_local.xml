@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".history.HistoryActivity">
+
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/local_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/local_recycler"
         android:layout_below="@id/local_back"
-        android:layout_marginTop="10dp"
-        >
-    </android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+
     <ImageView
         android:id="@+id/local_back"
         android:layout_width="11dp"

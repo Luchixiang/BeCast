@@ -10,12 +10,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.common.R;
+import com.example.common.base.BaseSwipeActivity;
 import com.example.common.customizeview.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.common.base.BaseSwipeActivity;
 import library.common.img.GlideLoader;
 
 public class SingleActivity extends BaseSwipeActivity implements SingleView, ObservableScrollView.OnObservableScrollViewScrollChanged {
@@ -82,7 +82,6 @@ public class SingleActivity extends BaseSwipeActivity implements SingleView, Obs
 
     private int mLastVisibleItemPosition;
     private final RecyclerView.OnScrollListener monScrollListener = new RecyclerView.OnScrollListener() {
-
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();

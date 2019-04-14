@@ -1,9 +1,9 @@
 package com.example.common.single;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,14 +54,18 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_single, parent, false);
             NormalViewHolder normalViewHolder = new NormalViewHolder(view);
             view.setOnClickListener(v -> {
+                for (Single single : singleList) {
+                    single.setPlay(false);
+                }
                 Single single = singleList.get(normalViewHolder.getAdapterPosition());
+                single.setPlay(true);
+                notifyDataSetChanged();
                 SongInfo songInfo = new SongInfo();
                 single.changToSongInfo(songInfo);
                 List<SongInfo> songInfos = MusicManager.getInstance().getPlayList();
                 int current = MusicManager.getInstance().getNowPlayingIndex();
                 if (current == -1) current = 0;
                 songInfos.add(current, songInfo);
-                Log.d("hujiewen", "onCreateViewHolder: "+current);
                 MusicManager.getInstance().updatePlayList(songInfos);
                 MusicManager.getInstance().playMusicByInfo(songInfo);
             });
@@ -84,10 +88,13 @@ public class SingleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             if (singleList.size() != 0) {
                 Single single = singleList.get(position);
-                Log.d("singleAdapter", "onBindViewHolder: "+single.getTitle());
                 ((NormalViewHolder) holder).singleTitle.setText(single.getTitle());
                 ((NormalViewHolder) holder).singleTime.setText(single.getUpdataTime());
                 glideLoader.loadImage(mContext, single.getImgUrL(), ((NormalViewHolder) holder).singleImg);
+                if (single.isPlay()) {
+                    ((NormalViewHolder) holder).singleTitle.setTextColor(Color.parseColor("#f3be3f"));
+                } else
+                    ((NormalViewHolder) holder).singleTitle.setTextColor(Color.parseColor("#000000"));
             }
         }
     }

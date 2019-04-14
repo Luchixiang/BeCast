@@ -11,11 +11,12 @@ import com.example.common.customizeview.SwipeBackLayout;
 
 public class BaseSwipeActivity extends BaseActivity {
     private SwipeBackLayout layout;
+
     @SuppressLint("InflateParams")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.swipeback,null);
+        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.swipeback, null);
         layout.attachToActivity(this);
     }
 

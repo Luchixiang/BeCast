@@ -2,19 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="130dp"
     android:layout_height="145dp">
+
     <ImageView
+        android:id="@+id/choose_img"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:src="@drawable/assa"
-        android:id="@+id/choose_img"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:src="@drawable/assa" />
+
     <TextView
+        android:id="@+id/choose_title"
+        style="@style/chooseTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/choose_img"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="7dp"
-        style="@style/chooseTitle"
-        android:id="@+id/choose_title"
-        android:maxLines="1"/>
-    </RelativeLayout>
+        android:maxLines="1" />
+</RelativeLayout>

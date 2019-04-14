@@ -46,14 +46,13 @@ public class BecastResoprity {
         @Override
         protected Void doInBackground(Single... singles) {
             singleDao.addHistory(singles[0]);
-            Log.d(TAG, "add "+singles[0].getTitle());
             return null;
         }
     }
 
     //得到历史
     public void getHistoryList(HistoryCallBack historyCallBack) {
-        getHistoryTask getHistoryTask = new getHistoryTask(singleDao,historyCallBack);
+        getHistoryTask getHistoryTask = new getHistoryTask(singleDao, historyCallBack);
         asyncTasks.add(getHistoryTask);
         getHistoryTask.execute();
     }
@@ -63,7 +62,7 @@ public class BecastResoprity {
         private List<Single> singles = new ArrayList<>();
         private final HistoryCallBack historyCallBack;
 
-        getHistoryTask(SingleDao singleDao,HistoryCallBack historyCallBack) {
+        getHistoryTask(SingleDao singleDao, HistoryCallBack historyCallBack) {
             this.singleDao = singleDao;
             this.historyCallBack = historyCallBack;
         }
@@ -76,47 +75,19 @@ public class BecastResoprity {
 
         @Override
         protected void onPostExecute(List<Single> singleList) {
-            Log.d("history", "onPostExecute: "+singleList.size());
+            Log.d("history", "onPostExecute: " + singleList.size());
             historyCallBack.getHistoryList(singleList);
             super.onPostExecute(singleList);
         }
     }
-    public void getAllList(HistoryCallBack historyCallBack) {
-        getAllListTask getAllListTask = new getAllListTask(singleDao,historyCallBack);
-        asyncTasks.add(getAllListTask);
-        getAllListTask.execute();
-    }
 
-    private static class getAllListTask extends AsyncTask<Void, Void, List<Single>> {
-        private final SingleDao singleDao;
-        private List<Single> singles = new ArrayList<>();
-        private final HistoryCallBack historyCallBack;
-
-        getAllListTask(SingleDao singleDao,HistoryCallBack historyCallBack) {
-            this.singleDao = singleDao;
-            this.historyCallBack = historyCallBack;
-        }
-
-        @Override
-        protected List<Single> doInBackground(Void... voids) {
-            this.singles = singleDao.getAllList();
-            return singles;
-        }
-
-        @Override
-        protected void onPostExecute(List<Single> singleList) {
-            historyCallBack.getHistoryList(singleList);
-            super.onPostExecute(singleList);
-        }
-    }
-    public void stopRespority()
-    {
-        for (AsyncTask asyncTask: asyncTasks)
-        {
+    public void stopRespority() {
+        for (AsyncTask asyncTask : asyncTasks) {
             asyncTask.cancel(true);
         }
     }
-    public interface HistoryCallBack{
-       void getHistoryList(List<Single> singleList);
+
+    public interface HistoryCallBack {
+        void getHistoryList(List<Single> singleList);
     }
 }

@@ -4,70 +4,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".about.AboutActivity">
+
     <TextView
+        style="@style/about_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/about_title"
-        android:text="@string/about"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        />
+        android:text="@string/about" />
+
     <ImageView
+        android:id="@+id/about_back"
         android:layout_width="11dp"
         android:layout_height="18dp"
-        android:src="@drawable/ic_back"
-        android:layout_marginTop="18dp"
         android:layout_marginStart="15dp"
-        android:id="@+id/about_back"
-        android:contentDescription="@string/todo" />
+        android:layout_marginTop="18dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/ic_back" />
+
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="84dp"
-        android:id="@+id/icon"
-        android:layout_centerHorizontal="true"/>
+        android:src="@drawable/crop_20a7dc7fbd29d679b456fa0f77bd9525d" />
+
     <TextView
+        android:id="@+id/app_name"
+        style="@style/FirstFragmentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/FirstFragmentTitle"
-        android:text="@string/becast"
         android:layout_below="@id/icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:id="@+id/app_name"
-        />
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/app_name"
-    android:layout_marginTop="25dp"
-    android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"/>
+        android:text="@string/becast" />
+
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_name"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:id="@+id/goodView"
+        style="@style/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/good"
-        style="@style/about_text"
         android:layout_below="@+id/app_name"
         android:layout_marginStart="30dp"
-        android:id="@+id/goodView"
-        android:layout_marginTop="57dp"/>
+        android:layout_marginTop="57dp"
+        android:text="@string/good" />
+
     <TextView
+        android:id="@+id/shareApp"
+        style="@style/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/shareApp"
         android:layout_below="@+id/goodView"
         android:layout_marginStart="30dp"
         android:layout_marginTop="26dp"
-        style="@style/about_text"
-        android:id="@+id/shareApp"/>
+        android:text="@string/shareApp" />
+
     <TextView
+        style="@style/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contactUs"
-        android:layout_marginStart="30dp"
         android:layout_below="@+id/shareApp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="26dp"
-        style="@style/about_text"/>
+        android:text="@string/contactUs" />
 </RelativeLayout>

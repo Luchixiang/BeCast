@@ -32,13 +32,13 @@ class SingleModel {
     private final List<Single> singleList = new ArrayList<>();
     private String albumTitle = "";
     private String albumDescription = "";
-    private static final  int ERROR= 0x000002;
+    private static final int ERROR = 0x000002;
     private static final int ALBUMTITLE = 0x0000001;
     private final SingleHandler singleHandler;
     private Element channelElement = null;
     private final ThreadPoolExecutor poolExecutor;
     private Runnable runnable;
-    private int id =0;
+    private int id = 0;
 
     SingleModel(SingleView singleView) {
         this.singleView = singleView;
@@ -72,7 +72,7 @@ class SingleModel {
                     List itemElement = channelElement.elements("item");
                     int size = itemElement.size() >= end ? end : itemElement.size();
                     for (int i = start; i < size; i++) {
-                        id = start +i;
+                        id = start + i;
                         Element element = (Element) itemElement.get(i);
                         Element subElement;
                         subElement = element.element("title");
@@ -90,7 +90,7 @@ class SingleModel {
                             realTime = updataTime.substring(0, updataTime.indexOf("201") + 4);
                         }
                         subElement = element.element("enclosure");
-                        if (subElement!=null)
+                        if (subElement != null)
                             voiceUrl = element.element("enclosure").attributeValue("url");
                         subElement = element.element("image");
 //                        Single single = new Single(songTitle, realTime, voiceUrl, "");
@@ -113,9 +113,9 @@ class SingleModel {
                     singleHandler.sendMessage(message);
                 }
             } catch (IOException | DocumentException e) {
-              Message message = new Message();
-              message.what = ERROR;
-              singleHandler.sendMessage(message);
+                Message message = new Message();
+                message.what = ERROR;
+                singleHandler.sendMessage(message);
             }
         };
         poolExecutor.execute(runnable);

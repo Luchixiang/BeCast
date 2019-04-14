@@ -10,28 +10,26 @@ public class Model {
 
     private Model(Application application) {
     }
-    public static Model getInstance(Application application)
-    {
-        if (INSTANCE!=null)
-        {
+
+    public static Model getInstance(Application application) {
+        if (INSTANCE != null) {
             return INSTANCE;
-        }else {
+        } else {
             INSTANCE = new Model(application);
             becastResoprity = new BecastResoprity(application);
             return INSTANCE;
         }
     }
-    public void addHistory( Single single)
-    {
+
+    public void addHistory(Single single) {
         becastResoprity.insertSingle(single);
     }
 
-    public void getSingleList(BecastResoprity.HistoryCallBack historyCallBack)
-    {
+    public void getSingleList(BecastResoprity.HistoryCallBack historyCallBack) {
         becastResoprity.getHistoryList(historyCallBack);
     }
-    public void stopModel()
-    {
+
+    public void stopModel() {
         becastResoprity.stopRespority();
     }
 }

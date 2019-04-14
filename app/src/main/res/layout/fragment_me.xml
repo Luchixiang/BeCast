@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="12dp"
-        android:text="@string/aboutme"
-        />
+        android:text="@string/aboutme" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/my_head_img"
@@ -27,16 +26,17 @@
         android:layout_height="80dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="157dp"
-        android:src="@drawable/subsribe"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:src="@drawable/subsribe" />
 
     <ImageView
         android:layout_width="146dp"
         android:layout_height="80dp"
         android:layout_marginStart="199dp"
         android:layout_marginTop="157dp"
-        android:src="@drawable/shelf"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:src="@drawable/shelf" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,15 +78,14 @@
         android:layout_height="18dp"
         android:layout_marginStart="29dp"
         android:layout_marginTop="270dp"
-        android:src="@drawable/local"/>
+        android:src="@drawable/local" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="17dp"
         android:layout_height="18dp"
         android:layout_marginStart="29dp"
         android:layout_marginTop="313dp"
-        android:src="@drawable/history"
-         />
+        android:src="@drawable/history" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="17dp"
@@ -94,8 +93,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginTop="368dp"
         android:background="@drawable/witheback"
-        android:src="@drawable/set"
-      />
+        android:src="@drawable/set" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="17dp"
@@ -103,8 +101,7 @@
         android:layout_marginStart="29dp"
         android:layout_marginTop="411dp"
         android:background="@drawable/witheback"
-        android:src="@drawable/about"
-        />
+        android:src="@drawable/about" />
 
     <TextView
         style="@style/meItemText"

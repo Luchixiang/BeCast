@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="130dp"
-    android:background="@drawable/item_firstfragment"
-   >
+    android:background="@drawable/item_firstfragment">
 
     <ImageView
         android:id="@+id/firstFragment_img"
@@ -12,37 +11,38 @@
         android:layout_marginBottom="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/assa"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:src="@drawable/assa" />
 
     <TextView
         android:id="@+id/firstFragment_title"
+        style="@style/FirstFragmentItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title"
         android:layout_marginStart="135dp"
         android:layout_marginTop="22dp"
-        style="@style/FirstFragmentItemTitle"
         android:maxLines="1"
-        />
+        android:text="@string/title" />
+
     <TextView
         android:id="@+id/firstFragment_name"
+        style="@style/FirstFragmentItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/a"
         android:layout_below="@+id/firstFragment_title"
         android:layout_marginStart="135dp"
         android:layout_marginTop="17dp"
-        style="@style/FirstFragmentItemName"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:text="@string/a" />
+
     <TextView
         android:id="@+id/firstFragment_time"
+        style="@style/FirstFragmentItemTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/a"
+        android:layout_marginBottom="20dp"
         android:layout_marginStart="248dp"
         android:layout_marginTop="96dp"
-        android:layout_marginBottom="20dp"
-        style="@style/FirstFragmentItemTime"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:text="@string/a" />
 </RelativeLayout>

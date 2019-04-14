@@ -13,10 +13,13 @@ public interface
 SingleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addHistory(Single single);
+
     @Query("SELECT*FROM singleHistory")
     List<Single> getAllHistory();
+
     @Delete
     void deleteHistory(Single single);
+
     @Query("SELECT*FROM singleHistory")
     List<Single> getAllList();
 }

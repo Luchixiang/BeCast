@@ -6,12 +6,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.common.R;
+import com.example.common.base.BaseApplication;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
-
-import com.example.common.base.BaseApplication;
 
 public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
     private static final int RETURN_MSG_TYPE_LOGIN = 1;

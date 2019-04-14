@@ -3,7 +3,6 @@ package com.example.common.activities;
 import android.os.Bundle;
 
 import com.example.common.R;
-
 import com.example.common.base.BaseActivity;
 
 public class PlayerDetailsActivity extends BaseActivity {

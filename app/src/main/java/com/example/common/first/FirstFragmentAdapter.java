@@ -21,6 +21,7 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
     private final Context mContext;
     private final GlideLoader glideLoader;
     private List<Bean.Results> resultsList;
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView chosenTitle;
         final ImageView chosenImg;
@@ -35,23 +36,24 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
             chosenTime = view.findViewById(R.id.firstFragment_time);
         }
     }
+
     FirstFragmentAdapter(Context mContext, List<Bean.Results> resultsList, RecyclerView recyclerView) {
         this.mContext = mContext;
         this.resultsList = resultsList;
-        glideLoader =new GlideLoader();
+        glideLoader = new GlideLoader();
     }
 
     @NonNull
     @Override
     public FirstFragmentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_firstfragment, parent, false);
-       ViewHolder viewHolder= new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
         view.setOnClickListener(v -> {
             int position = viewHolder.getAdapterPosition();
             Bean.Results results = resultsList.get(position);
             Intent intent = new Intent(mContext, SingleActivity.class);
-            intent.putExtra("feedUrl",results.getFeedUrl());
-            intent.putExtra("imgUrl",results.getArtworkUrl100());
+            intent.putExtra("feedUrl", results.getFeedUrl());
+            intent.putExtra("imgUrl", results.getArtworkUrl100());
             mContext.startActivity(intent);
         });
         return viewHolder;
@@ -59,18 +61,18 @@ public class FirstFragmentAdapter extends RecyclerView.Adapter<FirstFragmentAdap
 
     @Override
     public void onBindViewHolder(@NonNull FirstFragmentAdapter.ViewHolder holder, int position) {
-        if (!resultsList.isEmpty())
-        {
-           Bean.Results results = resultsList.get(position);
-           holder.chosenTitle.setText(results.getCollectionName());
-           holder.chosenName.setText(results.getArtistName());
-           glideLoader.loadImage(mContext,results.getArtworkUrl30(),holder.chosenImg);
+        if (!resultsList.isEmpty()) {
+            Bean.Results results = resultsList.get(position);
+            holder.chosenTitle.setText(results.getCollectionName());
+            holder.chosenName.setText(results.getArtistName());
+            glideLoader.loadImage(mContext, results.getArtworkUrl30(), holder.chosenImg);
         }
     }
-    public void listChanger(List<Bean.Results> resultsList)
-    {
+
+    public void listChanger(List<Bean.Results> resultsList) {
         this.resultsList = resultsList;
     }
+
     @Override
     public int getItemCount() {
         return resultsList.size();
